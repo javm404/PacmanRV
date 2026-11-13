@@ -665,6 +665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FANTASMAp
       objectReference: {fileID: 0}
+    - target: {fileID: 8961495499828578610, guid: a43a0694612513f4fa4aa27e3feae3ef, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1251482753}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -722,11 +726,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: FANTASMAo
       objectReference: {fileID: 0}
+    - target: {fileID: 3761555895385416443, guid: 3f102e97ff6bdc249b5f4f83418af222, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1251482753}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f102e97ff6bdc249b5f4f83418af222, type: 3}
+--- !u!4 &1251482753 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2920488395375805340, guid: d3f2200f239659f4ca96bc6522bb5e97, type: 3}
+  m_PrefabInstance: {fileID: 476442005}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1788282299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -735,6 +748,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6064167303187689265, guid: 070136132a182d84e87f000e6148cf40, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1251482753}
     - target: {fileID: 7493427486592311286, guid: 070136132a182d84e87f000e6148cf40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.5
@@ -836,6 +853,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FANTASMAr
       objectReference: {fileID: 0}
+    - target: {fileID: 5703985088488685854, guid: ec0ac486010766740bd64171850e71fc, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1251482753}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
