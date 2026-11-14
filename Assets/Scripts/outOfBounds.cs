@@ -6,7 +6,7 @@ public class BottomBounds : MonoBehaviour
     public Transform player;
     public Transform bounds;
 
-    private Vector3 pastPosition;
+    private Vector3 pastLocalPosition;
     private BoxCollider boundsCollider;
     private bool teleportLocked = false;
     float radius = 1.6f; // get player's collider radius
@@ -14,7 +14,8 @@ public class BottomBounds : MonoBehaviour
     void Start()
     {
         boundsCollider = GetComponent<BoxCollider>();
-        pastPosition = player.position;
+        //pastPosition = player.position;
+        pastLocalPosition = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
         rb = player.GetComponent<Rigidbody>();
     }
 
@@ -37,10 +38,11 @@ public class BottomBounds : MonoBehaviour
         */
 
         if (insideX && insideZ && insideY){
-            pastPosition = player.position; // log player's safe position
+            //pastPosition = player.position; // log player's safe position
+            pastLocalPosition = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
             teleportLocked = false;
         } else if(!teleportLocked){
-            Vector3 lastGoodLocalPos = bounds.InverseTransformPoint(pastPosition) - boundsCollider.center;      // Convert the last valid position into bounds-local space.
+            Vector3 lastGoodLocalPos = pastLocalPosition;      // Convert the last valid position into bounds-local space.
             Vector3 mirrored = lastGoodLocalPos;
             float maxX = halfExt.x - radius;
             float maxY = halfExt.y - radius;
@@ -61,8 +63,9 @@ public class BottomBounds : MonoBehaviour
                 mirrored.y *= -1;
                 Debug.Log($"Teleporting Y from {player.position.y} to {mirrored.y}");
             }
-            Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center);
-            rb.position = worldTarget; // teleport player
+            // teleport pacman
+            Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define teleport location
+            rb.position = worldTarget; // teleport pacman
             teleportLocked = true;
             Debug.Log($"Last safe: {lastGoodLocalPos}");
             Debug.Log($"Mirrored: {mirrored}");
