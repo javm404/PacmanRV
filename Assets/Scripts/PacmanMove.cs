@@ -10,6 +10,8 @@ public class PacmanMove : MonoBehaviour
     public Transform model;
     public float bumpStrength;
     public float gravityStrength;
+    public float maxSpeed = 60.60f;
+
 
     void Start()
     {
@@ -29,7 +31,7 @@ public class PacmanMove : MonoBehaviour
         //if (direction != Vector3.zero){ // Rotate model
         //    model.rotation = (Quaternion.LookRotation(-1*direction));
         //}
-        
+        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
     }
 
     // physics, add counter force when hitting wall

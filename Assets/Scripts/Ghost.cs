@@ -6,7 +6,7 @@ public class Ghost : MonoBehaviour
     public Rigidbody rb;
     public float speed; 
     public float gravityStrength;
-    public float maxSpeed = 55.4f;
+    public float maxSpeed = 80f;
     
     void FixedUpdate()
     {
@@ -17,5 +17,10 @@ public class Ghost : MonoBehaviour
         Vector3 direction = target.position - transform.position; // direction to target
         rb.AddForce(direction * speed, ForceMode.Force); // move ghost
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
+    
+        // kill ghost
+        if (pointSystem.totalPoints == 142){
+            Destroy(gameObject);
+        }
     }
 }

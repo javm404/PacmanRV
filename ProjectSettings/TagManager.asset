@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ghost
+  - Point
   layers:
   - Default
   - TransparentFX
