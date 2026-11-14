@@ -1,38 +1,72 @@
+
 using UnityEngine;
 
 public class BottomBounds : MonoBehaviour
 {
-    public Transform player; // to manage n monitor player's position
+    public Transform player;
+    public Transform bounds;
+
     private Vector3 pastPosition;
-    Bounds b;
-    BoxCollider boundsCollider;
-    Vector3 halfExt;
-    Vector3 localPos; 
-    public Transform board;
+    private BoxCollider boundsCollider;
+    private bool teleportLocked = false;
+    float radius = 1.6f; // get player's collider radius
+    private Rigidbody rb;
     void Start()
     {
-        //b = GetComponent<Collider>().bounds;
         boundsCollider = GetComponent<BoxCollider>();
-        halfExt = boundsCollider.size * 0.5f; // halfExt.y and halfExt.z to get half the bounds size
-        localPos = board.InverseTransformPoint(player.position); // call localPos at least once without the else condition, just so it isnt empty ever
+        pastPosition = player.position;
+        rb = player.GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        bool insideX = localPos.x > -halfExt.x && localPos.x < halfExt.x;
-        bool insideZ = localPos.z > -halfExt.z && localPos.z < halfExt.z;
-        bool insideY = localPos.y > -halfExt.y && localPos.y < halfExt.y;
-        bool inBounds = insideX && insideZ && insideY;
-        if(!inBounds){
-            Debug.Log("not inBounds trigger");
-            Vector3 opposite = board.TransformPoint(-localPos); // get pacman's opposite current position
-            player.position = opposite; // teleport pacman to opposite side of where he left (if left bounds in top, get teleported to bottom)
-            Debug.Log(localPos + " -> " + opposite);
-        } else {
-            //pastPosition = player.position; // grabs player's past position
-            localPos = board.InverseTransformPoint(player.position); // grabs the player's past position RELATIVE to the bounds' XYZ axis, therefore, board rotation (which rotates the bounds) doesnt bug it
+        Vector3 localPos = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
+
+        // get box's half dimensions
+        Vector3 halfExt = boundsCollider.size * 0.5f;
+
+        float margin = 2f;
+
+        bool insideX = Mathf.Abs(localPos.x) < halfExt.x - radius - margin;
+        bool insideZ = Mathf.Abs(localPos.z) < halfExt.z - radius - margin;
+        bool insideY = localPos.y > -8.01f - margin;
+        /*
+        Debug.Log(
+            $"Local: {localPos} | Inside X: {insideX} | Inside Z: {insideZ} | Inside Y: {insideY} | TPlock: {teleportLocked}"
+        );
+        */
+
+        if (insideX && insideZ && insideY){
+            pastPosition = player.position; // log player's safe position
+            teleportLocked = false;
+        } else if(!teleportLocked){
+            Vector3 lastGoodLocalPos = bounds.InverseTransformPoint(pastPosition) - boundsCollider.center;      // Convert the last valid position into bounds-local space.
+            Vector3 mirrored = lastGoodLocalPos;
+            float maxX = halfExt.x - radius;
+            float maxY = halfExt.y - radius;
+            float maxZ = halfExt.z - radius;
+            mirrored.x = Mathf.Clamp(mirrored.x, -maxX, maxX);
+            mirrored.y = Mathf.Clamp(mirrored.y, -maxY, maxY);
+            mirrored.z = Mathf.Clamp(mirrored.z, -maxZ, maxZ);
+            
+            if(!insideX){
+                mirrored.x *= -1;
+                Debug.Log($"Teleporting X from {player.position.x} to {mirrored.x}");
+            } 
+            if(!insideZ){
+                mirrored.z *= -1;
+                Debug.Log($"Teleporting Z from {player.position.z} to {mirrored.z}");
+            } 
+            if(!insideY){
+                mirrored.y *= -1;
+                Debug.Log($"Teleporting Y from {player.position.y} to {mirrored.y}");
+            }
+            Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center);
+            rb.position = worldTarget; // teleport player
+            teleportLocked = true;
+            Debug.Log($"Last safe: {lastGoodLocalPos}");
+            Debug.Log($"Mirrored: {mirrored}");
+            Debug.Log($"World target: {worldTarget}");
         }
     }
-
-    void OnTriggerExit()
 }
