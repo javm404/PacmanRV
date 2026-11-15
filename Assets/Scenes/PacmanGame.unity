@@ -20496,7 +20496,7 @@ GameObject:
   - component: {fileID: 1775064159}
   - component: {fileID: 1775064165}
   m_Layer: 0
-  m_Name: Pacman
+  m_Name: PACMAN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20577,7 +20577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PacmanMove
   rb: {fileID: 0}
-  speed: 350
+  speed: 500
   model: {fileID: 1121976440}
   bumpStrength: 10
   gravityStrength: 180
@@ -20937,9 +20937,9 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 375.9, y: 144.2, z: 188.5}
+  m_Size: {x: 375.9, y: 910.1, z: 188.5}
   m_Center: {x: 27.8, y: 0, z: -6.26}
 --- !u!4 &1797175474
 Transform:
@@ -20969,6 +20969,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BottomBounds
   player: {fileID: 1775064158}
+  pacmanCenter: {fileID: 1775064165}
+  ghosts:
+  - {fileID: 4717668365969079202}
+  - {fileID: 459007281306898805}
+  - {fileID: 6908877457085995344}
+  - {fileID: 2795712493703687213}
   bounds: {fileID: 1797175474}
 --- !u!1 &1801623286
 GameObject:
@@ -25003,7 +25009,7 @@ Transform:
   m_GameObject: {fileID: 8807354030270756560}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.71842986, z: 0, w: 0.6955994}
-  m_LocalPosition: {x: 19.61, y: 19.5, z: 8.3184}
+  m_LocalPosition: {x: 19.61, y: 7.9, z: 8.3184}
   m_LocalScale: {x: 5.3544936, y: 5.3544936, z: 5.3544936}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -25111,7 +25117,7 @@ GameObject:
   - component: {fileID: 7183190715802556217}
   - component: {fileID: 4648984361326588698}
   m_Layer: 0
-  m_Name: Board
+  m_Name: BOARD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25126,7 +25132,7 @@ Transform:
   m_GameObject: {fileID: 7079229557087401577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.71842986, z: 0, w: 0.6955994}
-  m_LocalPosition: {x: 19.8, y: 19.5, z: -26.4}
+  m_LocalPosition: {x: 19.8, y: 7.9, z: -26.4}
   m_LocalScale: {x: 5.3544936, y: 5.3544936, z: 5.3544936}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -25203,7 +25209,7 @@ Transform:
   m_GameObject: {fileID: 7187430122259032322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.71842986, z: 0, w: 0.6955994}
-  m_LocalPosition: {x: 19.709, y: 19.5, z: -16.268}
+  m_LocalPosition: {x: 19.709, y: 7.9, z: -16.268}
   m_LocalScale: {x: 5.3544936, y: 5.3544936, z: 5.3544936}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -25276,7 +25282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   target: {fileID: 1775064158}
   rb: {fileID: 8196617039602958377}
-  speed: 5
+  speed: 2.5
   gravityStrength: 2
   maxSpeed: 200
 --- !u!54 &5960863202023373375
@@ -25338,7 +25344,7 @@ Transform:
   m_GameObject: {fileID: 8568553819155275063}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.71842986, z: 0, w: 0.6955994}
-  m_LocalPosition: {x: 19.61, y: 19.5, z: -4.2176}
+  m_LocalPosition: {x: 19.61, y: 7.9, z: -4.2176}
   m_LocalScale: {x: 5.3544936, y: 5.3544936, z: 5.3544936}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -25358,7 +25364,7 @@ GameObject:
   - component: {fileID: 3827679628864103578}
   - component: {fileID: 1428567239999552238}
   m_Layer: 8
-  m_Name: FANTASMAo
+  m_Name: GHOSTo
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25404,7 +25410,7 @@ GameObject:
   - component: {fileID: 5545518515908789837}
   - component: {fileID: 5782614079655947415}
   m_Layer: 8
-  m_Name: FANTASMAr
+  m_Name: GHOSTr
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25450,7 +25456,7 @@ GameObject:
   - component: {fileID: 6735774573802233458}
   - component: {fileID: 8583766189782793097}
   m_Layer: 8
-  m_Name: FANTASMAp
+  m_Name: GHOSTp
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25486,7 +25492,7 @@ GameObject:
   - component: {fileID: 4295956935134961443}
   - component: {fileID: 967196335614364783}
   m_Layer: 8
-  m_Name: FANTASMAi
+  m_Name: GHOSTi
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
