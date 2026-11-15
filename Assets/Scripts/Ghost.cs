@@ -14,14 +14,18 @@ public class Ghost : MonoBehaviour
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         
         // Ghost movement logic
-        Vector3 direction = target.position - transform.position; // direction to target
-        rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
-    
+        if(!powerUp.poweredUP){
+            Vector3 direction = target.position - transform.position; // direction to target
+            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
+        }
         // kill ghost
         if (pointSystem.totalPoints > 242){
             Destroy(gameObject);
         }
+
+
+
         Debug.DrawLine(
             target.position,
             transform.position,

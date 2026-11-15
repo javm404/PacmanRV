@@ -6,7 +6,6 @@ public class pointSystem : MonoBehaviour
     void Start()
     {
         totalPoints = 0;
-        Debug.Log(GetComponentInChildren<Renderer>().bounds.center);
 
     }
     void OnTriggerEnter(Collider collision)
@@ -14,7 +13,7 @@ public class pointSystem : MonoBehaviour
         if(collision.gameObject.CompareTag("Point")){
             totalPoints++;
             Destroy(collision.gameObject);
-            Debug.Log("Point hit! Total points: "+totalPoints);
+            //Debug.Log("Point hit! Total points: "+totalPoints);
         }
     }
 }
