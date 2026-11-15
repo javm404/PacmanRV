@@ -18753,8 +18753,8 @@ Transform:
   m_GameObject: {fileID: 1570502513}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.63, y: -47.2, z: -4.81}
-  m_LocalScale: {x: 130.3, y: 94.399994, z: 128.6}
+  m_LocalPosition: {x: 9.63, y: -15.8, z: -4.81}
+  m_LocalScale: {x: 130.3, y: 28.5, z: 128.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1451274350308060738}
@@ -20939,7 +20939,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 375.9, y: 114.2, z: 188.5}
+  m_Size: {x: 375.9, y: 144.2, z: 188.5}
   m_Center: {x: 27.8, y: 0, z: -6.26}
 --- !u!4 &1797175474
 Transform:
@@ -20970,7 +20970,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BottomBounds
   player: {fileID: 1775064158}
   bounds: {fileID: 1797175474}
-  pacmanCenter: {fileID: 0}
 --- !u!1 &1801623286
 GameObject:
   m_ObjectHideFlags: 0
@@ -25153,8 +25152,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.82
-  m_Height: 2.62
+  m_Radius: 0.68
+  m_Height: 2.23
   m_Direction: 1
   m_Center: {x: 0.45, y: -0.5, z: 0}
 --- !u!136 &4295956935134961443
@@ -25176,8 +25175,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.82
-  m_Height: 2.62
+  m_Radius: 0.68
+  m_Height: 2.23
   m_Direction: 1
   m_Center: {x: -0.26, y: -0.5, z: 0}
 --- !u!114 &4648984361326588698
@@ -25259,8 +25258,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.82
-  m_Height: 2.62
+  m_Radius: 0.68
+  m_Height: 2.23
   m_Direction: 1
   m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!114 &5782614079655947415
@@ -25326,8 +25325,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.82
-  m_Height: 2.62
+  m_Radius: 0.68
+  m_Height: 2.23
   m_Direction: 1
   m_Center: {x: -0.21, y: -0.5, z: 0}
 --- !u!4 &6908877457085995344

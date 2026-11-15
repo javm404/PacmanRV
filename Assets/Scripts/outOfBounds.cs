@@ -5,8 +5,9 @@ public class BottomBounds : MonoBehaviour
 {
     public Transform player;
     public Transform bounds;
-    public BoxCollider pacmanCenter;
+    public static BoxCollider pacmanCenter;
     
+    private Vector3 worldTarget;
     private Vector3 pastLocalPosition;
     private BoxCollider boundsCollider;
     private bool teleportLocked = false;
@@ -34,17 +35,11 @@ public class BottomBounds : MonoBehaviour
         bool insideX = Mathf.Abs(localPos.x) < halfExt.x - radius - margin;
         bool insideZ = Mathf.Abs(localPos.z) < halfExt.z - radius - margin;
         bool insideY = localPos.y > -8.01f - margin;
-        /*
-        Debug.Log(
-            $"Local: {localPos} | Inside X: {insideX} | Inside Z: {insideZ} | Inside Y: {insideY} | TPlock: {teleportLocked}"
-        );
-        */
 
-        if (insideX && insideZ && insideY){
-            //pastPosition = player.position; // log player's safe position
-            pastLocalPosition = bounds.InverseTransformPoint(pacmanCenterRel) - boundsCollider.center;
+        if (insideX && insideZ && insideY){ // Check if inside all bounds
+            pastLocalPosition = bounds.InverseTransformPoint(pacmanCenterRel) - boundsCollider.center; // log past safe local position
             teleportLocked = false;
-        } else if(!teleportLocked){
+        } else if(!teleportLocked){ // If not... then invert the out of bounds axis
             Vector3 lastGoodLocalPos = pastLocalPosition;      // Convert the last valid position into bounds-local space.
             Vector3 mirrored = lastGoodLocalPos;
             float maxX = halfExt.x - radius - margin;
@@ -67,17 +62,16 @@ public class BottomBounds : MonoBehaviour
                 Debug.Log($"Teleporting Y: {localPos.y} -> {mirrored.y} (limit: {maxY})");
 
             }
-            // teleport pacman
-            Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define teleport location
+            // TP PACMAN
+            worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define teleport location
             rb.position = worldTarget - (pacmanCenterRel - rb.position); // teleport pacman
             teleportLocked = true;
         }
         // Debug lines
             Vector3 centre = bounds.TransformPoint(boundsCollider.center);
-
             Debug.DrawLine(
                 centre,
-                pacmanCenterRel,
+                worldTarget,
                 Color.cyan,
                 0.05f,
                 false
@@ -85,7 +79,7 @@ public class BottomBounds : MonoBehaviour
             Vector3 localPosWorld = bounds.TransformPoint(localPos + boundsCollider.center);
             Debug.DrawLine(
                 centre,
-                localPosWorld,
+                pastLocalPosition,
                 Color.yellow,
                 0.05f,
                 false

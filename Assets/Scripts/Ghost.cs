@@ -22,5 +22,12 @@ public class Ghost : MonoBehaviour
         if (pointSystem.totalPoints > 258){
             Destroy(gameObject);
         }
+        Debug.DrawLine(
+            target.position,
+            transform.position,
+            Color.pink,
+            0.02f,
+            false
+        );
     }
 }
