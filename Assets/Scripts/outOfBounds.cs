@@ -44,32 +44,63 @@ public class BottomBounds : MonoBehaviour
         } else if(!teleportLocked){
             Vector3 lastGoodLocalPos = pastLocalPosition;      // Convert the last valid position into bounds-local space.
             Vector3 mirrored = lastGoodLocalPos;
-            float maxX = halfExt.x - radius;
-            float maxY = halfExt.y - radius;
-            float maxZ = halfExt.z - radius;
+            float maxX = halfExt.x - radius - margin;
+            float maxY = halfExt.y - radius - margin;
+            float maxZ = halfExt.z - radius - margin;
             mirrored.x = Mathf.Clamp(mirrored.x, -maxX, maxX);
             mirrored.y = Mathf.Clamp(mirrored.y, -maxY, maxY);
             mirrored.z = Mathf.Clamp(mirrored.z, -maxZ, maxZ);
             
             if(!insideX){
                 mirrored.x *= -1;
-                Debug.Log($"Teleporting X from {player.position.x} to {mirrored.x}");
+                Debug.Log($"Teleporting X: {localPos.x} -> {mirrored.x} (limit: {maxX})");
             } 
             if(!insideZ){
                 mirrored.z *= -1;
-                Debug.Log($"Teleporting Z from {player.position.z} to {mirrored.z}");
+                Debug.Log($"Teleporting Z: {localPos.z} -> {mirrored.z} (limit: {maxZ})");
             } 
             if(!insideY){
                 mirrored.y *= -1;
-                Debug.Log($"Teleporting Y from {player.position.y} to {mirrored.y}");
+                Debug.Log($"Teleporting Y: {localPos.y} -> {mirrored.y} (limit: {maxY})");
+
             }
             // teleport pacman
             Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define teleport location
             rb.position = worldTarget; // teleport pacman
+            rb.linearVelocity = Vector3.zero;
             teleportLocked = true;
-            Debug.Log($"Last safe: {lastGoodLocalPos}");
-            Debug.Log($"Mirrored: {mirrored}");
-            Debug.Log($"World target: {worldTarget}");
         }
+        // Debug lines
+            Vector3 centre = bounds.TransformPoint(boundsCollider.center);
+
+            Debug.DrawLine(
+                centre,
+                rb.position,
+                Color.cyan,
+                0.05f,
+                false
+            );
+            Debug.DrawLine(
+                centre,
+                localPos,
+                Color.yellow,
+                0.05f,
+                false
+            );
+            // X axis (width) - RED
+            Debug.DrawLine(centre,
+                bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
+                Color.red, 0.05f, false);
+
+            // Y axis (height) - GREEN
+            Debug.DrawLine(centre,
+                bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
+                Color.green, 0.05f, false);
+
+            // Z axis (depth) - BLUE
+            Debug.DrawLine(centre,
+                bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
+                Color.blue, 0.05f, false);
+
     }
 }

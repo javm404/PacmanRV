@@ -25452,7 +25452,7 @@ MonoBehaviour:
   model: {fileID: 1121976440}
   bumpStrength: 10
   gravityStrength: 180
-  maxSpeed: 65
+  maxSpeed: 80
 --- !u!114 &1428567239999552238
 MonoBehaviour:
   m_ObjectHideFlags: 0
