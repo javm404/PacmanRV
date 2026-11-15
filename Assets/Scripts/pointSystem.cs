@@ -6,6 +6,8 @@ public class pointSystem : MonoBehaviour
     void Start()
     {
         totalPoints = 0;
+        Debug.Log(GetComponentInChildren<Renderer>().bounds.center);
+
     }
     void OnTriggerEnter(Collider collision)
     {

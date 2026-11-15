@@ -19,7 +19,7 @@ public class Ghost : MonoBehaviour
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
     
         // kill ghost
-        if (pointSystem.totalPoints > 1){
+        if (pointSystem.totalPoints > 258){
             Destroy(gameObject);
         }
     }

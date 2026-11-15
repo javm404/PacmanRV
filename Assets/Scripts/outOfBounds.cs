@@ -5,7 +5,8 @@ public class BottomBounds : MonoBehaviour
 {
     public Transform player;
     public Transform bounds;
-
+    public BoxCollider pacmanCenter;
+    
     private Vector3 pastLocalPosition;
     private BoxCollider boundsCollider;
     private bool teleportLocked = false;
@@ -14,18 +15,20 @@ public class BottomBounds : MonoBehaviour
     void Start()
     {
         boundsCollider = GetComponent<BoxCollider>();
-        //pastPosition = player.position;
-        pastLocalPosition = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
+        pacmanCenter = player.GetComponent<BoxCollider>();
         rb = player.GetComponent<Rigidbody>();
+
+        Vector3 pacmanCenterRel = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
+        pastLocalPosition = bounds.InverseTransformPoint(pacmanCenterRel) - boundsCollider.center;
     }
 
     void FixedUpdate()
     {
-        Vector3 localPos = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
+        Vector3 pacmanCenterRel = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
+        Vector3 localPos = bounds.InverseTransformPoint(pacmanCenterRel) - boundsCollider.center;
 
-        // get box's half dimensions
+        // get box's half dimentions, to find its center and define it's coordinates
         Vector3 halfExt = boundsCollider.size * 0.5f;
-
         float margin = 2f;
 
         bool insideX = Mathf.Abs(localPos.x) < halfExt.x - radius - margin;
@@ -39,7 +42,7 @@ public class BottomBounds : MonoBehaviour
 
         if (insideX && insideZ && insideY){
             //pastPosition = player.position; // log player's safe position
-            pastLocalPosition = bounds.InverseTransformPoint(player.position) - boundsCollider.center;
+            pastLocalPosition = bounds.InverseTransformPoint(pacmanCenterRel) - boundsCollider.center;
             teleportLocked = false;
         } else if(!teleportLocked){
             Vector3 lastGoodLocalPos = pastLocalPosition;      // Convert the last valid position into bounds-local space.
@@ -66,8 +69,7 @@ public class BottomBounds : MonoBehaviour
             }
             // teleport pacman
             Vector3 worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define teleport location
-            rb.position = worldTarget; // teleport pacman
-            rb.linearVelocity = Vector3.zero;
+            rb.position = worldTarget - (pacmanCenterRel - rb.position); // teleport pacman
             teleportLocked = true;
         }
         // Debug lines
@@ -75,14 +77,15 @@ public class BottomBounds : MonoBehaviour
 
             Debug.DrawLine(
                 centre,
-                rb.position,
+                pacmanCenterRel,
                 Color.cyan,
                 0.05f,
                 false
             );
+            Vector3 localPosWorld = bounds.TransformPoint(localPos + boundsCollider.center);
             Debug.DrawLine(
                 centre,
-                localPos,
+                localPosWorld,
                 Color.yellow,
                 0.05f,
                 false
