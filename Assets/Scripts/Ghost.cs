@@ -18,6 +18,10 @@ public class Ghost : MonoBehaviour
             Vector3 direction = target.position - transform.position; // direction to target
             rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
+        } else {
+            Vector3 direction =  transform.position - target.position; // direction away from target
+            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 5); // cap more, slow ghosts down
         }
         // kill ghost
         if (pointSystem.totalPoints > 242){

@@ -7,6 +7,7 @@ TagManager:
   - Ghost
   - Point
   - PowerUP
+  - gameBounds
   layers:
   - Default
   - TransparentFX

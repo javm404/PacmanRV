@@ -51,9 +51,19 @@ public class powerUp : MonoBehaviour
                 ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
                 Debug.Log(ghost.name+" is sick!");
             }
+        } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
+            // tag ghost as killed
+            Destroy(collision.gameObject); // Destroy causes error and its not that fun, added just for testing
         }
-        if(collision.gameObject.CompareTag("Ghost") && poweredUP){
-            Destroy(collision.gameObject);
+    }
+
+    void OnTriggerExit(Collider collision)
+    {
+        if(collision.gameObject.CompareTag("gameBounds")){
+            foreach(GameObject ghost in ghosts){
+                ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
+                Debug.Log(ghost.name+" is sick!");
+            }
         }
     }
 
