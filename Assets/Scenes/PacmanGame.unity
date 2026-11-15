@@ -12554,7 +12554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 496c1c69a3d69404d86619f400395058, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.8586502
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 496c1c69a3d69404d86619f400395058, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17578,6 +17578,72 @@ CapsuleCollider:
   m_Height: 31
   m_Direction: 1
   m_Center: {x: 0, y: 12.9, z: -0.0000009536743}
+--- !u!1 &1485726913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485726915}
+  - component: {fileID: 1485726914}
+  - component: {fileID: 1485726916}
+  m_Layer: 0
+  m_Name: gameBounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1485726914
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485726913}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2013.7, y: 5237, z: 2064}
+  m_Center: {x: 0, y: 2345.7, z: 0}
+--- !u!4 &1485726915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485726913}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.73993, y: 14.94109, z: -78.11539}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1485726916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485726913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ca47f242f05ef43a8f448af37f82b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::completlyOutOfBounds
 --- !u!1 &1516126534
 GameObject:
   m_ObjectHideFlags: 0
@@ -20491,13 +20557,12 @@ GameObject:
   - component: {fileID: 1775064158}
   - component: {fileID: 1775064164}
   - component: {fileID: 1775064162}
-  - component: {fileID: 1775064161}
   - component: {fileID: 1775064160}
   - component: {fileID: 1775064159}
   - component: {fileID: 1775064165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PACMAN
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20511,7 +20576,7 @@ Transform:
   m_GameObject: {fileID: 1775064157}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.6, y: 2.9, z: -120.5}
+  m_LocalPosition: {x: 14, y: 2.9, z: -115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20552,18 +20617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248735dbf9151d74483c4d7900c06782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::pointSystem
---- !u!114 &1775064161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775064157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a1959db8149f84d95c3346be84671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::deathBehaviour
 --- !u!114 &1775064162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20581,7 +20634,7 @@ MonoBehaviour:
   model: {fileID: 1121976440}
   bumpStrength: 10
   gravityStrength: 180
-  maxSpeed: 400
+  maxSpeed: 800
 --- !u!54 &1775064164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25510,3 +25563,4 @@ SceneRoots:
   - {fileID: 6908877457085995344}
   - {fileID: 2795712493703687213}
   - {fileID: 1451274350308060738}
+  - {fileID: 1485726915}

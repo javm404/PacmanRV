@@ -7,7 +7,7 @@ public class Ghost : MonoBehaviour
     public float speed; 
     public float gravityStrength;
     public float maxSpeed = 80f;
-    
+
     void FixedUpdate()
     {
         // Gravity
