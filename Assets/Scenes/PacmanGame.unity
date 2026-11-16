@@ -3415,18 +3415,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PacmanMove
   rb: {fileID: 2647601287916104691}
   speed: 400
+  maxSpeed: 1000
   gSpeed: 600
+  gMaxSpeed: 100
   model: {fileID: 3417558273806709895}
   bumpStrength: 10000
-  gravityStrength: 450
-  maxSpeed: 1000
+  gravityStrength: 900
   inputHr: 0
   inputVr: 0
-  gMaxSpeed: 100
+  position: {x: 0, y: 0, z: 0}
+  pastPosition: {x: 0, y: 0, z: 0}
+  pastFrameCount: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckDistance: 2
+  groundCheckDistance: 7.37
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -4360,6 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a1959db8149f84d95c3346be84671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::deathBehaviour
+  active: 0
 --- !u!1 &8859847026213426707
 GameObject:
   m_ObjectHideFlags: 0

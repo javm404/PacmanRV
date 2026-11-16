@@ -41,7 +41,7 @@ public class powerUp : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if(collision.gameObject.CompareTag("PowerUP")){
             Destroy(collision.gameObject);
             Debug.Log("pacman hit power up!");

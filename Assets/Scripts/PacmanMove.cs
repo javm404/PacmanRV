@@ -7,20 +7,26 @@ public class PacmanMove : MonoBehaviour
 {   
     public Rigidbody rb;
     public float speed;
+    public float maxSpeed = 60.60f;
     public float gSpeed;
+    public float gMaxSpeed;
     public Transform model;
     public float bumpStrength;
     public float gravityStrength;
-    public float maxSpeed = 60.60f;
     Vector3 pacmanCenter;
     public float inputHr;
     public float inputVr;
-    public float gMaxSpeed;
+
+    public Vector3 position;
+    public Vector3 pastPosition;
+    public float pastFrameCount;
+
     float inputH;
     float inputV;
     Vector3 moveStep;
     Vector3 direction;
     Vector3 velFlat;
+    bool wasGrounded;
 
     // raycast for groundcheck
     public LayerMask groundLayer;
@@ -34,6 +40,7 @@ public class PacmanMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
+        pastFrameCount = 2;
     }
 
     void Update()
@@ -43,23 +50,46 @@ public class PacmanMove : MonoBehaviour
         inputV = Input.GetAxis("Vertical");
         inputHr = Input.GetAxisRaw("Horizontal");
         inputVr = Input.GetAxisRaw("Vertical");
-        direction = new Vector3(inputH, 0, inputV); // Get player input
+        direction = new Vector3(inputH, 0, inputV); // Get player input    
     }
 
 
     void FixedUpdate()
     {
+        pacmanCenter = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);            
+        // Gravity
+        float vy = rb.linearVelocity.y;
+        float fallThreshold = 2f; 
+        // CLAUDE: bigger threshold (was 0.1) so ground jitter doesn't register as rising/falling
+
+        if (grounded() && Mathf.Abs(vy) < fallThreshold) {
+            Debug.Log("grounded");
+            rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
+            // CLAUDE: new branch — checks grounded() + near-zero velocity together, takes priority over the velocity-only checks below
+        } else if (vy < -fallThreshold) {
+            Debug.Log("falling");
+            rb.AddForce(Vector3.down * gravityStrength * 1.4f, ForceMode.Acceleration);
+        } else if (vy > fallThreshold) {
+            Debug.Log("rising");
+            rb.AddForce(Vector3.down * gravityStrength * 0.8f, ForceMode.Acceleration);
+        } else {
+            Debug.Log("apex (airborne, near-zero velocity)");
+            // CLAUDE: new catch-all — airborne but vy within threshold, e.g. jump apex
+            rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
+        }
+
         // Movement
         // apply speed
         if(grounded()){  // make it snappy
             // Get raw input
+            Debug.Log("Grounded");
             Vector3 targetDir = new Vector3(inputHr, 0, inputVr).normalized;
             if (targetDir.sqrMagnitude > 0.1f) {
                 // Instantly set velocity in the input direction (no gliding!)
-                if(Mathf.Abs(inputHr) >= Mathf.Abs(inputVr)) {
+                if(Mathf.Abs(inputHr) >= Mathf.Abs(inputVr)) { // Horizontal axis inpt value is higher than Vertical axis input
                     rb.AddForce(new Vector3(inputHr * gSpeed * Time.deltaTime, 0, 0), ForceMode.VelocityChange);
                 } 
-                if(Mathf.Abs(inputHr) <= Mathf.Abs(inputVr)) {
+                if(Mathf.Abs(inputHr) <= Mathf.Abs(inputVr)) { // Vertical axis inpt value is higher than Horizontal axis input
                     rb.AddForce(new Vector3(0, 0, inputVr * gSpeed * Time.deltaTime), ForceMode.VelocityChange);
                 }
             } else {
@@ -67,25 +97,15 @@ public class PacmanMove : MonoBehaviour
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
             }
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, gMaxSpeed); // clamp speed
-            Debug.Log("Speed: "+rb.linearVelocity);
+            //Debug.Log("Speed: "+rb.linearVelocity);
+            wasGrounded = true;
         } else { // let it lose
             rb.AddForce(direction * speed, ForceMode.Force); // Move pacman physics accurate
-            
             // Fixed: Cache velocity into a temp variable, use Mathf.Clamp, and reassign
             Vector3 vel = rb.linearVelocity;
             vel.x = Mathf.Clamp(vel.x, -maxSpeed, maxSpeed);
             vel.z = Mathf.Clamp(vel.z, -maxSpeed, maxSpeed);
             rb.linearVelocity = vel;
-        }
-
-        // Gravity
-        pacmanCenter = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
-        if(!grounded()){
-            rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
-        } else {
-            rb.linearDamping = 5f; // aplicar atrito
-            rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
-            rb.AddForce(Vector3.up * gravityStrength, ForceMode.Acceleration);
         }
 
         Debug.DrawLine(
