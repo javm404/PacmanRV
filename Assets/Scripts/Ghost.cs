@@ -7,6 +7,7 @@ public class Ghost : MonoBehaviour
     public float speed; 
     public float gravityStrength;
     public float maxSpeed = 80f;
+    Vector3 direction;
 
     void FixedUpdate()
     {
@@ -15,11 +16,11 @@ public class Ghost : MonoBehaviour
         
         // Ghost movement logic
         if(!powerUp.poweredUP){
-            Vector3 direction = target.position - transform.position; // direction to target
+            direction = target.position - transform.position; // direction to target
             rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
         } else {
-            Vector3 direction =  transform.position - target.position; // direction away from target
+            direction =  transform.position - target.position; // direction away from target
             rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 5); // cap more, slow ghosts down
         }
@@ -29,13 +30,14 @@ public class Ghost : MonoBehaviour
         }
 
 
-
+        /*
         Debug.DrawLine(
-            target.position,
+            direction,
             transform.position,
-            Color.pink,
+            Color.red,
             0.02f,
             false
         );
+        */
     }
 }

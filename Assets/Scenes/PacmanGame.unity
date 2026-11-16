@@ -3419,6 +3419,10 @@ MonoBehaviour:
   bumpStrength: 4
   gravityStrength: 180
   maxSpeed: 500
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckDistance: 0.7
 --- !u!33 &6082026464493870686
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3805,6 +3809,18 @@ PrefabInstance:
     - target: {fileID: 6366284632817849101, guid: cd3c5bde3343c414bb411a82241d7526, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465354702925795286, guid: cd3c5bde3343c414bb411a82241d7526, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7083403371647271418, guid: cd3c5bde3343c414bb411a82241d7526, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 7083403371647271418, guid: cd3c5bde3343c414bb411a82241d7526, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

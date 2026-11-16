@@ -95,29 +95,32 @@ public class BottomBounds : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             locked = true;
         }
-                // Debug lines
-            Vector3 centre = bounds.TransformPoint(boundsCollider.center);
-            Debug.DrawLine(
-                centre,
-                worldTarget,
-                Color.cyan,
-                0.05f,
-                false
-            );
-            // X axis (width) - RED
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
-                Color.red, 0.05f, false);
+            // Debug lines
+            /*
+                Vector3 centre = bounds.TransformPoint(boundsCollider.center);
+                Debug.DrawLine(
+                    centre,
+                    worldTarget,
+                    Color.cyan,
+                    0.05f,
+                    false
+                );
+                
+                // X axis (width) - RED
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
+                    Color.red, 0.05f, false);
 
-            // Y axis (height) - GREEN
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
-                Color.green, 0.05f, false);
+                // Y axis (height) - GREEN
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
+                    Color.green, 0.05f, false);
 
-            // Z axis (depth) - BLUE
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
-                Color.blue, 0.05f, false);
+                // Z axis (depth) - BLUE
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
+                    Color.blue, 0.05f, false);
+                */
 
     }
 }

@@ -60,6 +60,7 @@ public class powerUp : MonoBehaviour
     void OnTriggerExit(Collider collision)
     {
         if(collision.gameObject.CompareTag("gameBounds")){
+            poweredUP = true;
             foreach(GameObject ghost in ghosts){
                 ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
                 Debug.Log(ghost.name+" is sick!");
