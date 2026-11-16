@@ -7,6 +7,7 @@ public class BottomBounds : MonoBehaviour
     public Transform[] ghosts;    // grab ghosts
     public Transform bounds;    // grab game bounds Transform (for position and scale)
     private BoxCollider boundsCollider;     // grab bounds collider ??? is this even being used ???
+    Vector3 pacmanWorld;
 
     // Pacman's position and tpLock vars
     private Vector3 pastLocalPosition_pacman;
@@ -26,7 +27,7 @@ public class BottomBounds : MonoBehaviour
         // pacman related
         pacmanCenter = player.GetComponent<BoxCollider>();
         rb = player.GetComponent<Rigidbody>();
-        Vector3 pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
+        pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
         pastLocalPosition_pacman = bounds.InverseTransformPoint(pacmanWorld) - boundsCollider.center;
 
         // ghosts related
@@ -71,13 +72,10 @@ public class BottomBounds : MonoBehaviour
 
         Vector3 worldTarget = worldPos; // default: if nothing teleports, draw line to current pos
 
-        if (insideX && insideZ && insideY)
-        {
+        if ((insideX && insideZ) || (insideX && insideY) || (insideZ && insideY) || (insideZ && insideY && insideX)) {
             pastLocal = localPos;
             locked = false;
-        }
-        else if (!locked)
-        {
+        } else if (!locked) {
             Vector3 mirrored = pastLocal;
             float maxX = halfExt.x - radius - margin;
             float maxY = halfExt.y - radius - margin;
@@ -95,7 +93,8 @@ public class BottomBounds : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             locked = true;
         }
-                // Debug lines
+            /*
+            // Debug lines
             Vector3 centre = bounds.TransformPoint(boundsCollider.center);
             Debug.DrawLine(
                 centre,
@@ -118,6 +117,6 @@ public class BottomBounds : MonoBehaviour
             Debug.DrawLine(centre,
                 bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
                 Color.blue, 0.05f, false);
-
+            */
     }
 }
