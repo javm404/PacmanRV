@@ -12,7 +12,7 @@ public class Ghost : MonoBehaviour
     {   
         // Gravity
         if (powerUp.poweredUP){
-            rb.AddForce(Vector3.down * 200, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * 600, ForceMode.Acceleration);
         } else {
             rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         }
@@ -22,17 +22,15 @@ public class Ghost : MonoBehaviour
             rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
         } else {
-            rb.AddForce(Vector3.down * 100 * -1, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * 100, ForceMode.AddForce);
             Vector3 direction =  transform.position - target.position; // direction away from target
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+            rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 5); // cap more, slow ghosts down
         }
         // kill ghost
         if (pointSystem.totalPoints > 242){
             Destroy(gameObject);
         }
-
-
         /*
         Debug.DrawLine(
             target.position,
