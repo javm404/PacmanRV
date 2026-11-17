@@ -51,12 +51,29 @@ public class PacmanMove : MonoBehaviour
     {
         centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
 
-        // Gravity TODO: gravity state machine: apply softer force rising and harder falling
-       	rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+        // Gravity
+        if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up
+            Debug.Log("going up!");
+            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+        } else if(!grounded()){ // going down
+            Debug.Log("going down");
+            rb.AddForce(Vector3.down * gravityStrength * 3f, ForceMode.Acceleration);
+        } else {
+            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+        }
+
+
         // Movement
         if(grounded()){ // make it tight
             if(directionR.sqrMagnitude > 0.1f){ // player is pressing keys
-                Debug.Log("Grounded");
+                //Debug.Log("Grounded");
+                // define damping level
+                if(BoardRotate.rotatingBoard){
+                    rb.linearDamping = 2f;
+                } else {
+                    rb.linearDamping = 5f;
+                }
+                // Make pacman move
                 if(Mathf.Abs(inputHr) >= Mathf.Abs(inputVr)) // is pressing Horizontal keys 
                 {
                     rb.AddForce(directionR * groundedSpeed, ForceMode.Force);
@@ -68,11 +85,15 @@ public class PacmanMove : MonoBehaviour
                     //rb.AddForce(new Vector3(0, 0, inputVr * gSpeed * Time.deltaTime), ForceMode.VelocityChange);
 
                 }
-            } else if(instantStop){ // stop player movement completly
+            } else if(instantStop && !BoardRotate.rotatingBoard){ // stop player movement completly
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+                rb.linearDamping = 5f;
+            } else {
+                rb.linearDamping = 1f;
             }
         }else{ // let it loose
-            Debug.Log("Airbone");	
+            //Debug.Log("Airbone");	
+            rb.linearDamping = 1f; // reduce "atrito"
             rb.AddForce(direction * speed, ForceMode.Force); // Move pacman physics accurate
         }	
 	//Debug.Log("Y: " + transform.position.y + " | Grounded: " + grounded());
@@ -86,14 +107,6 @@ public class PacmanMove : MonoBehaviour
             Vector3 bumpDirection = collision.contacts[0].normal;
             rb.AddForce(bumpDirection * bumpStrength, ForceMode.Force);
         }
-    }
-    void OnCollisionStay(Collision collision)
-    {
-        rb.linearDamping = 5f; // aplicar atrito
-    }
-    void OnCollisionExit(Collision collision)
-    {
-        rb.linearDamping = 1f;
     }
     // DEBUG
     void OnDrawGizmos() {
