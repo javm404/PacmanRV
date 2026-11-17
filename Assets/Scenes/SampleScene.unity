@@ -1351,6 +1351,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954729696}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1993196288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1993196290}
+  - component: {fileID: 1993196289}
+  m_Layer: 0
+  m_Name: GhostSpawn
+  m_TagString: Spawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1993196289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993196288}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.35, y: 25.8, z: 49.4}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1993196290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993196288}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.8, y: 5.93567, z: -9.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1998569711
 GameObject:
   m_ObjectHideFlags: 0
@@ -3185,7 +3238,7 @@ GameObject:
   - component: {fileID: 5249011891760283000}
   - component: {fileID: 7603243702820764034}
   m_Layer: 8
-  m_Name: GHOSTp
+  m_Name: PINKghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7899,7 +7952,7 @@ GameObject:
   - component: {fileID: 4123626898482699174}
   - component: {fileID: 8051228023690680229}
   m_Layer: 8
-  m_Name: GHOSTo
+  m_Name: ORANGEghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9587,7 +9640,13 @@ MonoBehaviour:
   rb: {fileID: 1256065508822792734}
   speed: 2.5
   gravityStrength: 2
-  maxSpeed: 200
+  maxSpeed: 80
+  tagged: 1
+  reviveTime: 2
+  timeLeft: 0
+  normalMaterial: {fileID: 2100000, guid: 341e10c8d874ab94dbaaba81dd20a2b4, type: 2}
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
 --- !u!23 &2977377477337807789
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12579,7 +12638,13 @@ MonoBehaviour:
   rb: {fileID: 7406497983794571567}
   speed: 2
   gravityStrength: 5
-  maxSpeed: 200
+  maxSpeed: 80
+  tagged: 1
+  reviveTime: 2
+  timeLeft: 0
+  normalMaterial: {fileID: 2100000, guid: 9d7df800a30966242ac449f122ac28c3, type: 2}
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
 --- !u!135 &4148060590472829938
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13461,7 +13526,7 @@ GameObject:
   - component: {fileID: 2970668365411877199}
   - component: {fileID: 7194823693016918789}
   m_Layer: 8
-  m_Name: GHOSTr
+  m_Name: REDghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15304,7 +15369,13 @@ MonoBehaviour:
   rb: {fileID: 1042212096264605864}
   speed: 2
   gravityStrength: 5
-  maxSpeed: 200
+  maxSpeed: 80
+  tagged: 1
+  reviveTime: 2
+  timeLeft: 0
+  normalMaterial: {fileID: 2100000, guid: 963843f9e3d7bba4ab3dadc93b261f82, type: 2}
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
 --- !u!4 &5251669738776053822
 Transform:
   m_ObjectHideFlags: 0
@@ -18788,7 +18859,7 @@ GameObject:
   - component: {fileID: 6946897982202546207}
   - component: {fileID: 8345615302563685595}
   m_Layer: 8
-  m_Name: GHOSTi
+  m_Name: GREENghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19599,7 +19670,13 @@ MonoBehaviour:
   rb: {fileID: 214837703137414873}
   speed: 0.5
   gravityStrength: 10
-  maxSpeed: 200
+  maxSpeed: 80
+  tagged: 1
+  reviveTime: 2
+  timeLeft: 0
+  normalMaterial: {fileID: 2100000, guid: 489de73edad47a34f96211ab8d03137e, type: 2}
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
 --- !u!1 &6951554893638012348
 GameObject:
   m_ObjectHideFlags: 0
@@ -24246,7 +24323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a1959db8149f84d95c3346be84671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::deathBehaviour
-  active: 0
+  active: 1
 --- !u!136 &8808005236468994959
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -25224,3 +25301,4 @@ SceneRoots:
   - {fileID: 4401292462340216940}
   - {fileID: 5240295138581984529}
   - {fileID: 1558263549}
+  - {fileID: 1993196290}

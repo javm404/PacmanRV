@@ -9,6 +9,8 @@ TagManager:
   - PowerUP
   - gameBounds
   - Wall
+  - Ground
+  - Spawn
   layers:
   - Default
   - TransparentFX
