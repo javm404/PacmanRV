@@ -7,7 +7,7 @@ public class BottomBounds : MonoBehaviour
     public Transform[] ghosts;    // grab ghosts
     public Transform bounds;    // grab game bounds Transform (for position and scale)
     private BoxCollider boundsCollider;     // grab bounds collider ??? is this even being used ???
-    Vector3 pacmanWorld;
+    private Vector3 halfExt;
 
     // Pacman's position and tpLock vars
     private Vector3 pastLocalPosition_pacman;
@@ -27,7 +27,7 @@ public class BottomBounds : MonoBehaviour
         // pacman related
         pacmanCenter = player.GetComponent<BoxCollider>();
         rb = player.GetComponent<Rigidbody>();
-        pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
+        Vector3 pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
         pastLocalPosition_pacman = bounds.InverseTransformPoint(pacmanWorld) - boundsCollider.center;
 
         // ghosts related
@@ -41,10 +41,9 @@ public class BottomBounds : MonoBehaviour
     void FixedUpdate()
     {
         // get box's half dimentions, to find its center and define it's coordinates
-        Vector3 halfExt = boundsCollider.size * 0.5f;
-        float margin = 2f; // margin for pacman tp
+        halfExt = boundsCollider.size * 0.49f;
+        float margin = 1f; // margin for pacman tp
 
-        
         // --- Pacman (special case: uses offset collider center) ---
         Vector3 pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
         CheckAndTeleport(pacmanWorld, player.GetComponent<Rigidbody>(), halfExt, margin, ref pastLocalPosition_pacman, ref teleportLocked_pacman);
@@ -59,23 +58,28 @@ public class BottomBounds : MonoBehaviour
                 ref pastLocalPosition_ghosts[i], ref teleportLocked_ghosts[i]);
 
             // purple line: each ghost's current position relative to the board center
-            Debug.DrawLine(centre, ghostWorld, new Color(0.6f, 0f, 1f), 0.05f, false);
+            //Debug.DrawLine(centre, ghostWorld, new Color(0.6f, 0f, 1f), 0.05f, false);
         }
     }
     void CheckAndTeleport(Vector3 worldPos, Rigidbody rb, Vector3 halfExt, float margin, ref Vector3 pastLocal, ref bool locked)
     {
         Vector3 localPos = bounds.InverseTransformPoint(worldPos) - boundsCollider.center;
 
-        bool insideX = Mathf.Abs(localPos.x) < halfExt.x - radius - margin;
-        bool insideZ = Mathf.Abs(localPos.z) < halfExt.z - radius - margin;
+        bool insideX = Mathf.Abs(localPos.x) < halfExt.x;
+        bool insideZ = Mathf.Abs(localPos.z) < halfExt.z;
         bool insideY = localPos.y > -8.01f - margin;
 
         Vector3 worldTarget = worldPos; // default: if nothing teleports, draw line to current pos
-
-        if ((insideX && insideZ) || (insideX && insideY) || (insideZ && insideY) || (insideZ && insideY && insideX)) {
-            pastLocal = localPos;
+        float x = Mathf.Abs(localPos.x);
+        float z = Mathf.Abs(localPos.z);
+        if (insideX && insideZ && insideY)
+        {
+            pastLocal = localPos; // cache pastFrame position
             locked = false;
-        } else if (!locked) {
+        }
+        else //if (!locked) // teleport
+        {
+            //Debug.Log("Not safe");
             Vector3 mirrored = pastLocal;
             float maxX = halfExt.x - radius - margin;
             float maxY = halfExt.y - radius - margin;
@@ -88,35 +92,37 @@ public class BottomBounds : MonoBehaviour
             if (!insideZ) mirrored.z *= -1;
             if (!insideY) mirrored.y *= -1;
 
-            worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center);
-            rb.position = worldTarget;
+            worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define location
+            rb.position = worldTarget; // do the teleport
             rb.linearVelocity = Vector3.zero;
             locked = true;
         }
-            /*
             // Debug lines
-            Vector3 centre = bounds.TransformPoint(boundsCollider.center);
-            Debug.DrawLine(
-                centre,
-                worldTarget,
-                Color.cyan,
-                0.05f,
-                false
-            );
-            // X axis (width) - RED
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
-                Color.red, 0.05f, false);
+            /*
+                Vector3 centre = bounds.TransformPoint(boundsCollider.center);
+                Debug.DrawLine(
+                    centre,
+                    worldTarget,
+                    Color.cyan,
+                    0.05f,
+                    false
+                );
+                
+                // X axis (width) - RED
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
+                    Color.red, 0.05f, false);
 
-            // Y axis (height) - GREEN
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
-                Color.green, 0.05f, false);
+                // Y axis (height) - GREEN
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
+                    Color.green, 0.05f, false);
 
-            // Z axis (depth) - BLUE
-            Debug.DrawLine(centre,
-                bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
-                Color.blue, 0.05f, false);
-            */
+                // Z axis (depth) - BLUE
+                Debug.DrawLine(centre,
+                    bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
+                    Color.blue, 0.05f, false);
+                */
+
     }
 }

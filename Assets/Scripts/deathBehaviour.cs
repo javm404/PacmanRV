@@ -8,9 +8,7 @@ public class deathBehaviour : MonoBehaviour
     public bool active = true;
     void OnCollisionEnter(Collision collision) // trigger on collision
     { 
-        if(!active){
-            return;
-        } else if(collision.gameObject.CompareTag("Ghost") && !powerUp.poweredUP){
+        if(active && collision.gameObject.CompareTag("Ghost") && !powerUp.poweredUP){
             Debug.Log("Pacman died!");
             SceneManager.LoadScene(0); // restart scene
         }

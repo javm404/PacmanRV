@@ -10,6 +10,7 @@ public class BoardRotate : MonoBehaviour
     float zAngle = 0f;
     public float rotateAmnt = 5f;
     public float maxAngle = 30f;
+    public static bool rotatingBoard = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,6 +18,7 @@ public class BoardRotate : MonoBehaviour
     void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){
+            rotatingBoard = true;
             if (Input.GetKey(KeyCode.W)){
                 xAngle +=rotateAmnt;
                 //Quaternion delta = Quaternion.Euler(1 * Vector3.right);
@@ -53,6 +55,9 @@ public class BoardRotate : MonoBehaviour
             // apply rotation
             Quaternion trgtRotation = Quaternion.Euler(xAngle,0,zAngle);
             rb.MoveRotation(trgtRotation);
+        }
+        if(transform.eulerAngles == Vector3.zero){
+            rotatingBoard = false;
         }
     }
 }

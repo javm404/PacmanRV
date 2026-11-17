@@ -7,35 +7,34 @@ public class Ghost : MonoBehaviour
     public float speed; 
     public float gravityStrength;
     public float maxSpeed = 80f;
+    Vector3 direction;
 
     void FixedUpdate()
-    {   
+    {
         // Gravity
-        if (powerUp.poweredUP){
-            rb.AddForce(Vector3.down * 600, ForceMode.Acceleration);
-        } else {
-            rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
-        }
+        rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
+        
         // Ghost movement logic
         if(!powerUp.poweredUP){
-            Vector3 direction = target.position - transform.position; // direction to target
+            direction = target.position - transform.position; // direction to target
             rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
         } else {
-            rb.AddForce(Vector3.down * 100, ForceMode.AddForce);
-            Vector3 direction =  transform.position - target.position; // direction away from target
-            rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
+            direction =  transform.position - target.position; // direction away from target
+            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 5); // cap more, slow ghosts down
         }
         // kill ghost
         if (pointSystem.totalPoints > 242){
             Destroy(gameObject);
         }
+
+
         /*
         Debug.DrawLine(
-            target.position,
+            direction,
             transform.position,
-            Color.pink,
+            Color.red,
             0.02f,
             false
         );
