@@ -8,7 +8,7 @@ TagManager:
   - Point
   - PowerUP
   - gameBounds
-  - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX

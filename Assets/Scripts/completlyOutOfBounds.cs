@@ -12,7 +12,7 @@ public class completlyOutOfBounds : MonoBehaviour
             Vector3 vel = rb.linearVelocity;
             vel.x = 0;
             vel.z = 0;        
-            vel.y *= 9999999 ;
+            vel.y *= 4 ;
             rb.linearVelocity = vel;
 
         } else if(collision.gameObject.CompareTag("Ghost")){

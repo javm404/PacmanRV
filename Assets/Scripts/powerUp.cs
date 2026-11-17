@@ -28,7 +28,6 @@ public class powerUp : MonoBehaviour
         }
         // for ghosts
         ghosts = GameObject.FindGameObjectsWithTag("Ghost"); // fetch every ghost in game (once)
-        Debug.Log(ghosts.Length);
         Debug.Log("Picked up ghost: "+ghosts);
         ghostsPastMaterial = new Material[ghosts.Length];
         int i = 0;
@@ -41,7 +40,6 @@ public class powerUp : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log(collision.gameObject.name);
         if(collision.gameObject.CompareTag("PowerUP")){
             Destroy(collision.gameObject);
             Debug.Log("pacman hit power up!");
