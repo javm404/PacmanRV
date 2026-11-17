@@ -27,14 +27,17 @@ public class powerUp : MonoBehaviour
             index++;
         }
         // for ghosts
-        ghosts = GameObject.FindGameObjectsWithTag("Ghost"); // fetch every ghost in game (once)
-        Debug.Log("Picked up ghost: "+ghosts);
-        ghostsPastMaterial = new Material[ghosts.Length];
-        int i = 0;
-        foreach(GameObject ghost in ghosts){
-            ghostsPastMaterial[i] = ghost.GetComponentInChildren<Renderer>().material;
-            i++;
-        }
+        //ghosts = GameObject.FindGameObjectsWithTag("Ghost"); // fetch every ghost in game (once)
+       // Debug.Log("Total ghosts found: " + ghosts.Length);
+      //  foreach(GameObject ghost in ghosts){
+       //     Debug.Log("Picked up ghost: "+ghost.name);
+       // }
+      //  ghostsPastMaterial = new Material[ghosts.Length];
+        //int i = 0;
+       /// foreach(GameObject ghost in ghosts){
+       //     ghostsPastMaterial[i] = ghost.GetComponentInChildren<Renderer>().material;
+        //    i++;
+        //}
 
     }
 
@@ -46,12 +49,12 @@ public class powerUp : MonoBehaviour
             poweredUP = true;
             powerUpAura.enabled = true;
             foreach(GameObject ghost in ghosts){
-                ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
+                //ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
                 Debug.Log(ghost.name+" is sick!");
             }
         } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
             // tag ghost as killed
-            Destroy(collision.gameObject); // Destroy causes error and its not that fun, added just for testing
+            collision.gameObject.GetComponent<Ghost>().tagged = true; // Destroy causes error and its not that fun, added just for testing
         }
     }
 
@@ -70,7 +73,6 @@ public class powerUp : MonoBehaviour
     {
         if(poweredUP && timer > 0.0f) {
             timer -= Time.deltaTime;
-            Debug.Log("Time left for power up: "+timer);
             GetComponent<deathBehaviour>().enabled = false;
             // loop through body parts
             foreach(Renderer bodyPart in pacmanBody){
@@ -80,18 +82,12 @@ public class powerUp : MonoBehaviour
             poweredUP = false;
             powerUpAura.enabled = false;
             timer = time;
-            Debug.Log("PowerUP ended!");
             GetComponent<deathBehaviour>().enabled = true;
             // loop through body parts and apply past textures
             int i = 0;
             foreach(Renderer bodyPart in pacmanBody){
                 bodyPart.material = pastMaterial[i];
                 i++;
-            }
-            int j = 0;
-            foreach(GameObject ghost in ghosts){
-                ghost.GetComponentInChildren<Renderer>().material = ghostsPastMaterial[j];
-                j++;
             }
         }
     }
