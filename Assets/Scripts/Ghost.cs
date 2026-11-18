@@ -3,6 +3,7 @@ public class Ghost : MonoBehaviour
 {
     public Transform pacman;
     public Transform spawn;
+    public Vector3 mission;
     private Vector3 target;
     public Rigidbody rb;
     public float speed; 
@@ -24,9 +25,14 @@ public class Ghost : MonoBehaviour
     public Node currentNode;
     public Node targetNode;
     float closestDistance = Mathf.Infinity;
-	
+    Node node;
     float debugCounter = 1.0f;
     float debugCount = 0.0f;
+    void Start()
+    {
+	    int i = 7;
+            node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
+    }
     void Update()
     {
 	// define ghost's target
@@ -41,15 +47,19 @@ public class Ghost : MonoBehaviour
     	// define target
     	if(deciding == true) // go through next step logic
 	{
+		Debug.Log("Previous Node: "+currentNode.name);
+		Debug.Log("Deciding...");
 		// distance conditions
 		foreach(Transform neighbor in currentNode.neighbors){
-			distance = Vector3.Distance(neighbor.position, target);
-			if(distance < closestDistance){
+			distance = Vector3.Distance(neighbor.position, pacman.position);
+			Debug.Log("distance of "+neighbor.GetComponent<Node>().name+": "+distance);
+			if(distance <= closestDistance){
 				closestDistance = distance;
 				targetNode = neighbor.GetComponent<Node>();
 			}	
 		}
 		target = targetNode.transform.position;
+		Debug.Log("Chosen Node: "+targetNode.name);
 		deciding = false;
 		moving = true;
 	}
@@ -63,7 +73,6 @@ public class Ghost : MonoBehaviour
         
 	// Move
 	if(moving && Vector3.Distance(transform.position, target) < 5.0f){
-		rb.linearVelocity = new Vector3(0,0,0);
 		moving = false;
 		deciding = true;
 		currentNode = targetNode; // reached the target node, change current to target 
@@ -78,15 +87,16 @@ public class Ghost : MonoBehaviour
 	if(debugCount > 0){
 		debugCount -= Time.deltaTime;
 	} else if (moving){
-		Debug.Log(name+" IS MOVING");
-		Debug.Log("Direction: "+target);
+		//Debug.Log(name+" IS MOVING");
+		//Debug.Log("distance from "+distance+" to "+target);
+		//Debug.Log("Direction: "+target);
 		debugCount = debugCounter;
 	} else if (deciding){
-		Debug.Log(name+" IS DECIDING");
-		Debug.Log("Current position: "+currentNode);
+		//Debug.Log(name+" IS DECIDING");
+		//Debug.Log("distance from "+distance+" to "+target);
+		//Debug.Log("Current position: "+currentNode);
 		debugCount = debugCounter;
 	}
-	Debug.Log(name+"'s current position: "+transform.position);
         // Ghost target logic
 	/*
         if(tagged){ // ghost died, go back to checkpoint
