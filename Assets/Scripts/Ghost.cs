@@ -1,8 +1,9 @@
 using UnityEngine;
-
 public class Ghost : MonoBehaviour
 {
-    public Transform target;
+    public Transform pacman;
+    public Transform spawn;
+    private Vector3 target;
     public Rigidbody rb;
     public float speed; 
     public float gravityStrength;
@@ -12,30 +13,99 @@ public class Ghost : MonoBehaviour
     public float timeLeft; 
     bool countdown = false;
     Vector3 direction;
+    float distance;
     public Material normalMaterial;
     public Material deadGhostMaterial;
     public Material sickGhostMaterial;
+    //public enum ghostState { deciding, moving }
+    //public ghostState state;
+    public bool deciding = true;
+    public bool moving = false;
+    public Node currentNode;
+    public Node targetNode;
+    float closestDistance = Mathf.Infinity;
+	
+    float debugCounter = 1.0f;
+    float debugCount = 0.0f;
+    void Update()
+    {
+	// define ghost's target
+	//if(tagged){
+	//	target = new Vector3(20.0f, 8.0f, -4.0f);
+	//} else if(!powerUp.poweredUP){
+	//	target = -pacman.position;
+	//} //else {
+	//	target = pacman.position;
+	//}
+
+    	// define target
+    	if(deciding == true) // go through next step logic
+	{
+		// distance conditions
+		foreach(Transform neighbor in currentNode.neighbors){
+			distance = Vector3.Distance(neighbor.position, target);
+			if(distance < closestDistance){
+				closestDistance = distance;
+				targetNode = neighbor.GetComponent<Node>();
+			}	
+		}
+		target = targetNode.transform.position;
+		deciding = false;
+		moving = true;
+	}
+	direction = target - transform.position; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+    }
 
     void FixedUpdate()
     {
         // Gravity
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         
-        // Ghost movement logic
+	// Move
+	if(moving && Vector3.Distance(transform.position, target) < 5.0f){
+		rb.linearVelocity = new Vector3(0,0,0);
+		moving = false;
+		deciding = true;
+		currentNode = targetNode; // reached the target node, change current to target 
+		closestDistance = Mathf.Infinity; // reset closest distance
+		
+	}
+	else if(moving)
+	{
+		rb.AddForce(direction * speed, ForceMode.Force); // move ghost in 
+	}
+
+	if(debugCount > 0){
+		debugCount -= Time.deltaTime;
+	} else if (moving){
+		Debug.Log(name+" IS MOVING");
+		Debug.Log("Direction: "+target);
+		debugCount = debugCounter;
+	} else if (deciding){
+		Debug.Log(name+" IS DECIDING");
+		Debug.Log("Current position: "+currentNode);
+		debugCount = debugCounter;
+	}
+	Debug.Log(name+"'s current position: "+transform.position);
+        // Ghost target logic
+	/*
         if(tagged){ // ghost died, go back to checkpoint
-            direction = new Vector3(20f,8f,-4f) - transform.position; // TOWARDS checkpoint
-            rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20); // cap velocity
+	    target = new Vector3(20f,8f,-4f);
+            //direction = new Vector3(20f,8f,-4f) - transform.position; // TOWARDS checkpoint
+            //rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
+            //rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20); // cap velocity
         } else if(!powerUp.poweredUP && !tagged){ // player is powered up
-            direction = target.position - transform.position; // direction TOWARDS target
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
+            target = -pacman.position;
+	    //direction = target.position - transform.position; // direction TOWARDS target
+            //rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+            //rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
         } else { // ghost is sick
-            direction =  transform.position - target.position; // direction AWAY from target
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 15); // cap more, slow ghosts down
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-            rb.AddForce(Vector3.down * gravityStrength * 5, ForceMode.Acceleration);
-        } 
+            target = pacman.position;
+            //direction =  transform.position - target.position; // direction AWAY from target
+            //rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 15); // cap more, slow ghosts down
+            //rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+            //rb.AddForce(Vector3.down * gravityStrength * 5, ForceMode.Acceleration);
+        } */
 
 
         // ghost texture states
@@ -46,7 +116,7 @@ public class Ghost : MonoBehaviour
         } else {
             GetComponentInChildren<Renderer>().material = normalMaterial;
         }
-        
+       	// respawn logic 
         if(countdown && tagged && timeLeft > 0.0f){
             timeLeft -= Time.deltaTime;
         } else if(tagged && countdown){
@@ -54,27 +124,31 @@ public class Ghost : MonoBehaviour
             countdown = false;
             tagged = false;
         }
-        /*
         Debug.DrawLine(
-            direction,
             transform.position,
+            transform.position+direction,
             Color.red,
-            0.02f,
+            0.1f,
             false
         );
-        */
+	Debug.DrawLine(
+		transform.position,
+		target,
+		Color.blue,
+		0.1f,
+		false
+	);
     }
+    // respawn logic
     void OnTriggerEnter(Collider other)
-    {
+    { // is inside spawn
         if(tagged && other.CompareTag("Spawn")){
-            Debug.Log("Spawning ghost "+name);
             countdown = true;
         }
     }
     void OnTriggerExit(Collider other)
-    {
+    { // exited spawn
         if(tagged && other.CompareTag("Spawn")){
-            Debug.Log(name+" left area! Reseting respawn time");
             countdown = false;
             timeLeft = reviveTime;
         }
