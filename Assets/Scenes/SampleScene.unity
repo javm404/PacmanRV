@@ -1656,9 +1656,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705365125}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.2, y: -3.10001, z: -9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.1, y: -1.550005, z: -4.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1832170245}
@@ -1720,7 +1720,7 @@ Transform:
   - {fileID: 2059174527}
   - {fileID: 815305608}
   - {fileID: 1067275526}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 4401292462340216940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &705365127
 MonoBehaviour:
@@ -6155,7 +6155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &471428126395999914
 GameObject:
   m_ObjectHideFlags: 0
@@ -10869,7 +10869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &2286627761863871717
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12549,12 +12549,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   pacman: {fileID: 5423483340355973181}
-  spawn: {fileID: 0}
+  spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1256065508822792734}
-  speed: 300
+  speed: 500
   gravityStrength: 2
-  maxSpeed: 80
+  maxSpeed: 100
   tagged: 1
   reviveTime: 2
   timeLeft: 0
@@ -15553,12 +15553,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   pacman: {fileID: 5423483340355973181}
-  spawn: {fileID: 0}
+  spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 7406497983794571567}
-  speed: 5
+  speed: 350
   gravityStrength: 5
-  maxSpeed: 80
+  maxSpeed: 200
   tagged: 1
   reviveTime: 2
   timeLeft: 0
@@ -16380,6 +16380,7 @@ Transform:
   - {fileID: 504495371541629595}
   - {fileID: 1211686203}
   - {fileID: 755027050614018321}
+  - {fileID: 705365126}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4419693360051581083
@@ -18290,12 +18291,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   pacman: {fileID: 5423483340355973181}
-  spawn: {fileID: 0}
+  spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1042212096264605864}
-  speed: 15
+  speed: 300
   gravityStrength: 5
-  maxSpeed: 80
+  maxSpeed: 200
   tagged: 1
   reviveTime: 2
   timeLeft: 0
@@ -21794,7 +21795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &6608334247282548137
 GameObject:
   m_ObjectHideFlags: 0
@@ -22597,10 +22598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   pacman: {fileID: 5423483340355973181}
-  spawn: {fileID: 0}
+  spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 214837703137414873}
-  speed: 2
+  speed: 80
   gravityStrength: 10
   maxSpeed: 80
   tagged: 1
@@ -28238,4 +28239,3 @@ SceneRoots:
   - {fileID: 5240295138581984529}
   - {fileID: 1558263549}
   - {fileID: 1993196290}
-  - {fileID: 705365126}

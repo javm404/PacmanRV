@@ -4,7 +4,7 @@ public class Ghost : MonoBehaviour
     public Transform pacman;
     public Transform spawn;
     public Vector3 mission;
-    private Vector3 target;
+    //private Vector3 target;
     public Rigidbody rb;
     public float speed; 
     public float gravityStrength;
@@ -30,40 +30,64 @@ public class Ghost : MonoBehaviour
     float debugCount = 0.0f;
     void Start()
     {
+        pacman = BottomBounds.pCenter.transform; // define pacman's center
 	    int i = 7;
             node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
     }
     void Update()
     {
-	// define ghost's target
-	//if(tagged){
-	//	target = new Vector3(20.0f, 8.0f, -4.0f);
-	//} else if(!powerUp.poweredUP){
-	//	target = -pacman.position;
-	//} //else {
-	//	target = pacman.position;
-	//}
+        // define ghost's target
+        //if(tagged){
+        //	target = new Vector3(20.0f, 8.0f, -4.0f);
+        //} else if(!powerUp.poweredUP){
+        //	target = -pacman.position;
+        //} //else {
+        //	target = pacman.position;
+        //}
 
-    	// define target
-    	if(deciding == true) // go through next step logic
-	{
-		Debug.Log("Previous Node: "+currentNode.name);
-		Debug.Log("Deciding...");
-		// distance conditions
-		foreach(Transform neighbor in currentNode.neighbors){
-			distance = Vector3.Distance(neighbor.position, pacman.position);
-			Debug.Log("distance of "+neighbor.GetComponent<Node>().name+": "+distance);
-			if(distance <= closestDistance){
-				closestDistance = distance;
-				targetNode = neighbor.GetComponent<Node>();
-			}	
-		}
-		target = targetNode.transform.position;
-		Debug.Log("Chosen Node: "+targetNode.name);
-		deciding = false;
-		moving = true;
-	}
-	direction = (target - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+        
+        // Ghost's mission logic
+        if(tagged) // died, back to spawn
+        {
+            //Debug.Log("Go to spawn");
+            mission = spawn.position;
+        } 
+        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
+        {
+            //Debug.Log("Run towards");
+            mission = pacman.position;
+        }
+        else // feeling sick, pacman is powered up
+        {
+            //Debug.Log("Run away");
+            Vector3 awayDirection = (transform.position - pacman.position).normalized;
+            mission = transform.position + awayDirection * 50f;
+        }
+
+        // Define target (next place to go, either node or smth else if airbone)
+        if(deciding == true) // go through next step logic
+        {
+            Debug.Log("Previous Node: "+currentNode.name);
+            Debug.Log("Deciding...");
+            // distance conditions
+            foreach(Transform neighbor in currentNode.neighbors){
+                distance = Vector3.Distance(neighbor.position, mission);
+                Debug.Log(
+                    "Current: " + currentNode.name +
+                    " | Checking: " + neighbor.name +
+                    " | Distance: " + distance
+                );
+                if(distance <= closestDistance){
+                    closestDistance = distance;
+                    targetNode = neighbor.GetComponent<Node>();
+                }	
+            }
+            Debug.Log("FINAL CHOICE: " + targetNode.name);
+            deciding = false;
+            moving = true;
+        }
+        direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+
     }
 
     void FixedUpdate()
@@ -72,7 +96,7 @@ public class Ghost : MonoBehaviour
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         
 	// Move
-	if(moving && Vector3.Distance(transform.position, target) < 5.0f){
+	if(moving && Vector3.Distance(transform.position, targetNode.transform.position) < 8.5f){
 		moving = false;
 		deciding = true;
 		currentNode = targetNode; // reached the target node, change current to target 
@@ -81,32 +105,33 @@ public class Ghost : MonoBehaviour
 	}
 	else if(moving)
 	{
-		rb.AddForce(direction * speed, ForceMode.Force); // move ghost in 
+		rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+
 	}
 
 	if(debugCount > 0){
 		debugCount -= Time.deltaTime;
 	} else if (moving){
-		//Debug.Log(name+" IS MOVING");
+		Debug.Log(name+" IS MOVING");
 		//Debug.Log("distance from "+distance+" to "+target);
 		//Debug.Log("Direction: "+target);
 		debugCount = debugCounter;
 	} else if (deciding){
-		//Debug.Log(name+" IS DECIDING");
+		Debug.Log(name+" IS DECIDING");
 		//Debug.Log("distance from "+distance+" to "+target);
 		//Debug.Log("Current position: "+currentNode);
 		debugCount = debugCounter;
 	}
-        // Ghost target logic
 	/*
         if(tagged){ // ghost died, go back to checkpoint
-	    target = new Vector3(20f,8f,-4f);
+	        target = new Vector3(20f,8f,-4f);
             //direction = new Vector3(20f,8f,-4f) - transform.position; // TOWARDS checkpoint
             //rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
             //rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20); // cap velocity
         } else if(!powerUp.poweredUP && !tagged){ // player is powered up
             target = -pacman.position;
-	    //direction = target.position - transform.position; // direction TOWARDS target
+	        //direction = target.position - transform.position; // direction TOWARDS target
             //rb.AddForce(direction * speed, ForceMode.Force); // move ghost
             //rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
         } else { // ghost is sick
@@ -141,13 +166,20 @@ public class Ghost : MonoBehaviour
             0.1f,
             false
         );
-	Debug.DrawLine(
-		transform.position,
-		target,
-		Color.blue,
-		0.1f,
-		false
-	);
+        Debug.DrawLine(
+            transform.position,
+            targetNode.transform.position,
+            Color.blue,
+            0.1f,
+            false
+        );
+        Debug.DrawLine(
+            transform.position,
+            mission,
+            Color.green,
+            0.2f,
+            false
+        );
     }
     // respawn logic
     void OnTriggerEnter(Collider other)

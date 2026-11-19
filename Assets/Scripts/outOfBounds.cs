@@ -3,6 +3,7 @@ public class BottomBounds : MonoBehaviour
 {
     public Transform player;    // grab pacman(player)
     public BoxCollider pacmanCenter; // #patch#: grab pacman's real center axis
+    static public BoxCollider pCenter;
     float radius = 1.6f; // define player's collider radius
     public Transform[] ghosts;    // grab ghosts
     public Transform bounds;    // grab game bounds Transform (for position and scale)
@@ -26,6 +27,7 @@ public class BottomBounds : MonoBehaviour
 
         // pacman related
         pacmanCenter = player.GetComponent<BoxCollider>();
+        pCenter = pacmanCenter;
         rb = player.GetComponent<Rigidbody>();
         Vector3 pacmanWorld = pacmanCenter.transform.TransformPoint(pacmanCenter.center);
         pastLocalPosition_pacman = bounds.InverseTransformPoint(pacmanWorld) - boundsCollider.center;
