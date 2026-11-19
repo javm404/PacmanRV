@@ -63,7 +63,7 @@ public class Ghost : MonoBehaviour
 		deciding = false;
 		moving = true;
 	}
-	direction = target - transform.position; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+	direction = (target - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
     }
 
     void FixedUpdate()
