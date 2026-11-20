@@ -33,11 +33,14 @@ public class Ghost : MonoBehaviour
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
+	
         Queue<Node> toVisit = new Queue<Node>(); // create a queue LIST called toVisit
         HashSet<Node> popped = new HashSet<Node>(); // create a HashSet LIST called popped
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(); // create a Dictionary LIST called cameFrom
-
-        toVisit.Enqueue(current);
+	if(current == target){
+		return current; // no movement needed, ghost is at target node
+	}
+	toVisit.Enqueue(current);
         popped.Add(current); // saw all the neighbours, crrnt node has been visited.
         while (toVisit.Count > 0)
         {
@@ -80,12 +83,17 @@ public class Ghost : MonoBehaviour
     }
     void Start()
     {
-        pacman = BottomBounds.pCenter.transform; // define pacman's center
 	    int i = 7;
             node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
     }
     void Update()
     {
+	Debug.Log(
+		"Mission is: "+mission+"\n"+
+		"Pacman position is: "+pacman.position+"\n"+
+		"Targer is: "+findNearestNode(mission)+"\n"
+				
+	);
         // Ghost's mission logic
             if(tagged) // died, back to spawn
             {
@@ -117,6 +125,14 @@ public class Ghost : MonoBehaviour
             // & direction
             // check if node is a warp or not
             direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+
+	    Debug.DrawLine(
+            	transform.position,
+            	mission,
+            	Color.green,
+            	0.2f,
+            	false
+             );
 
     }
 
@@ -166,20 +182,15 @@ public class Ghost : MonoBehaviour
             0.1f,
             false
         );
-        Debug.DrawLine(
-            transform.position,
-            targetNode.transform.position,
-            Color.blue,
-            0.1f,
-            false
-        );
-        Debug.DrawLine(
-            transform.position,
-            mission,
-            Color.green,
-            0.2f,
-            false
-        );
+       	if(targetNode != null){
+		Debug.DrawLine(
+        	    transform.position,
+        	    targetNode.transform.position,
+        	    Color.blue,
+        	    0.1f,
+        	    false
+        	);
+	}
         if(debugCount > 0){
             debugCount -= Time.deltaTime;
         } else if (moving){
