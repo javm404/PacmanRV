@@ -32,7 +32,7 @@ public class gameController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(pointCount.noMorePoints){
+        if(true){
             winText.SetActive(true);
             tyText.SetActive(true);
             Debug.Log("Game over!");
@@ -48,7 +48,7 @@ public class gameController : MonoBehaviour
             if(delay > 0){
                 delay -= Time.deltaTime;
             } else if(trans < 1){
-                trans += Time.deltaTime / 100;
+                trans += Time.deltaTime / 5;
                 blend.Lerp(floorNormal, floorWin, trans);
                 rend.material = blend; // apply the fade
             }

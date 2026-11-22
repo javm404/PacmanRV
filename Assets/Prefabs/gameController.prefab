@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9172103440282548625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2309681253853494476}
+  - component: {fileID: 5292700149864524656}
+  m_Layer: 0
+  m_Name: gameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2309681253853494476
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172103440282548625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.8, y: -1.53044, z: -8.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5292700149864524656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172103440282548625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ed9e77c07224d47874880bab2e6ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::gameController
+  winText: {fileID: 0}
+  tyText: {fileID: 0}
+  walls: {fileID: 0}
+  ghosts: {fileID: 0}
+  floorNormal: {fileID: 2100000, guid: 591c2effe7796c246ba35bf6320d99ed, type: 2}
+  floorWin: {fileID: 2100000, guid: a7daad7ba29275d4f9bf25d052e9fed5, type: 2}
+  floor: {fileID: 0}
+  trans: 0
+  mod: 0
+  mod2: 0
+  y: 0
+  y2: 0
+  delay: 0.5
+  shine: 0
