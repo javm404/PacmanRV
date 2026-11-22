@@ -69,7 +69,7 @@ public class PacmanMove : MonoBehaviour
                 //Debug.Log("Grounded");
                 // define damping level
                 if(BoardRotate.rotatingBoard){
-                    rb.linearDamping = 2f;
+                    rb.linearDamping = 1f;
                 } else {
                     rb.linearDamping = 5f;
                 }

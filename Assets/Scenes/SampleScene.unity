@@ -1618,7 +1618,7 @@ Transform:
   m_GameObject: {fileID: 613303583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 103, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3297,9 +3297,9 @@ MonoBehaviour:
   m_Texture: {fileID: 8400000, guid: 77e69f5aebfe23e449e39b913dc84053, type: 2}
   m_UVRect:
     serializedVersion: 2
-    x: 0
+    x: -0.2
     y: 0
-    width: 1
+    width: 1.4
     height: 1
 --- !u!222 &1327196298
 CanvasRenderer:
@@ -3323,10 +3323,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1595165399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 41.999725}
-  m_SizeDelta: {x: 256, y: 256}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1333622847
 GameObject:
@@ -7161,7 +7161,7 @@ Transform:
   m_GameObject: {fileID: 3956459219259123973}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 18.462303, y: 1164.2672, z: -10.819864}
+  m_LocalPosition: {x: 18.462303, y: 1289, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20997,6 +20997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ed9e77c07224d47874880bab2e6ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gameController
+  pacman: {fileID: 6703453776326229587}
   winText: {fileID: 7450545010633404679}
   tyText: {fileID: 919132149395117953}
   walls: {fileID: 177681231}
@@ -25093,6 +25094,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 755027050614018321}
+  - component: {fileID: 6679083975032415190}
   m_Layer: 0
   m_Name: Points(242)
   m_TagString: Untagged
@@ -25100,6 +25102,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6679083975032415190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6679083975032415189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a988e9c6e73380c47bbad3a75ea2bc07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::pointCount
+  pointsLeft: 0
 --- !u!1 &6692032645010250680
 GameObject:
   m_ObjectHideFlags: 0

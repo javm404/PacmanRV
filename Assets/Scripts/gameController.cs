@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class gameController : MonoBehaviour
 {
+    public GameObject pacman;
     public GameObject winText;
     public GameObject tyText;
     public Transform walls;
@@ -33,6 +34,7 @@ public class gameController : MonoBehaviour
     void FixedUpdate()
     {
         if(pointCount.noMorePoints){
+            pacman.GetComponent<deathBehaviour>().active = false;
             winText.SetActive(true);
             tyText.SetActive(true);
             Debug.Log("Game over!");
