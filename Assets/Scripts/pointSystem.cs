@@ -3,6 +3,7 @@ using UnityEngine;
 public class pointSystem : MonoBehaviour
 {
     public static int totalPoints = 0;
+    public int points;
     void Start()
     {
         totalPoints = 0;
@@ -15,5 +16,8 @@ public class pointSystem : MonoBehaviour
             Destroy(collision.gameObject);
             //Debug.Log("Point hit! Total points: "+totalPoints);
         }
+    }
+    void Update(){
+        points = totalPoints;
     }
 }
