@@ -3,6 +3,7 @@ using UnityEngine;
 public class gameController : MonoBehaviour
 {
     public GameObject winText;
+    public GameObject tyText;
     public Transform walls;
     public Transform ghosts;
     public Material floorNormal;
@@ -16,6 +17,7 @@ public class gameController : MonoBehaviour
     public float y;
     public float y2;
     public float delay = 1.0f;
+    public bool shine = false;
 
     void Start()
     {
@@ -26,11 +28,13 @@ public class gameController : MonoBehaviour
         blend.EnableKeyword("_EMISSION");
         trans = 0f;
         winText.SetActive(false);
+        tyText.SetActive(false);
     }
     void FixedUpdate()
     {
         if(pointCount.noMorePoints){
             winText.SetActive(true);
+            tyText.SetActive(true);
             Debug.Log("Game over!");
             if(walls.position.y > -22){
                 mod += Time.deltaTime / 10;
