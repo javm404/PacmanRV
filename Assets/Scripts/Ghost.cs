@@ -37,10 +37,10 @@ public class Ghost : MonoBehaviour
         Queue<Node> toVisit = new Queue<Node>(); // create a queue LIST called toVisit
         HashSet<Node> popped = new HashSet<Node>(); // create a HashSet LIST called popped
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(); // create a Dictionary LIST called cameFrom
-	if(current == target){
-		return current; // no movement needed, ghost is at target node
-	}
-	toVisit.Enqueue(current);
+        if(current == target){
+            return null; // no movement needed, ghost is at target node
+        }
+	    toVisit.Enqueue(current);
         popped.Add(current); // saw all the neighbours, crrnt node has been visited.
         while (toVisit.Count > 0)
         {
@@ -88,51 +88,59 @@ public class Ghost : MonoBehaviour
     }
     void Update()
     {
-	Debug.Log(
-		"Mission is: "+mission+"\n"+
-		"Pacman position is: "+pacman.position+"\n"+
-		"Targer is: "+findNearestNode(mission)+"\n"
-				
-	);
+        if(targetNode != null){
+            Debug.Log(
+                "target node:"+targetNode.transform.position+
+                "ghostPos: "+transform.position+
+                "velocity: "+rb.linearVelocity
+            );
+        }
         // Ghost's mission logic
-            if(tagged) // died, back to spawn
-            {
-                //Debug.Log("Go to spawn");
-                mission = spawn.position;
-            } 
-            else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
-            {
-                //Debug.Log("Run towards");
-                mission = pacman.position;
-            }
-            else // feeling sick, pacman is powered up
-            {
-                //Debug.Log("Run away");
-                Vector3 awayDirection = (transform.position - pacman.position).normalized;
-                mission = transform.position + awayDirection * 50f;
-            }
+        if(tagged) // died, back to spawn
+        {
+            mission = spawn.position;
+        } 
+        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
+        {
+            mission = pacman.position;
+        }
+        else // feeling sick, pacman is powered up
+        {
+            Vector3 awayDirection = (transform.position - pacman.position).normalized;
+            mission = transform.position + awayDirection * 50f;
+        }
 
         // Define target (next place to go, either node or smth else if airbone)
-            if(deciding == true) // go through next step logic
-            {
-                Node target = findNearestNode(mission); // get closest node to mission(current Target position)
-                Debug.Log(findNearestNode(mission).name);
-                targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
-                Debug.Log("Next node: " + targetNode.name);
-                deciding = false;
-                moving = true;
+        if(deciding == true) // go through next step logic
+        {
+            Node target = findNearestNode(mission); // get closest node to mission(current Target position)
+            Debug.Log(findNearestNode(mission).name);
+            targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
+            //Debug.Log("Next node: " + targetNode.name);
+            deciding = false;
+            moving = true;
+        }
+        // & direction
+        // check if node is a warp or not
+        if(targetNode == null)
+        {
+            moving = false;
+            deciding = true;
+        } else {
+            direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)
+            float disFromWarp = Vector3.Distance(transform.position, targetNode.transform.position);
+            if(targetNode.isWarp && disFromWarp > 50){
+                direction = (targetNode.transform.position + transform.position).normalized;
             }
-            // & direction
-            // check if node is a warp or not
-            direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)]
+        }
 
-	    Debug.DrawLine(
-            	transform.position,
-            	mission,
-            	Color.green,
-            	0.2f,
-            	false
-             );
+        Debug.DrawLine(
+            transform.position,
+            mission,
+            Color.green,
+            0.2f,
+            false
+            );
 
     }
 
@@ -142,22 +150,30 @@ public class Ghost : MonoBehaviour
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         
         // Move
-        if(moving && Vector3.Distance(transform.position, targetNode.transform.position) < 6.0f){
-            moving = false;
-            deciding = true;
-            currentNode = targetNode; // reached the target node, change current to target 
-            closestDistance = Mathf.Infinity; // reset closest distance
-            
-        }
-        else if(moving)
-        {
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+        if (targetNode){
+            Vector3 a = transform.position;a.y=0;
+            Vector3 b = targetNode.transform.position;b.y=0;
+            if(moving && Vector3.Distance(a, b) < 6.0f){
+                moving = false;
+                deciding = true;
+                currentNode = targetNode; // reached the target node, change current to target 
+                closestDistance = Mathf.Infinity; // reset closest distance
+                
+            }
+            else if(moving)
+            {
+                rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 
+            }
         }
-
         // ghost texture states
         if(tagged){
+            Debug.Log("Current node: "+currentNode);
+
+            if(targetNode){Debug.Log("target node: "+targetNode);}
+            Debug.Log("deciding: "+deciding);
+            Debug.Log("moving: "+moving);
             GetComponentInChildren<Renderer>().material = deadGhostMaterial;
         } else if(powerUp.poweredUP){
             GetComponentInChildren<Renderer>().material = sickGhostMaterial;

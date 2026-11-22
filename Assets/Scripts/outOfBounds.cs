@@ -42,6 +42,7 @@ public class BottomBounds : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         // get box's half dimentions, to find its center and define it's coordinates
         halfExt = boundsCollider.size * 0.49f;
         float margin = 1f; // margin for pacman tp
@@ -53,6 +54,7 @@ public class BottomBounds : MonoBehaviour
         Vector3 centre = bounds.TransformPoint(boundsCollider.center);
 
         // --- Ghosts (loop, indexed by array position) ---
+        /*
         for (int i = 0; i < ghosts.Length; i++)
         {
             Vector3 ghostWorld = ghosts[i].position;
@@ -62,6 +64,7 @@ public class BottomBounds : MonoBehaviour
             // purple line: each ghost's current position relative to the board center
             //Debug.DrawLine(centre, ghostWorld, new Color(0.6f, 0f, 1f), 0.05f, false);
         }
+        */
     }
     void CheckAndTeleport(Vector3 worldPos, Rigidbody rb, Vector3 halfExt, float margin, ref Vector3 pastLocal, ref bool locked)
     {
@@ -99,32 +102,5 @@ public class BottomBounds : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             locked = true;
         }
-            // Debug lines
-            /*
-                Vector3 centre = bounds.TransformPoint(boundsCollider.center);
-                Debug.DrawLine(
-                    centre,
-                    worldTarget,
-                    Color.cyan,
-                    0.05f,
-                    false
-                );
-                
-                // X axis (width) - RED
-                Debug.DrawLine(centre,
-                    bounds.TransformPoint(boundsCollider.center + Vector3.right * halfExt.x),
-                    Color.red, 0.05f, false);
-
-                // Y axis (height) - GREEN
-                Debug.DrawLine(centre,
-                    bounds.TransformPoint(boundsCollider.center + Vector3.up * halfExt.y),
-                    Color.green, 0.05f, false);
-
-                // Z axis (depth) - BLUE
-                Debug.DrawLine(centre,
-                    bounds.TransformPoint(boundsCollider.center + Vector3.forward * halfExt.z),
-                    Color.blue, 0.05f, false);
-                */
-
     }
 }
