@@ -11,7 +11,7 @@ public class pointCount : MonoBehaviour
     }    
     void Update()
     {
-        pointsLeft = 0;//transform.childCount;
+        pointsLeft = transform.childCount;
         if(pointsLeft == 0){
             noMorePoints = true;
         }
