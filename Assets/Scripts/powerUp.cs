@@ -48,10 +48,10 @@ public class powerUp : MonoBehaviour
             Debug.Log("pacman hit power up!");
             poweredUP = true;
             powerUpAura.enabled = true;
-//            foreach(GameObject ghost in ghosts){
+           // foreach(GameObject ghost in ghosts){
                 //ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
-//                Debug.Log(ghost.name+" is sick!");
-//            }
+          //      Debug.Log(ghost.name+" is sick!");
+           // }
         } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
             // tag ghost as killed
             collision.gameObject.GetComponent<Ghost>().tagged = true; // Destroy causes error and its not that fun, added just for testing

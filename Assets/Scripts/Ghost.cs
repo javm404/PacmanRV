@@ -1,8 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Ghost : MonoBehaviour
 {
-    public Transform target;
+    public Transform pacman;
+    public Transform spawn;
+    public Vector3 mission;
+    //private Vector3 target;
     public Rigidbody rb;
     public float speed; 
     public float gravityStrength;
@@ -12,41 +16,172 @@ public class Ghost : MonoBehaviour
     public float timeLeft; 
     bool countdown = false;
     Vector3 direction;
+    float distance;
     public Material normalMaterial;
     public Material deadGhostMaterial;
     public Material sickGhostMaterial;
+    //public enum ghostState { deciding, moving }
+    //public ghostState state;
+    public bool deciding = true;
+    public bool moving = false;
+    public Node currentNode;
+    public Node targetNode;
+    float closestDistance = Mathf.Infinity;
+    Node node;
+    float debugCounter = 1.0f;
+    float debugCount = 0.0f;
+    // Define the ghost's next step with Breadth First Search
+    Node chooseNextNode(Node current, Node target) // returns next viable node towards target
+    {
+	
+        Queue<Node> toVisit = new Queue<Node>(); // create a queue LIST called toVisit
+        HashSet<Node> popped = new HashSet<Node>(); // create a HashSet LIST called popped
+        Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(); // create a Dictionary LIST called cameFrom
+        if(current == target){
+            return null; // no movement needed, ghost is at target node
+        }
+	    toVisit.Enqueue(current);
+        popped.Add(current); // saw all the neighbours, crrnt node has been visited.
+        while (toVisit.Count > 0)
+        {
+            Node crrnt = toVisit.Dequeue(); // Dequeue() removes the most recent value inside Queue and outputs it, therefore holding it in Node "it")
+            if(crrnt == target){
+                Node step = target; // set step at the last node (end goal)
+                while (cameFrom[step] != current){ // check the links all the way back to current node
+                    step = cameFrom[step];
+                }
+                return step; // return the next step node towards target
+            }
+            foreach(Transform neighbourTransform in crrnt.neighbors){ // loop through neighbours
+                Node neighbour = neighbourTransform.GetComponent<Node>(); // convert Transform into Node
+                if(!popped.Contains(neighbour)) // node has not been checked!
+                {
+                    toVisit.Enqueue(neighbour); // add this neighbour to queue
+                    popped.Add(neighbour);
+                    cameFrom[neighbour] = crrnt; // neighbour Node exists and it came from crrnt
+                }
+            }
+        }
+        return null; // fallback, taget is unreachable
+    }
+    Node findNearestNode(Vector3 missionPosition) // returns closest node to target's position
+    {
+        Node nearest = null;
+        closestDistance = Mathf.Infinity;
+
+        foreach (Node node in NodesManager.allNodes)
+        {
+            float distance = Vector3.Distance(node.transform.position, missionPosition);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                nearest = node;
+            }
+        }
+
+        return nearest;
+    }
+    void Start()
+    {
+	    int i = 7;
+            node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
+    }
+    void Update()
+    {
+        if(targetNode != null){
+            Debug.Log(
+                "target node:"+targetNode.transform.position+
+                "ghostPos: "+transform.position+
+                "velocity: "+rb.linearVelocity
+            );
+        }
+        // Ghost's mission logic
+        if(tagged) // died, back to spawn
+        {
+            mission = spawn.position;
+        } 
+        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
+        {
+            mission = pacman.position;
+        }
+        else // feeling sick, pacman is powered up
+        {
+            Vector3 awayDirection = (transform.position - pacman.position).normalized;
+            mission = transform.position + awayDirection * 50f;
+        }
+
+        // Define target (next place to go, either node or smth else if airbone)
+        if(deciding == true) // go through next step logic
+        {
+            Node target = findNearestNode(mission); // get closest node to mission(current Target position)
+            Debug.Log(findNearestNode(mission).name);
+            targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
+            //Debug.Log("Next node: " + targetNode.name);
+            deciding = false;
+            moving = true;
+        }
+        // & direction
+        // check if node is a warp or not
+        if(targetNode == null)
+        {
+            moving = false;
+            deciding = true;
+        } else {
+            direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)
+            float disFromWarp = Vector3.Distance(transform.position, targetNode.transform.position);
+            if(targetNode.isWarp && disFromWarp > 50){
+                direction = (targetNode.transform.position + transform.position).normalized;
+            }
+        }
+
+        Debug.DrawLine(
+            transform.position,
+            mission,
+            Color.green,
+            0.2f,
+            false
+            );
+
+    }
 
     void FixedUpdate()
     {
         // Gravity
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
         
-        // Ghost movement logic
-        if(tagged){ // ghost died, go back to checkpoint
-            direction = new Vector3(20f,8f,-4f) - transform.position; // TOWARDS checkpoint
-            rb.AddForce(direction * speed/2, ForceMode.Force); // move ghost
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20); // cap velocity
-        } else if(!powerUp.poweredUP && !tagged){ // player is powered up
-            direction = target.position - transform.position; // direction TOWARDS target
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // cap velocity
-        } else { // ghost is sick
-            direction =  transform.position - target.position; // direction AWAY from target
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 15); // cap more, slow ghosts down
-            rb.AddForce(direction * speed, ForceMode.Force); // move ghost
-            rb.AddForce(Vector3.down * gravityStrength * 5, ForceMode.Acceleration);
-        } 
+        // Move
+        if (targetNode){
+            Vector3 a = transform.position;a.y=0;
+            Vector3 b = targetNode.transform.position;b.y=0;
+            if(moving && Vector3.Distance(a, b) < 6.0f){
+                moving = false;
+                deciding = true;
+                currentNode = targetNode; // reached the target node, change current to target 
+                closestDistance = Mathf.Infinity; // reset closest distance
+                
+            }
+            else if(moving)
+            {
+                rb.AddForce(direction * speed, ForceMode.Force); // move ghost
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 
-
+            }
+        }
         // ghost texture states
         if(tagged){
+            Debug.Log("Current node: "+currentNode);
+
+            if(targetNode){Debug.Log("target node: "+targetNode);}
+            Debug.Log("deciding: "+deciding);
+            Debug.Log("moving: "+moving);
             GetComponentInChildren<Renderer>().material = deadGhostMaterial;
         } else if(powerUp.poweredUP){
             GetComponentInChildren<Renderer>().material = sickGhostMaterial;
         } else {
             GetComponentInChildren<Renderer>().material = normalMaterial;
         }
-        
+
+       	// respawn logic 
         if(countdown && tagged && timeLeft > 0.0f){
             timeLeft -= Time.deltaTime;
         } else if(tagged && countdown){
@@ -54,27 +189,50 @@ public class Ghost : MonoBehaviour
             countdown = false;
             tagged = false;
         }
-        /*
+
+        // DEBUG
         Debug.DrawLine(
-            direction,
             transform.position,
+            transform.position+direction,
             Color.red,
-            0.02f,
+            0.1f,
             false
         );
-        */
+       	if(targetNode != null){
+		Debug.DrawLine(
+        	    transform.position,
+        	    targetNode.transform.position,
+        	    Color.blue,
+        	    0.1f,
+        	    false
+        	);
+	}
+        if(debugCount > 0){
+            debugCount -= Time.deltaTime;
+        } else if (moving){
+            Debug.Log(name+" IS MOVING");
+            //Debug.Log("distance from "+distance+" to "+target);
+            //Debug.Log("Direction: "+target);
+            debugCount = debugCounter;
+        } else if (deciding){
+            Debug.Log(name+" IS DECIDING");
+            //Debug.Log("distance from "+distance+" to "+target);
+            //Debug.Log("Current position: "+currentNode);
+            debugCount = debugCounter;
+        }
     }
+
+    // respawn logic
     void OnTriggerEnter(Collider other)
-    {
+    { // is inside spawn
         if(tagged && other.CompareTag("Spawn")){
-            Debug.Log("Spawning ghost "+name);
             countdown = true;
         }
     }
+
     void OnTriggerExit(Collider other)
-    {
+    { // exited spawn
         if(tagged && other.CompareTag("Spawn")){
-            Debug.Log(name+" left area! Reseting respawn time");
             countdown = false;
             timeLeft = reviveTime;
         }
