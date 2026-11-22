@@ -12,6 +12,7 @@ public class NodesManager : MonoBehaviour
 		allNodes = GetComponentsInChildren<Node>();
 
 	}	
+	/*
 	void OnDrawGizmos()
 	{
 		if(children == null){
@@ -29,4 +30,5 @@ public class NodesManager : MonoBehaviour
 			i+=1;
 		}
 	}
+	*/
 }

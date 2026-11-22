@@ -32,7 +32,7 @@ public class gameController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(true){
+        if(pointCount.noMorePoints){
             winText.SetActive(true);
             tyText.SetActive(true);
             Debug.Log("Game over!");
