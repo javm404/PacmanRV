@@ -14419,9 +14419,9 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1256065508822792734}
-  speed: 400
+  speed: 300
   gravityStrength: 2
-  maxSpeed: 100
+  maxSpeed: 300
   tagged: 1
   reviveTime: 2
   timeLeft: 0
@@ -17723,7 +17723,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 7406497983794571567}
-  speed: 350
+  speed: 250
   gravityStrength: 5
   maxSpeed: 200
   tagged: 1
@@ -25862,7 +25862,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 214837703137414873}
-  speed: 80
+  speed: 150
   gravityStrength: 10
   maxSpeed: 80
   tagged: 1
