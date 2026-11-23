@@ -13,7 +13,7 @@ public class PacmanMove : MonoBehaviour
     public Transform model;
     public float bumpStrength;
     public float gravityStrength;
-    Vector3 centerAxis;
+    static public Vector3 centerAxis;
     Vector3 directionR;
     Vector3 direction;
     float inputHr;
@@ -46,10 +46,11 @@ public class PacmanMove : MonoBehaviour
         inputVr = Input.GetAxisRaw("Vertical");
 	directionR = new Vector3(inputHr, 0, inputVr).normalized; // Get p. raw inpt
         direction = new Vector3(inputH, 0, inputV); // Get player input
+        centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
+	Debug.DrawLine(centerAxis, centerAxis + rb.linearVelocity, Color.red, 0.1f, false);
     }
     void FixedUpdate()
     {
-        centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
 
         // Gravity
         if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up

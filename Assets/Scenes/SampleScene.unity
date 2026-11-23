@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 177681231}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3297,9 +3297,9 @@ MonoBehaviour:
   m_Texture: {fileID: 8400000, guid: 77e69f5aebfe23e449e39b913dc84053, type: 2}
   m_UVRect:
     serializedVersion: 2
-    x: -0.2
+    x: 0
     y: 0
-    width: 1.4
+    width: 1
     height: 1
 --- !u!222 &1327196298
 CanvasRenderer:
@@ -3469,8 +3469,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Node
   neighbors:
-  - {fileID: 769333506}
-  - {fileID: 1049070869}
+  - {fileID: 1443940338}
+  - {fileID: 110365412}
   isWarp: 0
 --- !u!1 &1439683123
 GameObject:
@@ -14428,10 +14428,13 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 341e10c8d874ab94dbaaba81dd20a2b4, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
-  deciding: 1
-  moving: 0
+  state: 0
+  rise: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!23 &2977377477337807789
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17729,10 +17732,13 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 9d7df800a30966242ac449f122ac28c3, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
-  deciding: 1
-  moving: 0
+  state: 0
+  rise: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &4127263634340255082
 Transform:
   m_ObjectHideFlags: 0
@@ -20852,10 +20858,13 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 963843f9e3d7bba4ab3dadc93b261f82, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
-  deciding: 1
-  moving: 0
+  state: 0
+  rise: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &5251669738776053822
 Transform:
   m_ObjectHideFlags: 0
@@ -25862,10 +25871,13 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 489de73edad47a34f96211ab8d03137e, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
-  deciding: 1
-  moving: 0
+  state: 0
+  rise: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6951554893638012348
 GameObject:
   m_ObjectHideFlags: 0
