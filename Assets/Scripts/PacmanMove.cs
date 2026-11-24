@@ -14,6 +14,7 @@ public class PacmanMove : MonoBehaviour
     public float bumpStrength;
     public float gravityStrength;
     static public Vector3 centerAxis;
+    public float pushForce = 80.0f;
     Vector3 directionR;
     Vector3 direction;
     float inputHr;
@@ -108,6 +109,9 @@ public class PacmanMove : MonoBehaviour
             Vector3 bumpDirection = collision.contacts[0].normal;
             rb.AddForce(bumpDirection * bumpStrength, ForceMode.Force);
         }
+      	if(collision.gameObject.CompareTag("Ghost")){
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(direction * pushForce, ForceMode.Impulse);
+      	}
     }
     // DEBUG
     void OnDrawGizmos() {

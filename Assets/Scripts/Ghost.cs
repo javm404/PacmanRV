@@ -159,7 +159,7 @@ public class Ghost : MonoBehaviour
             }
         }
 	// Attack behaviour
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 60.0f && !tagged && name == "REDghost")
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 35.0f && !tagged && name == "REDghost" && !tagged)
 	{
 		// Red ghost only!! (he is more agressive)
 		state = ghostState.attacking;
@@ -198,6 +198,8 @@ public class Ghost : MonoBehaviour
 		RaycastHit hit2;
 		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
 			//Debug.Log("target node is behind a wall");	
+	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+		} else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
 	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
 		}
 	}
@@ -242,6 +244,8 @@ public class Ghost : MonoBehaviour
         if(tagged && other.CompareTag("Spawn")){
             countdown = false;
             timeLeft = reviveTime;
+	    state = ghostState.deciding;
         }
+	
     }
 }
