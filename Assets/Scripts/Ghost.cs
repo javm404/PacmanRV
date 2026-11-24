@@ -20,27 +20,32 @@ public class Ghost : MonoBehaviour
     public Material normalMaterial;
     public Material deadGhostMaterial;
     public Material sickGhostMaterial;
-    //public enum ghostState { deciding, moving }
-    //public ghostState state;
-    public bool deciding = true;
-    public bool moving = false;
+    public enum ghostState { deciding, moving, attacking, tackling }
+    public float tackleDelay = 2.5f;
+    public float tackleCount;
+    public bool airbone;
+    public ghostState state;
+    public bool rise = false;
+    public bool outOfSpawn = false;
     public Node currentNode;
     public Node targetNode;
     float closestDistance = Mathf.Infinity;
     Node node;
     float debugCounter = 1.0f;
     float debugCount = 0.0f;
+    public LayerMask wallLayer;
+    public GameObject orangeSpots;
+    public bool retreating = false;
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
-	
         Queue<Node> toVisit = new Queue<Node>(); // create a queue LIST called toVisit
         HashSet<Node> popped = new HashSet<Node>(); // create a HashSet LIST called popped
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(); // create a Dictionary LIST called cameFrom
         if(current == target){
             return null; // no movement needed, ghost is at target node
         }
-	    toVisit.Enqueue(current);
+	toVisit.Enqueue(current);
         popped.Add(current); // saw all the neighbours, crrnt node has been visited.
         while (toVisit.Count > 0)
         {
@@ -85,47 +90,43 @@ public class Ghost : MonoBehaviour
     {
 	    int i = 7;
             node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
+	    tackleCount = tackleDelay; 
     }
     void Update()
     {
-        if(targetNode != null){
-            Debug.Log(
-                "target node:"+targetNode.transform.position+
-                "ghostPos: "+transform.position+
-                "velocity: "+rb.linearVelocity
-            );
-        }
-        // Ghost's mission logic
+        // deinfe mission
         if(tagged) // died, back to spawn
         {
             mission = spawn.position;
         } 
-        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
+        else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
         {
-            mission = pacman.position;
+		if(name != "PINKghost"){
+			mission = PacmanMove.centerAxis;
+		} else {
+			mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
+		}
         }
         else // feeling sick, pacman is powered up
         {
             Vector3 awayDirection = (transform.position - pacman.position).normalized;
             mission = transform.position + awayDirection * 50f;
         }
-
+	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
-        if(deciding == true) // go through next step logic
+        if(state == ghostState.deciding) // go through next step logic
         {
             Node target = findNearestNode(mission); // get closest node to mission(current Target position)
-            Debug.Log(findNearestNode(mission).name);
+            //Debug.Log(findNearestNode(mission).name);
             targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
             //Debug.Log("Next node: " + targetNode.name);
-            deciding = false;
-            moving = true;
+            state = ghostState.moving;
         }
         // & direction
         // check if node is a warp or not
         if(targetNode == null)
         {
-            moving = false;
-            deciding = true;
+		state = ghostState.deciding;
         } else {
             direction = (targetNode.transform.position - transform.position).normalized; // if target is at 10 and im at 0, i need to walk 10 steps [target(10) - t.p(0) = 10)
             float disFromWarp = Vector3.Distance(transform.position, targetNode.transform.position);
@@ -141,44 +142,66 @@ public class Ghost : MonoBehaviour
             0.2f,
             false
             );
-
+	// check if airbone
+	if(transform.position.y < 50.0f){
+		airbone = false;
+	} else {
+		airbone = true;
+	}
     }
 
     void FixedUpdate()
     {
         // Gravity
-        rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
-        
+	if(airbone == true && name != "PINKghost" && name != "GREENghost"){
+        	rb.AddForce(Vector3.down * gravityStrength * 2.5f, ForceMode.Acceleration);
+	} else if(powerUp.poweredUP && airbone) { // force ghost grounded when sick
+        	rb.AddForce(Vector3.down * gravityStrength * 30f, ForceMode.Acceleration);
+	} else {
+        	rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
+	}
         // Move
-        if (targetNode){
+        if(targetNode){
             Vector3 a = transform.position;a.y=0;
             Vector3 b = targetNode.transform.position;b.y=0;
-            if(moving && Vector3.Distance(a, b) < 6.0f){
-                moving = false;
-                deciding = true;
+            if(state == ghostState.moving && Vector3.Distance(a, b) < 6.0f){
+		state = ghostState.deciding;
                 currentNode = targetNode; // reached the target node, change current to target 
                 closestDistance = Mathf.Infinity; // reset closest distance
-                
             }
-            else if(moving)
+            else if(state == ghostState.moving)
             {
                 rb.AddForce(direction * speed, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 
             }
         }
+	// Attack behaviour
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+	{
+		// Red ghost only!! (he is more agressive)
+		state = ghostState.attacking;
+		direction = PacmanMove.centerAxis - transform.position;
+                rb.AddForce(direction * 10, ForceMode.Force); // move ghost
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
+		// all the other ghosts
+		state = ghostState.attacking;
+		direction = PacmanMove.centerAxis - transform.position;
+                rb.AddForce(direction * 5, ForceMode.Force); // move ghost
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+	} else if(state == ghostState.attacking) {
+		currentNode = findNearestNode(transform.position);//reset current node
+		state = ghostState.deciding;
+	}
+
         // ghost texture states
         if(tagged){
-            Debug.Log("Current node: "+currentNode);
-
-            if(targetNode){Debug.Log("target node: "+targetNode);}
-            Debug.Log("deciding: "+deciding);
-            Debug.Log("moving: "+moving);
-            GetComponentInChildren<Renderer>().material = deadGhostMaterial;
+		GetComponentInChildren<Renderer>().material = deadGhostMaterial;
         } else if(powerUp.poweredUP){
-            GetComponentInChildren<Renderer>().material = sickGhostMaterial;
+            	GetComponentInChildren<Renderer>().material = sickGhostMaterial;
         } else {
-            GetComponentInChildren<Renderer>().material = normalMaterial;
+            	GetComponentInChildren<Renderer>().material = normalMaterial;
         }
 
        	// respawn logic 
@@ -189,12 +212,93 @@ public class Ghost : MonoBehaviour
             countdown = false;
             tagged = false;
         }
+	if(tagged){
+		Debug.Log("targetNode "+targetNode);
+		Debug.Log("state "+state);
+		Debug.Log("currentNode "+currentNode);
+	}
+	if(outOfSpawn && state == ghostState.deciding){
+		Debug.Log("currentNode updated!");
+	    	currentNode = findNearestNode(transform.position);
 
+	}
+	// Fallback for if targetNode is behind a wall
+	if(targetNode){
+		RaycastHit hit2;
+		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
+			//Debug.Log("target node is behind a wall");	
+	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+		} else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
+	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+		}
+	}
+
+	// Individuality
+	if(name == "REDghost")
+	{
+		if(state == ghostState.attacking){
+			RaycastHit hit;
+			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
+				Debug.Log("Mission is behing a wall!");	
+        	        	rb.AddForce(Vector3.up * 400, ForceMode.Force); // move ghost
+			}
+		}
+	} 
+	else if (name == "GREENghost")
+	{
+		if(airbone == true){ // triple green ghost's gravity when thrown upwards
+        		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
+		}
+	}
+	else if (name == "PINKghost")
+	{
+		if(airbone == true){
+        		rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
+			state = ghostState.tackling;
+		}
+		if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f){
+			if(tackleCount > 0){
+				direction = Vector3.zero;
+				tackleCount -= Time.deltaTime;
+			} else {
+				direction = PacmanMove.centerAxis - transform.position;
+                		rb.AddForce(direction * 0.2f, ForceMode.Impulse); // move ghost
+				Debug.Log("TACKLE");
+        			rb.AddForce(Vector3.down * gravityStrength * 20f, ForceMode.Acceleration);
+			}
+		} else if(state == ghostState.tackling) {
+			currentNode = findNearestNode(transform.position);
+			state = ghostState.deciding;
+			tackleCount = tackleDelay;
+		}
+	}
+	else if (name == "ORANGEghost")
+	{
+		Transform closest = null;
+		float minDist = Mathf.Infinity;
+		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 50f)
+		{
+			Debug.Log("invading personal space!");
+			// evaluate closest border spot
+			foreach (Transform spot in orangeSpots.transform)
+			{
+				float dist = Vector3.Distance(transform.position, spot.position);
+				if(dist < minDist)
+				{
+					minDist = dist;
+					closest = spot;
+				}
+			}
+			// define closest as mission
+			mission = closest.position;
+			retreating = true;
+		}
+	}
         // DEBUG
         Debug.DrawLine(
             transform.position,
             transform.position+direction,
-            Color.red,
+            Color.yellow,
             0.1f,
             false
         );
@@ -207,19 +311,6 @@ public class Ghost : MonoBehaviour
         	    false
         	);
 	}
-        if(debugCount > 0){
-            debugCount -= Time.deltaTime;
-        } else if (moving){
-            Debug.Log(name+" IS MOVING");
-            //Debug.Log("distance from "+distance+" to "+target);
-            //Debug.Log("Direction: "+target);
-            debugCount = debugCounter;
-        } else if (deciding){
-            Debug.Log(name+" IS DECIDING");
-            //Debug.Log("distance from "+distance+" to "+target);
-            //Debug.Log("Current position: "+currentNode);
-            debugCount = debugCounter;
-        }
     }
 
     // respawn logic
@@ -227,14 +318,21 @@ public class Ghost : MonoBehaviour
     { // is inside spawn
         if(tagged && other.CompareTag("Spawn")){
             countdown = true;
+	    outOfSpawn = false;
         }
+	if(other.CompareTag("OrangeSpot") && retreating){
+		retreating = false;
+		state = ghostState.deciding;
+	}
     }
-
     void OnTriggerExit(Collider other)
     { // exited spawn
         if(tagged && other.CompareTag("Spawn")){
             countdown = false;
             timeLeft = reviveTime;
+	    state = ghostState.deciding;
+	    outOfSpawn = true;
+
         }
     }
 }
