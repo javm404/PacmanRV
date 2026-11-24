@@ -31978,7 +31978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a1959db8149f84d95c3346be84671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::deathBehaviour
-  active: 0
+  active: 1
 --- !u!136 &8808005236468994959
 CapsuleCollider:
   m_ObjectHideFlags: 0
