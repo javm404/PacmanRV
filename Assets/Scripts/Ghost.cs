@@ -136,7 +136,6 @@ public class Ghost : MonoBehaviour
     void FixedUpdate()
     {
         // Gravity
-	
         rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
 //	Vector3 aY = PacmanMove.centerAxis;aY.z=0;aY.x=0; Vector3 bY = transform.position;bY.z=0;bY.x=0;
 //	if(state == ghostState.attacking && Vector3.Distance(aY,bY) > 1.0f){
@@ -168,7 +167,8 @@ public class Ghost : MonoBehaviour
                 rb.AddForce(direction * 10, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 		
-	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 6.5f && !tagged){
+	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 15.0f && !tagged){
+		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
                 rb.AddForce(direction * 10, ForceMode.Force); // move ghost
@@ -197,7 +197,7 @@ public class Ghost : MonoBehaviour
 	if(targetNode){
 		RaycastHit hit2;
 		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
-			Debug.Log("target node is behind a wall");	
+			//Debug.Log("target node is behind a wall");	
 	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
 		}
 	}
@@ -207,7 +207,7 @@ public class Ghost : MonoBehaviour
 	{
 		RaycastHit hit;
 		if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
-			Debug.Log("Mission is behing a wall!");	
+			//Debug.Log("Mission is behing a wall!");	
                 	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
 		}
 	}

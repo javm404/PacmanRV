@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,37 +12,63 @@ public class BoardRotate : MonoBehaviour
     public float rotateAmnt = 5f;
     public float maxAngle = 30f;
     public static bool rotatingBoard = false;
+    // gamepad
+    private InputAction RotateBoard;
+    private Vector2 stickInpt;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
     }
+    // avoid input leakage
+    void OnEnable()
+    {
+	    InputSystem.actions.FindActionMap("Player").Enable();
+    }
+    void OnDisable()
+    {
+	    InputSystem.actions.FindActionMap("Player").Disable();
+    }
+    // gamepad input too
+    void Awake()
+    {
+    	RotateBoard = InputSystem.actions.FindAction("RotateBoard");
+	stickInpt = RotateBoard.ReadValue<Vector2>();
+    }
+    void Update()
+    {
+    }
+    // keyboard input
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){
+	stickInpt = RotateBoard.ReadValue<Vector2>();
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || stickInpt != Vector2.zero){
             rotatingBoard = true;
-            if (Input.GetKey(KeyCode.W)){
+	    
+            // keyboard
+	    if (Input.GetKey(KeyCode.W)){
                 xAngle +=rotateAmnt;
-                //Quaternion delta = Quaternion.Euler(1 * Vector3.right);
-                //rb.MoveRotation(rb.rotation * delta);
             }
             if (Input.GetKey(KeyCode.S)){
                 xAngle -=rotateAmnt;
-                //Quaternion delta = Quaternion.Euler(-1 * Vector3.right);
-                //rb.MoveRotation(rb.rotation * delta);
             }
             if (Input.GetKey(KeyCode.D)){
                 zAngle -=rotateAmnt;
-                //Quaternion delta = Quaternion.Euler(1 * Vector3.back);
-                //rb.MoveRotation(rb.rotation * delta);
             }
             if (Input.GetKey(KeyCode.A)){
                 zAngle +=rotateAmnt;
-                //Quaternion delta = Quaternion.Euler(-1 * Vector3.back);
-                //rb.MoveRotation(rb.rotation * delta);
             }
+
+	    // gamepad logic
+	    if(stickInpt != Vector2.zero){
+	    	zAngle -=rotateAmnt*stickInpt.x;
+	    	xAngle +=rotateAmnt*stickInpt.y;
+	    }
+
             // apply clamp
             xAngle = Mathf.Clamp(xAngle, -maxAngle, maxAngle);
             zAngle = Mathf.Clamp(zAngle, -maxAngle, maxAngle);
+	    
             // apply rotation
             Quaternion trgtRotation = Quaternion.Euler(xAngle,0,zAngle);
             rb.MoveRotation(trgtRotation);
@@ -52,8 +79,9 @@ public class BoardRotate : MonoBehaviour
             if(xAngle != 0){
                 xAngle = Mathf.MoveTowards(xAngle, 0, 2);
             }
+
             // apply rotation
-            Quaternion trgtRotation = Quaternion.Euler(xAngle,0,zAngle);
+	    Quaternion trgtRotation = Quaternion.Euler(xAngle,0,zAngle);
             rb.MoveRotation(trgtRotation);
         }
         if(transform.eulerAngles == Vector3.zero){

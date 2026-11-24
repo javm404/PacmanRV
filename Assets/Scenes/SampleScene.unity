@@ -3297,9 +3297,9 @@ MonoBehaviour:
   m_Texture: {fileID: 8400000, guid: 77e69f5aebfe23e449e39b913dc84053, type: 2}
   m_UVRect:
     serializedVersion: 2
-    x: 0
+    x: 0.1
     y: 0
-    width: 1
+    width: 0.8
     height: 1
 --- !u!222 &1327196298
 CanvasRenderer:
@@ -29864,8 +29864,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardRotate
   rb: {fileID: 2647601287916104691}
-  rotateAmnt: 2
-  maxAngle: 30
+  rotateAmnt: 3
+  maxAngle: 33
 --- !u!33 &8170197253533088582
 MeshFilter:
   m_ObjectHideFlags: 0

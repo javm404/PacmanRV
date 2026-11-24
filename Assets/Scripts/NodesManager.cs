@@ -18,6 +18,7 @@ public class NodesManager : MonoBehaviour
 		if(children == null){
 			children = GetComponentsInChildren<Transform>();
 		}
+		/*
 		Gizmos.color = Color.orange;
 		foreach(Transform t in children){
 			if(i == 0){
@@ -29,6 +30,7 @@ public class NodesManager : MonoBehaviour
 			}
 			i+=1;
 		}
+		*/
 	}
 	
 }
