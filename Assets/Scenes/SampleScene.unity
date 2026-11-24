@@ -7243,7 +7243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &471428126395999914
 GameObject:
   m_ObjectHideFlags: 0
@@ -14411,7 +14411,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1256065508822792734}
-  speed: 300
+  speed: 420
   gravityStrength: 40
   maxSpeed: 300
   tagged: 1
@@ -17725,7 +17725,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 7406497983794571567}
-  speed: 250
+  speed: 330
   gravityStrength: 40
   maxSpeed: 200
   tagged: 1
@@ -18816,7 +18816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &4476997114475487171
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20865,7 +20865,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1042212096264605864}
-  speed: 300
+  speed: 400
   gravityStrength: 40
   maxSpeed: 200
   tagged: 1
@@ -25033,7 +25033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &6608334247282548137
 GameObject:
   m_ObjectHideFlags: 0
@@ -25872,7 +25872,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 214837703137414873}
-  speed: 150
+  speed: 200
   gravityStrength: 40
   maxSpeed: 80
   tagged: 1

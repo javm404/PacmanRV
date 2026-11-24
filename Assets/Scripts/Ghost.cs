@@ -109,8 +109,12 @@ public class Ghost : MonoBehaviour
         {
             if(name != "PINKghost"){
                 mission = PacmanMove.centerAxis;
-            } else {
-                mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
+            } else { // apply only on pink ghost
+                if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 60.0f){
+                    mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
+                }else{
+                    mission = PacmanMove.centerAxis;
+                }
             }
         }
         else if(retreating)
@@ -326,6 +330,17 @@ public class Ghost : MonoBehaviour
             state = ghostState.deciding;
         }
 	}
+    else if(name == "GREENghost")
+    {
+        // pick a random point
+
+        // check closest node to that point
+
+        //set that node as the mission
+
+        // after arriving pick another
+    }
+    // end of individual ghosts logic
         // DEBUG
         Debug.DrawLine(
             transform.position,
