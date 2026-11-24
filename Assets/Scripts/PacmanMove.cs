@@ -13,7 +13,8 @@ public class PacmanMove : MonoBehaviour
     public Transform model;
     public float bumpStrength;
     public float gravityStrength;
-    Vector3 centerAxis;
+    static public Vector3 centerAxis;
+    static public Rigidbody pacmanRb;
     Vector3 directionR;
     Vector3 direction;
     float inputHr;
@@ -26,7 +27,7 @@ public class PacmanMove : MonoBehaviour
     public float groundCheckRadius = 7.0f;
     bool grounded()
     {
- 	return Physics.OverlapSphere(centerAxis + Vector3.down * groundCheckDistance, groundCheckRadius, groundLayer).Length > 0; // Physics.OverlapSphere returns an Array of information on the object it hit, if there's something it the array (if > 0) then it hit something! :D
+ 	    return Physics.OverlapSphere(centerAxis + Vector3.down * groundCheckDistance, groundCheckRadius, groundLayer).Length > 0; // Physics.OverlapSphere returns an Array of information on the object it hit, if there's something it the array (if > 0) then it hit something! :D
     } 	
     public bool instantStop = true;
     /*
@@ -36,6 +37,7 @@ public class PacmanMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pacmanRb = rb;
     }
     void Update(){
         // get player input loose
