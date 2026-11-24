@@ -14,6 +14,7 @@ public class PacmanMove : MonoBehaviour
     public float bumpStrength;
     public float gravityStrength;
     static public Vector3 centerAxis;
+    static public Rigidbody pacmanRb;
     public float pushForce = 80.0f;
     Vector3 directionR;
     Vector3 direction;
@@ -37,6 +38,7 @@ public class PacmanMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+	pacmanRb = rb;
     }
     void Update(){
         // get player input loose
@@ -48,7 +50,7 @@ public class PacmanMove : MonoBehaviour
 	directionR = new Vector3(inputHr, 0, inputVr).normalized; // Get p. raw inpt
         direction = new Vector3(inputH, 0, inputV); // Get player input
         centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
-	Debug.DrawLine(centerAxis, centerAxis + rb.linearVelocity, Color.red, 0.1f, false);
+	Debug.DrawLine(centerAxis, centerAxis + rb.linearVelocity, Color.pink, 0.1f, false);
     }
     void FixedUpdate()
     {

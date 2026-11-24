@@ -14420,7 +14420,7 @@ MonoBehaviour:
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1256065508822792734}
   speed: 300
-  gravityStrength: 2
+  gravityStrength: 40
   maxSpeed: 300
   tagged: 1
   reviveTime: 6
@@ -14428,8 +14428,12 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 341e10c8d874ab94dbaaba81dd20a2b4, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
+  tackleDelay: 5
+  tackleCount: 0
+  airbone: 0
   state: 0
   rise: 0
+  outOfSpawn: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
   wallLayer:
@@ -17724,7 +17728,7 @@ MonoBehaviour:
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 7406497983794571567}
   speed: 250
-  gravityStrength: 5
+  gravityStrength: 40
   maxSpeed: 200
   tagged: 1
   reviveTime: 6
@@ -17732,8 +17736,12 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 9d7df800a30966242ac449f122ac28c3, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
+  tackleDelay: 5
+  tackleCount: 0
+  airbone: 0
   state: 0
   rise: 0
+  outOfSpawn: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
   wallLayer:
@@ -20850,7 +20858,7 @@ MonoBehaviour:
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1042212096264605864}
   speed: 300
-  gravityStrength: 5
+  gravityStrength: 40
   maxSpeed: 200
   tagged: 1
   reviveTime: 6
@@ -20858,8 +20866,12 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 963843f9e3d7bba4ab3dadc93b261f82, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
+  tackleDelay: 5
+  tackleCount: 0
+  airbone: 0
   state: 0
   rise: 0
+  outOfSpawn: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
   wallLayer:
@@ -23717,9 +23729,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PacmanMove
   rb: {fileID: 2647601287916104691}
   speed: 50
-  groundedSpeed: 360
+  groundedSpeed: 340
   maxSpeed: 1000
-  groundedMaxSpeed: 300
+  groundedMaxSpeed: 1000
   model: {fileID: 3417558273806709895}
   bumpStrength: 200
   gravityStrength: 350
@@ -25864,7 +25876,7 @@ MonoBehaviour:
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 214837703137414873}
   speed: 150
-  gravityStrength: 10
+  gravityStrength: 40
   maxSpeed: 80
   tagged: 1
   reviveTime: 6
@@ -25872,8 +25884,12 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 489de73edad47a34f96211ab8d03137e, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
+  tackleDelay: 5
+  tackleCount: 0
+  airbone: 0
   state: 0
   rise: 0
+  outOfSpawn: 0
   currentNode: {fileID: 747665882}
   targetNode: {fileID: 0}
   wallLayer:
