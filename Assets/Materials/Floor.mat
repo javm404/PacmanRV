@@ -14,9 +14,12 @@ Material:
   m_ValidKeywords:
   - _EMISSION
 <<<<<<< HEAD
+<<<<<<< HEAD
   - _SPECULAR_SETUP
 =======
 >>>>>>> dev
+=======
+>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
   m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
@@ -117,12 +120,18 @@ Material:
     - _ScreenSpaceReflections: 1
     - _ScreenSpaceReflectionsContributeTransparent: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
     - _Smoothness: 0
 =======
     - _Shininess: 0
     - _Smoothness: 0.071
     - _SmoothnessSource: 0
 >>>>>>> dev
+=======
+    - _Shininess: 0
+    - _Smoothness: 0.071
+    - _SmoothnessSource: 0
+>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
     - _SpecularHighlights: 1

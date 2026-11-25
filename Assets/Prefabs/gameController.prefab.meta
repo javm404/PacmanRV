@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/gameController.prefab.meta
 guid: 0598dc36f72363e4da36f86aacdd9ed5
 PrefabImporter:
+========
+guid: 57e827dc01233310e95813baf23ccfe7
+DefaultImporter:
+>>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt):Assets/Scenes/SampleSceneBACKUP.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

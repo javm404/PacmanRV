@@ -228,7 +228,11 @@ public class Ghost : MonoBehaviour
         }
 	// Attack behaviour
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+=======
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
 	{
 		// Red ghost only!! (he is more agressive)
 		state = ghostState.attacking;
@@ -241,17 +245,24 @@ public class Ghost : MonoBehaviour
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
                 rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
+<<<<<<< HEAD
 >>>>>>> dev
+=======
+>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
 <<<<<<< HEAD
+<<<<<<< HEAD
                 rb.AddForce(direction * 5, ForceMode.Force); // move ghost
 =======
                 rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
 >>>>>>> dev
+=======
+                rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
+>>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
