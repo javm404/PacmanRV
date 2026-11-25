@@ -207,7 +207,7 @@ public class Ghost : MonoBehaviour
 		direction = PacmanMove.centerAxis - transform.position;
                 rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
-	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
+	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling && !retreating){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
@@ -292,6 +292,7 @@ public class Ghost : MonoBehaviour
 	else if (name == "ORANGEghost")
 	{
 		float minDist = Mathf.Infinity;
+		Debug.Log("dist: " + Vector3.Distance(transform.position, PacmanMove.centerAxis));
 		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 55f)
 		{
 			Debug.Log("oh no! invading personal space!");
@@ -312,6 +313,7 @@ public class Ghost : MonoBehaviour
             		if(!retreating){
 			    mission = closestSpot.position;
             		}
+Debug.Log("retreating=true, mission=" + mission + " closestSpot=" + (closestSpot ? closestSpot.name : "null"));
 			retreating = true;
 		}
         	if(closestSpot){
@@ -323,6 +325,7 @@ public class Ghost : MonoBehaviour
         	        false
         	    );
         	}
+		Debug.Log("retreat check - retreating:"+retreating+" retreatCount:"+retreatCount+" inRetreat:"+inRetreat);
         	// retreat logic
         	if (retreating && retreatCount < retreatAmnt && inRetreat){
         	    retreatCount += Time.deltaTime;
