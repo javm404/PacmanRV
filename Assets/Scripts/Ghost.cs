@@ -157,7 +157,7 @@ public class Ghost : MonoBehaviour
             false
             );
 	// check if airbone
-	if(transform.position.y < 50.0f){
+	if(transform.position.y < 60.0f){
 		airbone = false;
 	} else {
 		airbone = true;
@@ -193,16 +193,16 @@ public class Ghost : MonoBehaviour
 	// Attack behaviour
 	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
 	{
-		// Red ghost only!! (he is more agressive)
+		// Red attack! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 10, ForceMode.Force); // move ghost
+                rb.AddForce(direction * 18f, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 5, ForceMode.Force); // move ghost
+                rb.AddForce(direction * 15f, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
@@ -254,7 +254,7 @@ public class Ghost : MonoBehaviour
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
 				Debug.Log("Mission is behing a wall!");	
-        	        	rb.AddForce(Vector3.up * 400, ForceMode.Force); // move ghost
+        	        	rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
 			}
 		}
 	} 

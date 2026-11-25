@@ -56,7 +56,7 @@ public class PacmanMove : MonoBehaviour
         // Gravity
         if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up
             Debug.Log("going up!");
-            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * gravityStrength * 2f, ForceMode.Acceleration);
         } else if(!grounded()){ // going down
             Debug.Log("going down");
             rb.AddForce(Vector3.down * gravityStrength * 3f, ForceMode.Acceleration);
