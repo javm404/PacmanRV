@@ -15,6 +15,7 @@ public class PacmanMove : MonoBehaviour
     public float gravityStrength;
     static public Vector3 centerAxis;
     static public Rigidbody pacmanRb;
+    public float pushForce = 80.0f;
     Vector3 directionR;
     Vector3 direction;
     float inputHr;
@@ -27,7 +28,7 @@ public class PacmanMove : MonoBehaviour
     public float groundCheckRadius = 7.0f;
     bool grounded()
     {
- 	    return Physics.OverlapSphere(centerAxis + Vector3.down * groundCheckDistance, groundCheckRadius, groundLayer).Length > 0; // Physics.OverlapSphere returns an Array of information on the object it hit, if there's something it the array (if > 0) then it hit something! :D
+ 	return Physics.OverlapSphere(centerAxis + Vector3.down * groundCheckDistance, groundCheckRadius, groundLayer).Length > 0; // Physics.OverlapSphere returns an Array of information on the object it hit, if there's something it the array (if > 0) then it hit something! :D
     } 	
     public bool instantStop = true;
     /*
@@ -37,7 +38,7 @@ public class PacmanMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pacmanRb = rb;
+	pacmanRb = rb;
     }
     void Update(){
         // get player input loose
@@ -48,15 +49,16 @@ public class PacmanMove : MonoBehaviour
         inputVr = Input.GetAxisRaw("Vertical");
 	directionR = new Vector3(inputHr, 0, inputVr).normalized; // Get p. raw inpt
         direction = new Vector3(inputH, 0, inputV); // Get player input
+        centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
+	Debug.DrawLine(centerAxis, centerAxis + rb.linearVelocity, Color.pink, 0.1f, false);
     }
     void FixedUpdate()
     {
-        centerAxis = GetComponent<BoxCollider>().transform.TransformPoint(GetComponent<BoxCollider>().center);
 
         // Gravity
         if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up
             Debug.Log("going up!");
-            rb.AddForce(Vector3.down * gravityStrength * 2f, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
         } else if(!grounded()){ // going down
             Debug.Log("going down");
             rb.AddForce(Vector3.down * gravityStrength * 3f, ForceMode.Acceleration);
@@ -71,7 +73,7 @@ public class PacmanMove : MonoBehaviour
                 //Debug.Log("Grounded");
                 // define damping level
                 if(BoardRotate.rotatingBoard){
-                    rb.linearDamping = 2f;
+                    rb.linearDamping = 1f;
                 } else {
                     rb.linearDamping = 5f;
                 }
@@ -109,6 +111,9 @@ public class PacmanMove : MonoBehaviour
             Vector3 bumpDirection = collision.contacts[0].normal;
             rb.AddForce(bumpDirection * bumpStrength, ForceMode.Force);
         }
+      	if(collision.gameObject.CompareTag("Ghost")){
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(direction * pushForce, ForceMode.Impulse);
+      	}
     }
     // DEBUG
     void OnDrawGizmos() {

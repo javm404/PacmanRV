@@ -682,7 +682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &259051100
 Transform:
   m_ObjectHideFlags: 0
@@ -738,8 +738,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 0.8962264, g: 0.76349866, b: 0.30860624, a: 0.3529412}
-  m_Intensity: 13954
-  m_Range: 482.5
+  m_Intensity: 3506
+  m_Range: 85.6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -8556,7 +8556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &920375538073476090
 Transform:
   m_ObjectHideFlags: 0
@@ -14441,7 +14441,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1256065508822792734}
-  speed: 420
+  speed: 400
   gravityStrength: 140
   maxSpeed: 300
   tagged: 1
@@ -20895,7 +20895,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 1042212096264605864}
-  speed: 400
+  speed: 460
   gravityStrength: 40
   maxSpeed: 200
   tagged: 1
@@ -23773,12 +23773,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PacmanMove
   rb: {fileID: 2647601287916104691}
   speed: 50
-  groundedSpeed: 340
-  maxSpeed: 300
-  groundedMaxSpeed: 250
+  groundedSpeed: 300
+  maxSpeed: 96.6
+  groundedMaxSpeed: 120
   model: {fileID: 3417558273806709895}
   bumpStrength: 200
   gravityStrength: 350
+  pushForce: 160
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -26550,7 +26551,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.68
+  m_Radius: 0.8
   m_Height: 2.23
   m_Direction: 1
   m_Center: {x: 0, y: -0.5, z: 0}
@@ -27317,7 +27318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &7477172162238050282
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -27764,7 +27765,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.68
+  m_Radius: 0.8
   m_Height: 2.23
   m_Direction: 1
   m_Center: {x: -0.21, y: -0.5, z: 0}
@@ -29301,7 +29302,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.68
+  m_Radius: 0.8
   m_Height: 2.23
   m_Direction: 1
   m_Center: {x: 0.45, y: -0.5, z: 0}
@@ -30425,7 +30426,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.68
+  m_Radius: 0.8
   m_Height: 2.23
   m_Direction: 1
   m_Center: {x: -0.26, y: -0.5, z: 0}
