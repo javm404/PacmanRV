@@ -15,8 +15,8 @@ public class pointSystem : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Point")){
             totalPoints++;
-            Destroy(collision.gameObject);
-	    points.Remove(collision.gameObject.transform); // remove touched point from list
+	        points.Remove(collision.gameObject.transform); // remove touched point from list
+            Destroy(collision.gameObject); // THEN destroy it
             //Debug.Log("Point hit! Total points: "+totalPoints);
         }
     }

@@ -12,6 +12,7 @@ TagManager:
   - Ground
   - Spawn
   - OrangeSpot
+  - life
   layers:
   - Default
   - TransparentFX

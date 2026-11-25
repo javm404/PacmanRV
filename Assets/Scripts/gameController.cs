@@ -19,7 +19,7 @@ public class gameController : MonoBehaviour
     public float y2;
     public float delay = 1.0f;
     public bool shine = false;
-
+    public static bool win = false;
     void Start()
     {
         y = walls.position.y;
@@ -34,6 +34,7 @@ public class gameController : MonoBehaviour
     void FixedUpdate()
     {
         if(pointCount.noMorePoints){
+            win = true;
             pacman.GetComponent<deathBehaviour>().active = false;
             winText.SetActive(true);
             tyText.SetActive(true);

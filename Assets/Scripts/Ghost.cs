@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Ghost : MonoBehaviour
+public class Ghost : GhostBase
 {
     public Transform pacman;
     public Transform spawn;
@@ -11,7 +11,7 @@ public class Ghost : MonoBehaviour
     public float speed; 
     public float gravityStrength;
     public float maxSpeed = 80f;
-    public bool tagged = false;
+    // REMOVED: public bool tagged = false; (now in GhostBase)
     public float reviveTime = 4.0f;
     public float timeLeft; 
     bool countdown = false;
@@ -20,11 +20,11 @@ public class Ghost : MonoBehaviour
     public Material normalMaterial;
     public Material deadGhostMaterial;
     public Material sickGhostMaterial;
-    public enum ghostState { deciding, moving, attacking, tackling }
+    // REMOVED: public enum ghostState { deciding, moving, attacking, tackling } (now in GhostBase)
     public float tackleDelay = 2.5f;
     public float tackleCount;
     public bool airbone;
-    public ghostState state;
+    // REMOVED: public ghostState state; (now in GhostBase)
     public bool rise = false;
     public bool outOfSpawn = false;
     public Node currentNode;
@@ -111,29 +111,30 @@ public class Ghost : MonoBehaviour
         {
             if(name != "PINKghost" && name != "GREENghost"){
                 mission = PacmanMove.centerAxis;
-            } else if(name != "GREENghost") { // apply only on pink ghost
+            } else if(name == "PINKghost") { // apply only on pink ghost
                 if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 60.0f){
                     mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
                 }else{
                     mission = PacmanMove.centerAxis;
                 }
             }
-	    if(trgtPoint == null && name == "GREENghost"){
-		trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-		mission = findNearestNode(trgtPoint.position).transform.position;
-	    }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
-	    	trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-		mission = findNearestNode(trgtPoint.position).transform.position;
-	    }
         }
         else if(retreating)
         {
             mission = closestSpot.position;
         }
-        else // feeling sick, pacman is powered up
+        else if(name != "GREENghost") // feeling sick, pacman is powered up
         {
             Vector3 awayDirection = (transform.position - pacman.position).normalized;
             mission = transform.position + awayDirection * 50f;
+        }
+        // green ghost logic
+        if(trgtPoint == null && name == "GREENghost"){
+            trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
+            mission = findNearestNode(trgtPoint.position).transform.position;
+        }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
+            trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
+            mission = findNearestNode(trgtPoint.position).transform.position;
         }
 	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
@@ -166,7 +167,7 @@ public class Ghost : MonoBehaviour
             false
             );
 	// check if airbone
-	if(transform.position.y < 60.0f){
+	if(transform.position.y > 30.0f){
 		airbone = false;
 	} else {
 		airbone = true;
@@ -205,14 +206,19 @@ public class Ghost : MonoBehaviour
 		// Red attack! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+        rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
+        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling && !retreating){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+        if(name == "GREENghost"){
+            rb.AddForce(direction.normalized * 0.5f, ForceMode.Force); // move ghost
+        } else {
+            rb.AddForce(direction * 11f, ForceMode.Force); // move ghost
+        }
+        rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
+        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
 		state = ghostState.deciding;
@@ -235,25 +241,30 @@ public class Ghost : MonoBehaviour
             countdown = false;
             tagged = false;
         }
-	if(tagged){
-		Debug.Log("targetNode "+targetNode);
-		Debug.Log("state "+state);
-		Debug.Log("currentNode "+currentNode);
-	}
 	if(outOfSpawn && state == ghostState.deciding){
-		Debug.Log("currentNode updated!");
-	    	currentNode = findNearestNode(transform.position);
+        currentNode = findNearestNode(transform.position);
 
 	}
 	// Fallback for if targetNode is behind a wall
 	if(targetNode){
+        Vector3 myPosXZ = transform.position; myPosXZ.y = 0;
+        Vector3 trgtPosXZ = targetNode.transform.position; trgtPosXZ.y = 0;
 		RaycastHit hit2;
 		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
 			//Debug.Log("target node is behind a wall");	
-	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-		} else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
-	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-		}
+            if(name == "GREENghost"){
+                rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
+            } else {
+                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            }
+		} 
+        else if(Vector3.Distance(myPosXZ, trgtPosXZ) > 45.0f){
+            if(name == "GREENghost"){
+                rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
+            } else {
+                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            }
+        }
 	}
 
 	// Individuality
@@ -263,13 +274,19 @@ public class Ghost : MonoBehaviour
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
 				Debug.Log("Mission is behing a wall!");	
-        	        	rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
+                rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
 			}
 		}
 	} 
 	else if (name == "PINKghost")
 	{
-		if(airbone == true){
+        bool pAirbone;
+        if(transform.position.y < 60.0f){
+            pAirbone = false;
+        } else {
+            pAirbone = true;
+        }
+		if(pAirbone == true){
         		rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
 			state = ghostState.tackling;
 		}
@@ -279,9 +296,8 @@ public class Ghost : MonoBehaviour
 				tackleCount -= Time.deltaTime;
 			} else {
 				direction = PacmanMove.centerAxis - transform.position;
-                		rb.AddForce(direction * 0.2f, ForceMode.Impulse); // move ghost
-				Debug.Log("TACKLE");
-        			rb.AddForce(Vector3.down * gravityStrength * 20f, ForceMode.Acceleration);
+                rb.AddForce(direction * 0.2f, ForceMode.Impulse); // move ghost
+                rb.AddForce(Vector3.down * gravityStrength * 20f, ForceMode.Acceleration);
 			}
 		} else if(state == ghostState.tackling) {
 			currentNode = findNearestNode(transform.position);
@@ -292,8 +308,7 @@ public class Ghost : MonoBehaviour
 	else if (name == "ORANGEghost")
 	{
 		float minDist = Mathf.Infinity;
-		Debug.Log("dist: " + Vector3.Distance(transform.position, PacmanMove.centerAxis));
-		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 55f)
+		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 68f)
 		{
 			Debug.Log("oh no! invading personal space!");
 			// evaluate closest border spot
@@ -313,7 +328,6 @@ public class Ghost : MonoBehaviour
             		if(!retreating){
 			    mission = closestSpot.position;
             		}
-Debug.Log("retreating=true, mission=" + mission + " closestSpot=" + (closestSpot ? closestSpot.name : "null"));
 			retreating = true;
 		}
         	if(closestSpot){
@@ -325,7 +339,6 @@ Debug.Log("retreating=true, mission=" + mission + " closestSpot=" + (closestSpot
         	        false
         	    );
         	}
-		Debug.Log("retreat check - retreating:"+retreating+" retreatCount:"+retreatCount+" inRetreat:"+inRetreat);
         	// retreat logic
         	if (retreating && retreatCount < retreatAmnt && inRetreat){
         	    retreatCount += Time.deltaTime;
@@ -341,13 +354,15 @@ Debug.Log("retreating=true, mission=" + mission + " closestSpot=" + (closestSpot
 		if(airbone == true){ // triple green ghost's gravity when thrown upwards
         		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
 		}
-		Debug.DrawLine(
-			transform.position,
-			trgtPoint.position,
-			Color.violet,
-			0.1f,
-			false
-		);
+        if(trgtPoint){
+            Debug.DrawLine(
+                transform.position,
+                trgtPoint.position,
+                Color.violet,
+                0.1f,
+                false
+            );
+        }
 			
 	}
 

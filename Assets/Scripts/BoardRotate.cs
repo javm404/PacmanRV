@@ -74,10 +74,10 @@ public class BoardRotate : MonoBehaviour
             rb.MoveRotation(trgtRotation);
         } else {
             if(zAngle != 0){
-                zAngle = Mathf.MoveTowards(zAngle, 0, 2);
+                zAngle = Mathf.MoveTowards(zAngle, 0, 1.6f);
             }
             if(xAngle != 0){
-                xAngle = Mathf.MoveTowards(xAngle, 0, 2);
+                xAngle = Mathf.MoveTowards(xAngle, 0, 1.6f);
             }
 
             // apply rotation
