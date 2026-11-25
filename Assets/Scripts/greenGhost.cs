@@ -101,38 +101,11 @@ public class greenGhost : GhostBase
     }
     void Update()
     {
-        //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
-        // define mission logic
-        if(tagged) // died, back to spawn
-        {
-            mission = spawn.position;
-        } 
-        else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
-        {
-            if(name != "PINKghost" && name != "GREENghost"){
-                mission = PacmanMove.centerAxis;
-            } else if(name == "PINKghost") { // apply only on pink ghost
-                if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 60.0f){
-                    mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
-                }else{
-                    mission = PacmanMove.centerAxis;
-                }
-            }
-        }
-        else if(retreating)
-        {
-            mission = closestSpot.position;
-        }
-        else if(name != "GREENghost") // feeling sick, pacman is powered up
-        {
-            Vector3 awayDirection = (transform.position - pacman.position).normalized;
-            mission = transform.position + awayDirection * 50f;
-        }
         // green ghost logic
-        if(trgtPoint == null && name == "GREENghost"){
+        if(trgtPoint == null){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
             mission = findNearestNode(trgtPoint.position).transform.position;
-        }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
+        }else if(Vector3.Distance(transform.position, mission) < 10f){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
             mission = findNearestNode(trgtPoint.position).transform.position;
         }
@@ -251,120 +224,28 @@ public class greenGhost : GhostBase
         Vector3 trgtPosXZ = targetNode.transform.position; trgtPosXZ.y = 0;
 		RaycastHit hit2;
 		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
-			//Debug.Log("target node is behind a wall");	
-            if(name == "GREENghost"){
-                rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
-            } else {
-                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-            }
+            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move GREENghost
 		} 
         else if(Vector3.Distance(myPosXZ, trgtPosXZ) > 45.0f){
-            if(name == "GREENghost"){
-                rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
-            } else {
-                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-            }
+            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move GREENghost
         }
 	}
 
 	// Individuality
-	if(name == "REDghost")
-	{
-		if(state == ghostState.attacking){
-			RaycastHit hit;
-			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
-				Debug.Log("Mission is behing a wall!");	
-                rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
-			}
-		}
-	} 
-	else if (name == "PINKghost")
-	{
-        bool pAirbone;
-        if(transform.position.y < 60.0f){
-            pAirbone = false;
-        } else {
-            pAirbone = true;
-        }
-		if(pAirbone == true){
-        		rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
-			state = ghostState.tackling;
-		}
-		if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f){
-			if(tackleCount > 0){
-				direction = Vector3.zero;
-				tackleCount -= Time.deltaTime;
-			} else {
-				direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 0.2f, ForceMode.Impulse); // move ghost
-                rb.AddForce(Vector3.down * gravityStrength * 20f, ForceMode.Acceleration);
-			}
-		} else if(state == ghostState.tackling) {
-			currentNode = findNearestNode(transform.position);
-			state = ghostState.deciding;
-			tackleCount = tackleDelay;
-		}
-	}
-	else if (name == "ORANGEghost")
-	{
-		float minDist = Mathf.Infinity;
-		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 68f)
-		{
-			Debug.Log("oh no! invading personal space!");
-			// evaluate closest border spot
-            		if(closestSpot){
-                	mission = closestSpot.position;
-            		}
-			foreach (Node spot in cornerNodes)
-			{
-				float dist = Vector3.Distance(transform.position, spot.transform.position);
-				if(dist < minDist)
-				{
-					minDist = dist;
-					closestSpot = spot.transform;
-				}
-			}
-			// define closest as mission
-            		if(!retreating){
-			    mission = closestSpot.position;
-            		}
-			retreating = true;
-		}
-        	if(closestSpot){
-        	    Debug.DrawLine(
-        	        transform.position,
-        	        closestSpot.position,
-        	        Color.orange,
-        	        0.1f,
-        	        false
-        	    );
-        	}
-        	// retreat logic
-        	if (retreating && retreatCount < retreatAmnt && inRetreat){
-        	    retreatCount += Time.deltaTime;
-        	} else if(retreating && retreatCount >= retreatAmnt){
-        	    inRetreat = false;
-        	    retreating = false;
-        	    retreatCount = 0;
-        	    state = ghostState.deciding;
-        	}
-	}
-    	else if(name == "GREENghost")
-    	{
-		if(airbone == true){ // triple green ghost's gravity when thrown upwards
-        		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
-		}
-        if(trgtPoint){
-            Debug.DrawLine(
-                transform.position,
-                trgtPoint.position,
-                Color.violet,
-                0.1f,
-                false
-            );
-        }
-			
-	}
+
+    if(airbone == true){ // triple green ghost's gravity when thrown upwards
+            rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
+    }
+    if(trgtPoint){
+        Debug.DrawLine(
+            transform.position,
+            trgtPoint.position,
+            Color.violet,
+            0.1f,
+            false
+        );
+    }
+	
 
         // pick a random point
 

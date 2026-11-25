@@ -5470,8 +5470,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4957472334691275604}
   - {fileID: 5738812977733516590}
+  - {fileID: 4957472334691275604}
   - {fileID: 865088114505892372}
   - {fileID: 5251669738776053822}
   m_Father: {fileID: 0}
@@ -7746,8 +7746,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6607858468453794720}
   serializedVersion: 5
-  m_Mass: 0.1
-  m_LinearDamping: 1
+  m_Mass: 0.7
+  m_LinearDamping: 2
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -8724,7 +8724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &471428126395999914
 GameObject:
   m_ObjectHideFlags: 0
@@ -13796,7 +13796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &2286627761863871717
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -20210,7 +20210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &4476997114475487171
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27315,7 +27315,7 @@ MonoBehaviour:
   spawn: {fileID: 1993196290}
   mission: {x: 0, y: 0, z: 0}
   rb: {fileID: 214837703137414873}
-  speed: 10
+  speed: 80
   gravityStrength: 0
   maxSpeed: 300
   reviveTime: 10
