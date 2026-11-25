@@ -18,6 +18,7 @@ public class NodesManager : MonoBehaviour
 		if(children == null){
 			children = GetComponentsInChildren<Transform>();
 		}
+<<<<<<< HEAD
 		/*
 		Gizmos.color = Color.orange;
 		foreach(Transform t in children){
@@ -31,6 +32,19 @@ public class NodesManager : MonoBehaviour
 			i+=1;
 		}
 		*/
+=======
+	//	Gizmos.color = Color.orange;
+	//	foreach(Transform t in children){
+	//		if(i == 0){
+	//			i+=1;
+	//			continue;
+	//		} else {
+	//			Handles.Label(t.position,t.name);
+	//			Gizmos.DrawWireSphere(t.position, 4f);	
+	//		}
+	//		i+=1;
+	//	}
+>>>>>>> dev
 	}
 	
 }

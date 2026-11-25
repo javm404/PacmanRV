@@ -34,6 +34,18 @@ public class Ghost : MonoBehaviour
     float debugCounter = 1.0f;
     float debugCount = 0.0f;
     public LayerMask wallLayer;
+<<<<<<< HEAD
+=======
+    public GameObject orangeSpots;
+    public Node[] cornerNodes;
+    Transform closestSpot;
+    public float retreatCount = 0f;
+    public float retreatAmnt = 3.0f;
+    public bool inRetreat = false;
+    public bool retreating = false;
+    public Transform trgtPoint;
+    public bool reachedPoint;
+>>>>>>> dev
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
@@ -92,18 +104,46 @@ public class Ghost : MonoBehaviour
     }
     void Update()
     {
+<<<<<<< HEAD
         // Ghost's mission logic
+=======
+        //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
+        // define mission logic
+>>>>>>> dev
         if(tagged) // died, back to spawn
         {
             mission = spawn.position;
         } 
-        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
+        else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
         {
+<<<<<<< HEAD
 		if(name != "PINKghost"){
 			mission = PacmanMove.centerAxis;
 		} else {
 			mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
 		}
+=======
+            if(name != "PINKghost" && name != "GREENghost"){
+                mission = PacmanMove.centerAxis;
+            } else if(name != "GREENghost") { // apply only on pink ghost
+                if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 60.0f){
+                    mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
+                }else{
+                    mission = PacmanMove.centerAxis;
+                }
+            }
+	    if(trgtPoint == null && name == "GREENghost"){
+		trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
+		mission = findNearestNode(trgtPoint.position).transform.position;
+	    }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
+	    	trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
+		mission = findNearestNode(trgtPoint.position).transform.position;
+	    }
+        }
+        else if(retreating)
+        {
+            mission = closestSpot.position;
+>>>>>>> dev
         }
         else // feeling sick, pacman is powered up
         {
@@ -117,7 +157,11 @@ public class Ghost : MonoBehaviour
             Node target = findNearestNode(mission); // get closest node to mission(current Target position)
             //Debug.Log(findNearestNode(mission).name);
             targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
+<<<<<<< HEAD
             //Debug.Log("Next node: " + targetNode.name);
+=======
+            Debug.Log(currentNode.name + " vs " + findNearestNode(mission).name);
+>>>>>>> dev
             state = ghostState.moving;
         }
         // & direction
@@ -141,7 +185,11 @@ public class Ghost : MonoBehaviour
             false
             );
 	// check if airbone
+<<<<<<< HEAD
 	if(transform.position.y < 50.0f){
+=======
+	if(transform.position.y < 60.0f){
+>>>>>>> dev
 		airbone = false;
 	} else {
 		airbone = true;
@@ -163,7 +211,11 @@ public class Ghost : MonoBehaviour
             Vector3 a = transform.position;a.y=0;
             Vector3 b = targetNode.transform.position;b.y=0;
             if(state == ghostState.moving && Vector3.Distance(a, b) < 6.0f){
+<<<<<<< HEAD
 		state = ghostState.deciding;
+=======
+		        state = ghostState.deciding;
+>>>>>>> dev
                 currentNode = targetNode; // reached the target node, change current to target 
                 closestDistance = Mathf.Infinity; // reset closest distance
             }
@@ -175,18 +227,31 @@ public class Ghost : MonoBehaviour
             }
         }
 	// Attack behaviour
+<<<<<<< HEAD
 	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
 	{
 		// Red ghost only!! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
                 rb.AddForce(direction * 10, ForceMode.Force); // move ghost
+=======
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+	{
+		// Red attack! (he is more agressive)
+		state = ghostState.attacking;
+		direction = PacmanMove.centerAxis - transform.position;
+                rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
+>>>>>>> dev
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
+<<<<<<< HEAD
                 rb.AddForce(direction * 5, ForceMode.Force); // move ghost
+=======
+                rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
+>>>>>>> dev
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
@@ -238,6 +303,7 @@ public class Ghost : MonoBehaviour
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
 				Debug.Log("Mission is behing a wall!");	
+<<<<<<< HEAD
         	        	rb.AddForce(Vector3.up * 400, ForceMode.Force); // move ghost
 			}
 		}
@@ -248,6 +314,12 @@ public class Ghost : MonoBehaviour
         		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
 		}
 	}
+=======
+        	        	rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
+			}
+		}
+	} 
+>>>>>>> dev
 	else if (name == "PINKghost")
 	{
 		if(airbone == true){
@@ -270,6 +342,76 @@ public class Ghost : MonoBehaviour
 			tackleCount = tackleDelay;
 		}
 	}
+<<<<<<< HEAD
+=======
+	else if (name == "ORANGEghost")
+	{
+		float minDist = Mathf.Infinity;
+		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 55f)
+		{
+			Debug.Log("oh no! invading personal space!");
+			// evaluate closest border spot
+            		if(closestSpot){
+                	mission = closestSpot.position;
+            		}
+			foreach (Node spot in cornerNodes)
+			{
+				float dist = Vector3.Distance(transform.position, spot.transform.position);
+				if(dist < minDist)
+				{
+					minDist = dist;
+					closestSpot = spot.transform;
+				}
+			}
+			// define closest as mission
+            		if(!retreating){
+			    mission = closestSpot.position;
+            		}
+			retreating = true;
+		}
+        	if(closestSpot){
+        	    Debug.DrawLine(
+        	        transform.position,
+        	        closestSpot.position,
+        	        Color.orange,
+        	        0.1f,
+        	        false
+        	    );
+        	}
+        	// retreat logic
+        	if (retreating && retreatCount < retreatAmnt && inRetreat){
+        	    retreatCount += Time.deltaTime;
+        	} else if(retreating && retreatCount >= retreatAmnt){
+        	    inRetreat = false;
+        	    retreating = false;
+        	    retreatCount = 0;
+        	    state = ghostState.deciding;
+        	}
+	}
+    	else if(name == "GREENghost")
+    	{
+		if(airbone == true){ // triple green ghost's gravity when thrown upwards
+        		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
+		}
+		Debug.DrawLine(
+			transform.position,
+			trgtPoint.position,
+			Color.violet,
+			0.1f,
+			false
+		);
+			
+	}
+
+        // pick a random point
+
+        // check closest node to that point
+
+        //set that node as the mission
+
+        // after arriving pick another
+    // end of individual ghosts logic
+>>>>>>> dev
         // DEBUG
         Debug.DrawLine(
             transform.position,
@@ -296,14 +438,23 @@ public class Ghost : MonoBehaviour
             countdown = true;
 	    outOfSpawn = false;
         }
+	if(other.CompareTag("OrangeSpot") && retreating){
+        retreatCount = 0;
+        inRetreat = true;
+	}
     }
     void OnTriggerExit(Collider other)
     { // exited spawn
         if(tagged && other.CompareTag("Spawn")){
             countdown = false;
             timeLeft = reviveTime;
+<<<<<<< HEAD
 	    state = ghostState.deciding;
 	    outOfSpawn = true;
+=======
+            state = ghostState.deciding;
+            outOfSpawn = true;
+>>>>>>> dev
 
         }
     }

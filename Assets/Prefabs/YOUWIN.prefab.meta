@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/YOUWIN.prefab.meta
 guid: 0e809ca93e377bb4e90cf735d8d533a7
 PrefabImporter:
+========
+guid: 57e827dc01233310e95813baf23ccfe7
+DefaultImporter:
+>>>>>>>> dev:Assets/Scenes/SampleSceneBACKUP.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

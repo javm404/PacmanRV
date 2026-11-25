@@ -18,13 +18,20 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.56
   intensity:
     m_OverrideState: 1
+<<<<<<< HEAD
     m_Value: 1.47
   scatter:
     m_OverrideState: 1
     m_Value: 0.306
+=======
+    m_Value: 0.73
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.503
+>>>>>>> dev
   clamp:
     m_OverrideState: 0
     m_Value: 65472

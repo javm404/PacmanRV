@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - Ground
   - Spawn
+  - OrangeSpot
   layers:
   - Default
   - TransparentFX
