@@ -17,16 +17,16 @@ public class NodesManager : MonoBehaviour
 		if(children == null){
 			children = GetComponentsInChildren<Transform>();
 		}
-		Gizmos.color = Color.orange;
-		foreach(Transform t in children){
-			if(i == 0){
-				i+=1;
-				continue;
-			} else {
-				Handles.Label(t.position,t.name);
-				Gizmos.DrawWireSphere(t.position, 4f);	
-			}
-			i+=1;
-		}
+	//	Gizmos.color = Color.orange;
+	//	foreach(Transform t in children){
+	//		if(i == 0){
+	//			i+=1;
+	//			continue;
+	//		} else {
+	//			Handles.Label(t.position,t.name);
+	//			Gizmos.DrawWireSphere(t.position, 4f);	
+	//		}
+	//		i+=1;
+	//	}
 	}
 }
