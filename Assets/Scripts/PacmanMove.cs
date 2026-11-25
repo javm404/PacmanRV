@@ -61,7 +61,7 @@ public class PacmanMove : MonoBehaviour
             rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
         } else if(!grounded()){ // going down
             Debug.Log("going down");
-            rb.AddForce(Vector3.down * gravityStrength * 3f, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * gravityStrength * 2f, ForceMode.Acceleration);
         } else {
             rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
         }

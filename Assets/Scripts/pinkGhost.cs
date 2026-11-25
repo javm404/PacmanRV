@@ -109,22 +109,12 @@ public class pinkGhost : GhostBase
         } 
         else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
         {
-            if(name != "PINKghost" && name != "GREENghost"){
+            mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 35).transform.position;
+            if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 50.0f){ // very close, go spot on
                 mission = PacmanMove.centerAxis;
-            } else if(name != "GREENghost") { // apply only on pink ghost
-                if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 60.0f){
-                    mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
-                }else{
-                    mission = PacmanMove.centerAxis;
-                }
+            } else if(Vector3.Distance(transform.position, PacmanMove.centerAxis) >= 200.0f){ // very far, predict further
+                mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 200).transform.position;
             }
-	    if(trgtPoint == null && name == "GREENghost"){
-		trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-		mission = findNearestNode(trgtPoint.position).transform.position;
-	    }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
-	    	trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-		mission = findNearestNode(trgtPoint.position).transform.position;
-	    }
         }
         else if(retreating)
         {
@@ -161,7 +151,7 @@ public class pinkGhost : GhostBase
         Debug.DrawLine(
             transform.position,
             mission,
-            Color.green,
+            Color.pink,
             0.2f,
             false
             );

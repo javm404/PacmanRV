@@ -13,6 +13,8 @@ public class powerUp : MonoBehaviour
     GameObject[] ghosts; // change ghosts texture (safer here, on Ghosts.cs FixedUpdate would be agressive)
     Material[] ghostsPastMaterial;
     public Material sickGhostMaterial;
+    public scoreCount scoreCount; // to fetch scoreCount UpdateScoreCounter() method
+    public int multiplier = 2;
 
     void Start()
     {
@@ -55,6 +57,10 @@ public class powerUp : MonoBehaviour
         } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
             // tag ghost as killed
             collision.gameObject.GetComponent<Ghost>().tagged = true; // Destroy causes error and its not that fun, added just for testing
+            // multiply score
+            scoreCount.score *= multiplier;
+            scoreCount.UpdateScoreCounter();
+            multiplier += 1; // add multiply amount for next ghost
         }
     }
 
@@ -82,6 +88,7 @@ public class powerUp : MonoBehaviour
             poweredUP = false;
             powerUpAura.enabled = false;
             timer = time;
+            multiplier = 2;
             GetComponent<deathBehaviour>().enabled = true;
             // loop through body parts and apply past textures
             int i = 0;

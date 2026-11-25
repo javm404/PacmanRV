@@ -2,15 +2,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class deathBehaviour : MonoBehaviour
 {
     public bool active = true;
     public int lives = 2;
     public GameObject[] lifes;
+    public TextMeshPro lifeCounterText;
     public PacmanMove moveScript;
     public Rigidbody rb;
-    
+    public scoreCount scoreCount; // to fetch scoreCount UpdateScoreCounter() method
+    void Start()
+    {
+        UpdateLifeCounter();
+    }
     void OnCollisionEnter(Collision collision) // trigger on collision
     { 
         if (active && collision.gameObject.CompareTag("Ghost"))
@@ -21,8 +27,12 @@ public class deathBehaviour : MonoBehaviour
                 if(!powerUp.poweredUP)
                 {
                     if(lives <=0){
-                        Debug.Log("Pacman died!");
-                        SceneManager.LoadScene(0); // restart scene
+                        Debug.Log("Game over!");
+                        // reset score
+                        scoreCount.score = 0;
+                        scoreCount.UpdateScoreCounter();
+                        // restart scene
+                        SceneManager.LoadScene(0); 
                     } else {
                         //remove life counter
                         lives -= 1;
@@ -36,8 +46,12 @@ public class deathBehaviour : MonoBehaviour
                         Rigidbody lifeRb = lifes[lives].GetComponent<Rigidbody>();
                         lifeRb.useGravity = true;
                         lifeRb.AddForce(new Vector3(0.5f,1f,0.5f) * 400, ForceMode.Impulse); // Move pacman physics accurate
-                        // Destroy that life
+                        // TODO Destroy that life's gameObject
+                        UpdateLifeCounter(); // update counter
 
+                        // divide score
+                        scoreCount.score = scoreCount.score / 2;
+                        scoreCount.UpdateScoreCounter();
                     }
                 }
                 else if(powerUp.poweredUP)
@@ -45,6 +59,13 @@ public class deathBehaviour : MonoBehaviour
                     ghost.tagged = true;
                 }
             }
+        }
+    }
+    void UpdateLifeCounter()
+    {
+        if (lifeCounterText != null)
+        {
+            lifeCounterText.text = "X" + lives;
         }
     }
 }
