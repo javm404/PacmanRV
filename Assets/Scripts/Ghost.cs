@@ -200,18 +200,18 @@ public class Ghost : MonoBehaviour
             }
         }
 	// Attack behaviour
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
 	{
 		// Red attack! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 18f, ForceMode.Force); // move ghost
+                rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 15f, ForceMode.Force); // move ghost
+                rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
