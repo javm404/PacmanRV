@@ -33,11 +33,7 @@ public class BoardRotate : MonoBehaviour
     void Awake()
     {
     	RotateBoard = InputSystem.actions.FindAction("RotateBoard");
-<<<<<<< HEAD
-	stickInpt = RotateBoard.ReadValue<Vector2>();
-=======
 	    stickInpt = RotateBoard.ReadValue<Vector2>();
->>>>>>> dev
     }
     void Update()
     {

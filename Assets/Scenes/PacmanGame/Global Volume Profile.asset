@@ -21,24 +21,10 @@ MonoBehaviour:
     m_Value: 0.56
   intensity:
     m_OverrideState: 1
-<<<<<<< HEAD
-<<<<<<< HEAD
-    m_Value: 1.47
-  scatter:
-    m_OverrideState: 1
-    m_Value: 0.306
-=======
     m_Value: 0.73
   scatter:
     m_OverrideState: 1
     m_Value: 0.503
->>>>>>> dev
-=======
-    m_Value: 0.73
-  scatter:
-    m_OverrideState: 1
-    m_Value: 0.503
->>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
   clamp:
     m_OverrideState: 0
     m_Value: 65472

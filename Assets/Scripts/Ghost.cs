@@ -34,8 +34,6 @@ public class Ghost : MonoBehaviour
     float debugCounter = 1.0f;
     float debugCount = 0.0f;
     public LayerMask wallLayer;
-<<<<<<< HEAD
-=======
     public GameObject orangeSpots;
     public Node[] cornerNodes;
     Transform closestSpot;
@@ -45,7 +43,6 @@ public class Ghost : MonoBehaviour
     public bool retreating = false;
     public Transform trgtPoint;
     public bool reachedPoint;
->>>>>>> dev
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
@@ -104,25 +101,14 @@ public class Ghost : MonoBehaviour
     }
     void Update()
     {
-<<<<<<< HEAD
-        // Ghost's mission logic
-=======
         //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
->>>>>>> dev
         if(tagged) // died, back to spawn
         {
             mission = spawn.position;
         } 
         else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
         {
-<<<<<<< HEAD
-		if(name != "PINKghost"){
-			mission = PacmanMove.centerAxis;
-		} else {
-			mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 55).transform.position;
-		}
-=======
             if(name != "PINKghost" && name != "GREENghost"){
                 mission = PacmanMove.centerAxis;
             } else if(name != "GREENghost") { // apply only on pink ghost
@@ -143,7 +129,6 @@ public class Ghost : MonoBehaviour
         else if(retreating)
         {
             mission = closestSpot.position;
->>>>>>> dev
         }
         else // feeling sick, pacman is powered up
         {
@@ -157,11 +142,7 @@ public class Ghost : MonoBehaviour
             Node target = findNearestNode(mission); // get closest node to mission(current Target position)
             //Debug.Log(findNearestNode(mission).name);
             targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
-<<<<<<< HEAD
-            //Debug.Log("Next node: " + targetNode.name);
-=======
             Debug.Log(currentNode.name + " vs " + findNearestNode(mission).name);
->>>>>>> dev
             state = ghostState.moving;
         }
         // & direction
@@ -185,11 +166,7 @@ public class Ghost : MonoBehaviour
             false
             );
 	// check if airbone
-<<<<<<< HEAD
-	if(transform.position.y < 50.0f){
-=======
 	if(transform.position.y < 60.0f){
->>>>>>> dev
 		airbone = false;
 	} else {
 		airbone = true;
@@ -211,11 +188,7 @@ public class Ghost : MonoBehaviour
             Vector3 a = transform.position;a.y=0;
             Vector3 b = targetNode.transform.position;b.y=0;
             if(state == ghostState.moving && Vector3.Distance(a, b) < 6.0f){
-<<<<<<< HEAD
-		state = ghostState.deciding;
-=======
 		        state = ghostState.deciding;
->>>>>>> dev
                 currentNode = targetNode; // reached the target node, change current to target 
                 closestDistance = Mathf.Infinity; // reset closest distance
             }
@@ -227,42 +200,18 @@ public class Ghost : MonoBehaviour
             }
         }
 	// Attack behaviour
-<<<<<<< HEAD
-<<<<<<< HEAD
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 40.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
-=======
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
->>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
-	{
-		// Red ghost only!! (he is more agressive)
-		state = ghostState.attacking;
-		direction = PacmanMove.centerAxis - transform.position;
-                rb.AddForce(direction * 10, ForceMode.Force); // move ghost
-=======
 	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
 	{
 		// Red attack! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
                 rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
-<<<<<<< HEAD
->>>>>>> dev
-=======
->>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
 		// all the other ghosts
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                rb.AddForce(direction * 5, ForceMode.Force); // move ghost
-=======
                 rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
->>>>>>> dev
-=======
-                rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
->>>>>>> 87b7f71 (Added pixel filter layer with proper colormap(float map :o), through playstesting noticed the green ghost got off board??? idk whats that abt)
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(state == ghostState.attacking) {
 		currentNode = findNearestNode(transform.position);//reset current node
@@ -314,23 +263,10 @@ public class Ghost : MonoBehaviour
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
 				Debug.Log("Mission is behing a wall!");	
-<<<<<<< HEAD
-        	        	rb.AddForce(Vector3.up * 400, ForceMode.Force); // move ghost
-			}
-		}
-	} 
-	else if (name == "GREENghost")
-	{
-		if(airbone == true){ // triple green ghost's gravity when thrown upwards
-        		rb.AddForce(Vector3.down * gravityStrength * 10, ForceMode.Acceleration);
-		}
-	}
-=======
         	        	rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
 			}
 		}
 	} 
->>>>>>> dev
 	else if (name == "PINKghost")
 	{
 		if(airbone == true){
@@ -353,8 +289,6 @@ public class Ghost : MonoBehaviour
 			tackleCount = tackleDelay;
 		}
 	}
-<<<<<<< HEAD
-=======
 	else if (name == "ORANGEghost")
 	{
 		float minDist = Mathf.Infinity;
@@ -422,7 +356,6 @@ public class Ghost : MonoBehaviour
 
         // after arriving pick another
     // end of individual ghosts logic
->>>>>>> dev
         // DEBUG
         Debug.DrawLine(
             transform.position,
@@ -459,13 +392,8 @@ public class Ghost : MonoBehaviour
         if(tagged && other.CompareTag("Spawn")){
             countdown = false;
             timeLeft = reviveTime;
-<<<<<<< HEAD
-	    state = ghostState.deciding;
-	    outOfSpawn = true;
-=======
             state = ghostState.deciding;
             outOfSpawn = true;
->>>>>>> dev
 
         }
     }

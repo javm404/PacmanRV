@@ -4,10 +4,6 @@ public class pointCount : MonoBehaviour
 {
     static public bool noMorePoints;
     public int pointsLeft;
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
     void Start()
     {
         noMorePoints = false;
