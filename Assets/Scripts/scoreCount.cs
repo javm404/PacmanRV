@@ -13,6 +13,9 @@ public class scoreCount : MonoBehaviour
 
     public void UpdateScoreCounter()
     {
+        if(score < 0){
+            score = 0;
+        }
         if (scoreCounterText != null)
         {
             scoreCounterText.text = "SCORE: " + score;
