@@ -98,17 +98,21 @@ public class PacmanMove : MonoBehaviour
                 rb.linearDamping = 1f;
             }
         }else{ // let it loose
-            //Debug.Log("Airbone");	
             rb.linearDamping = 1f; // reduce "atrito"
             rb.AddForce(direction * speed, ForceMode.Force); // Move pacman physics accurate
         }	
 
-        if(deathBehaviour.respawning == true && rb.transform.position.y < 200f){
+        if(deathBehaviour.respawning == true && rb.transform.position.y < 400f){
             deathBehaviour.respawning = false;
             deathScript.active = true;
             deathScript.boardBounds.SetActive(true); // re enable board bounds
             Debug.Log("RESET RESPAWN");
-        }
+        } else if(deathBehaviour.respawning == true && rb.transform.position.y > 1000f) {
+		// block movement if pacman is off screen
+ 		Vector3 vel = Vector3.zero;
+		vel.y = rb.linearVelocity.y;
+		rb.linearVelocity = vel;
+	}
 	//Debug.Log("Y: " + transform.position.y + " | Grounded: " + grounded());
 	//rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
     }

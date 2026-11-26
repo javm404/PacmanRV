@@ -21,13 +21,10 @@ public class deathBehaviour : MonoBehaviour
         respawning = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(respawning){
-            rb.AddForce(Vector3.down * 240f, ForceMode.Acceleration); // add gravity counter force
-            Vector3 vel = Vector3.zero;
-            vel.y = rb.linearVelocity.y;
-            rb.linearVelocity = vel;
+            rb.AddForce(Vector3.down * 400f, ForceMode.Acceleration); // add gravity counter force
             active = false;
             Debug.Log("RESPAWNING");
         }
