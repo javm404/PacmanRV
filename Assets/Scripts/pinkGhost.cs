@@ -96,7 +96,7 @@ public class pinkGhost : GhostBase
     void Update()
     {
         // define mission logic
-        if(deathBehaviour.respawning)
+        if(deathBehaviour.respawning && !tagged)
         {
             mission = personalCorner.position;
         }
@@ -118,7 +118,6 @@ public class pinkGhost : GhostBase
             Vector3 awayDirection = (transform.position - pacman.position).normalized;
             mission = transform.position + awayDirection * 50f;
         }
-	    Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
         if(state == ghostState.deciding) // go through next step logic
         {
@@ -144,33 +143,33 @@ public class pinkGhost : GhostBase
             transform.position,
             mission,
             Color.pink,
-            0.2f,
+            0.1f,
             false
-            );
-	// check if airbone
-	if(transform.position.y < 45.0f){
-		airbone = false;
-	} else {
-		airbone = true;
-	}
+        );
+        Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.pink, 0.1f, false);
+        // check if airbone
+        if(transform.position.y < 45.0f){
+            airbone = false;
+        } else {
+            airbone = true;
+        }
     }
-
     void FixedUpdate()
     {
         // Gravity
-	if(airbone == true && name != "PINKghost" && name != "GREENghost"){
-        	rb.AddForce(Vector3.down * gravityStrength * 2.5f, ForceMode.Acceleration);
-	} else if(powerUp.poweredUP && airbone) { // force ghost grounded when sick
-        	rb.AddForce(Vector3.down * gravityStrength * 80f, ForceMode.Acceleration);
-	} else {
-        	rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
-	}
+        if(airbone == true && name != "PINKghost" && name != "GREENghost"){
+                rb.AddForce(Vector3.down * gravityStrength * 2.5f, ForceMode.Acceleration);
+        } else if(powerUp.poweredUP && airbone) { // force ghost grounded when sick
+                rb.AddForce(Vector3.down * gravityStrength * 80f, ForceMode.Acceleration);
+        } else {
+                rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
+        }
         // Move
         if(targetNode){
             Vector3 a = transform.position;a.y=0;
             Vector3 b = targetNode.transform.position;b.y=0;
             if(state == ghostState.moving && Vector3.Distance(a, b) < 6.0f){
-		        state = ghostState.deciding;
+                state = ghostState.deciding;
                 currentNode = targetNode; // reached the target node, change current to target 
                 closestDistance = Mathf.Infinity; // reset closest distance
             }
@@ -178,23 +177,22 @@ public class pinkGhost : GhostBase
             {
                 rb.AddForce(direction * speed, ForceMode.Force); // move ghost
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
-
             }
         }
-	// Attack behaviour
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
-		state = ghostState.attacking;
-		direction = PacmanMove.centerAxis - transform.position;
-        rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
-        rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
-	} else if(state == ghostState.attacking) {
-		currentNode = findNearestNode(transform.position);//reset current node
-		state = ghostState.deciding;
-	}
+        // Attack behaviour
+        if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling){
+            state = ghostState.attacking;
+            direction = PacmanMove.centerAxis - transform.position;
+            rb.AddForce(direction * 10f, ForceMode.Force); // move ghost
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
+        } else if(state == ghostState.attacking) {
+            currentNode = findNearestNode(transform.position);//reset current node
+            state = ghostState.deciding;
+        }
 
         // ghost texture states
         if(tagged){
-		GetComponentInChildren<Renderer>().material = deadGhostMaterial;
+		    GetComponentInChildren<Renderer>().material = deadGhostMaterial;
         } else if(powerUp.poweredUP){
             	GetComponentInChildren<Renderer>().material = sickGhostMaterial;
         } else {
@@ -214,56 +212,55 @@ public class pinkGhost : GhostBase
             currentNode = findNearestNode(transform.position);
         }
 
-	// Fallback for if targetNode is behind a wall
-	if(targetNode){
-		RaycastHit hit2;
-		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
-			//Debug.Log("target node is behind a wall");	
-            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-		} else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
-            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
-		}
-	}
-
-	// Individuality
-
-    if(airbone == true){
-        rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
-        state = ghostState.tackling;
-    }
-    if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f && gameController.win == false && deathBehaviour.respawning == false){
-        if(tackleCount > 0){
-            direction = Vector3.zero;
-            tackleCount -= Time.deltaTime;
-        } else {
-            direction = PacmanMove.centerAxis - transform.position;
-            rb.AddForce(direction * 0.40f, ForceMode.Impulse); // move ghost
+        // Fallback for if targetNode is behind a wall
+        if(targetNode){
+            RaycastHit hit2;
+            if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
+                //Debug.Log("target node is behind a wall");	
+                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            } else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
+                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            }
         }
-    } else if(state == ghostState.tackling) {
-        currentNode = findNearestNode(transform.position);
-        state = ghostState.deciding;
-        tackleCount = tackleDelay;
-    }
 
-        // DEBUG
-        Debug.DrawLine(
-            transform.position,
-            transform.position+direction,
-            Color.yellow,
-            0.1f,
-            false
-        );
-       	if(targetNode != null){
-		Debug.DrawLine(
-        	    transform.position,
-        	    targetNode.transform.position,
-        	    Color.blue,
-        	    0.1f,
-        	    false
-        	);
-	}
-    }
+        // Individuality
 
+        if(airbone == true){
+            rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
+            state = ghostState.tackling;
+        }
+        if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f && gameController.win == false && deathBehaviour.respawning == false){
+            if(tackleCount > 0){
+                direction = Vector3.zero;
+                tackleCount -= Time.deltaTime;
+            } else {
+                direction = PacmanMove.centerAxis - transform.position;
+                rb.AddForce(direction * 0.40f, ForceMode.Impulse); // move ghost
+            }
+        } else if(state == ghostState.tackling) {
+            currentNode = findNearestNode(transform.position);
+            state = ghostState.deciding;
+            tackleCount = tackleDelay;
+        }
+
+            // DEBUG
+            Debug.DrawLine(
+                transform.position,
+                transform.position+direction,
+                Color.yellow,
+                0.1f,
+                false
+            );
+            if(targetNode != null){
+            Debug.DrawLine(
+                    transform.position,
+                    targetNode.transform.position,
+                    Color.blue,
+                    0.1f,
+                    false
+                );
+        }
+    }
     // respawn logic
     void OnTriggerEnter(Collider other)
     { // is inside spawn

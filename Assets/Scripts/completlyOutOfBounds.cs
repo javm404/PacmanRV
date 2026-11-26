@@ -17,7 +17,7 @@ public class completlyOutOfBounds : MonoBehaviour
        	// }
 	if(collision.gameObject.CompareTag("Ghost")){
             Debug.Log("Ghost is completly out of bounds!");
-	    rb.position = new Vector3(14f, 1000f, 0f);
+	    rb.position = new Vector3(14f, 800f, 0f);
         }
     }
 

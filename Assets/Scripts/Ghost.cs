@@ -102,7 +102,7 @@ public class Ghost : GhostBase
     {
         //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
-        if(deathBehaviour.respawning)
+        if(deathBehaviour.respawning && !tagged)
         {
             mission = personalCorner.position;
         }
@@ -131,17 +131,17 @@ public class Ghost : GhostBase
             Vector3 awayDirection = (transform.position - pacman.position).normalized;
             mission = transform.position + awayDirection * 50f;
         }
-        // green ghost logic
+        // green mission ghost logic
         if(trgtPoint == null && name == "GREENghost"){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-            if(trgtPoint != null){	
+            if(trgtPoint != null && !tagged){	
 	    	mission = findNearestNode(trgtPoint.position).transform.position;
-	    }
+	        }
         }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-            if(trgtPoint != null){	
+            if(trgtPoint != null && !tagged){	
             	mission = findNearestNode(trgtPoint.position).transform.position;
-	    }
+	        }
         }
 	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
@@ -218,8 +218,8 @@ public class Ghost : GhostBase
             // all the other ghosts
             state = ghostState.attacking;
             direction = PacmanMove.centerAxis - transform.position;
-            if(name == "GREENghost"){
-                rb.AddForce(direction.normalized * 0.5f, ForceMode.Force); // move ghost
+            if(name == "GREENghost" || name == "ORANGEghost"){
+                rb.AddForce(direction.normalized * 0.1f, ForceMode.Force); // move ghost
             } else {
                 rb.AddForce(direction * 11f, ForceMode.Force); // move ghost
             }

@@ -8,6 +8,7 @@ public class scoreCount : MonoBehaviour
     void Start()
     {
         UpdateScoreCounter();
+        score = 0;
     }
 
     public void UpdateScoreCounter()

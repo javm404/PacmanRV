@@ -534,7 +534,7 @@ Transform:
   m_GameObject: {fileID: 177681230}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30.143385, y: -1.549985, z: -13.845145}
+  m_LocalPosition: {x: 30.143385, y: -1.9, z: -13.845145}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8695,6 +8695,7 @@ GameObject:
   - component: {fileID: 7603243702820764033}
   - component: {fileID: 7603243702820764034}
   - component: {fileID: 7603243702820764035}
+  - component: {fileID: 7603243702820764036}
   m_Layer: 8
   m_Name: PINKghost
   m_TagString: Ghost
@@ -9422,7 +9423,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2013.7, y: 4865, z: 2064}
+  m_Size: {x: 16362, y: 4865, z: 18683}
   m_Center: {x: 0, y: 2345.7, z: 0}
 --- !u!135 &772575917409958003
 SphereCollider:
@@ -13810,6 +13811,7 @@ GameObject:
   - component: {fileID: 8051228023690680228}
   - component: {fileID: 4123626898482699174}
   - component: {fileID: 8051228023690680229}
+  - component: {fileID: 8051228023690680230}
   m_Layer: 8
   m_Name: ORANGEghost
   m_TagString: Ghost
@@ -15859,7 +15861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67013867a740e5c4493815d181f40480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
-  tagged: 1
+  tagged: 0
   state: 0
   pacman: {fileID: 5423483340355973181}
   spawn: {fileID: 1993196290}
@@ -15869,7 +15871,7 @@ MonoBehaviour:
   gravityStrength: 140
   maxSpeed: 450
   reviveTime: 10
-  timeLeft: 0
+  timeLeft: 10
   normalMaterial: {fileID: 2100000, guid: 341e10c8d874ab94dbaaba81dd20a2b4, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
@@ -19265,7 +19267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67013867a740e5c4493815d181f40480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
-  tagged: 1
+  tagged: 0
   state: 0
   pacman: {fileID: 5423483340355973181}
   spawn: {fileID: 1993196290}
@@ -19275,7 +19277,7 @@ MonoBehaviour:
   gravityStrength: 40
   maxSpeed: 200
   reviveTime: 10
-  timeLeft: 0
+  timeLeft: 10
   normalMaterial: {fileID: 2100000, guid: 9d7df800a30966242ac449f122ac28c3, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
@@ -20380,6 +20382,7 @@ GameObject:
   - component: {fileID: 7194823693016918788}
   - component: {fileID: 2970668365411877199}
   - component: {fileID: 7194823693016918789}
+  - component: {fileID: 7194823693016918790}
   m_Layer: 8
   m_Name: REDghost
   m_TagString: Ghost
@@ -26590,6 +26593,7 @@ GameObject:
   - component: {fileID: 8345615302563685594}
   - component: {fileID: 6946897982202546207}
   - component: {fileID: 8345615302563685595}
+  - component: {fileID: 8345615302563685596}
   m_Layer: 8
   m_Name: GREENghost
   m_TagString: Ghost
@@ -27420,7 +27424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67013867a740e5c4493815d181f40480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
-  tagged: 1
+  tagged: 0
   state: 0
   pacman: {fileID: 5423483340355973181}
   spawn: {fileID: 1993196290}
@@ -27430,7 +27434,7 @@ MonoBehaviour:
   gravityStrength: 0
   maxSpeed: 300
   reviveTime: 10
-  timeLeft: 0
+  timeLeft: 10
   normalMaterial: {fileID: 2100000, guid: 489de73edad47a34f96211ab8d03137e, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
@@ -28120,6 +28124,20 @@ CapsuleCollider:
   m_Height: 4.31
   m_Direction: 1
   m_Center: {x: 0, y: -0.56, z: 0}
+--- !u!114 &7194823693016918790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4468510418413295334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb83d4af46099444b673f1476ff96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::sickGhost
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  rb: {fileID: 1256065508822792734}
 --- !u!136 &7195911321422739105
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -29356,7 +29374,7 @@ MonoBehaviour:
   gravityStrength: 40
   maxSpeed: 200
   reviveTime: 10
-  timeLeft: 0
+  timeLeft: 10
   normalMaterial: {fileID: 2100000, guid: 963843f9e3d7bba4ab3dadc93b261f82, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
@@ -29373,6 +29391,20 @@ MonoBehaviour:
   trgtPoint: {fileID: 0}
   reachedPoint: 0
   personalCorner: {fileID: 1375655212}
+--- !u!114 &7603243702820764036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471210842746818597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb83d4af46099444b673f1476ff96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::sickGhost
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  rb: {fileID: 1042212096264605864}
 --- !u!54 &7611657225775926228
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -30910,6 +30942,20 @@ CapsuleCollider:
   m_Height: 4.31
   m_Direction: 1
   m_Center: {x: 0.35, y: -0.56, z: 0.05}
+--- !u!114 &8051228023690680230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265981931720587154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb83d4af46099444b673f1476ff96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::sickGhost
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  rb: {fileID: 7406497983794571567}
 --- !u!135 &8055884233052405566
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -32034,6 +32080,20 @@ CapsuleCollider:
   m_Height: 4.31
   m_Direction: 1
   m_Center: {x: -0.24, y: -0.56, z: 0}
+--- !u!114 &8345615302563685596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6607858468453794720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb83d4af46099444b673f1476ff96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::sickGhost
+  deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
+  rb: {fileID: 214837703137414873}
 --- !u!135 &8350205398413555358
 SphereCollider:
   m_ObjectHideFlags: 0
