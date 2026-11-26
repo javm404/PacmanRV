@@ -63,18 +63,6 @@ public class powerUp : MonoBehaviour
             multiplier += 1; // add multiply amount for next ghost
         }
     }
-
-    void OnTriggerExit(Collider collision)
-    {
-        if(collision.gameObject.CompareTag("gameBounds")){
-            poweredUP = true;
-            foreach(GameObject ghost in ghosts){
-                ghost.GetComponentInChildren<Renderer>().material = sickGhostMaterial;
-                Debug.Log(ghost.name+" is sick!");
-            }
-        }
-    }
-
     void FixedUpdate()
     {
         if(poweredUP && timer > 0.0f) {

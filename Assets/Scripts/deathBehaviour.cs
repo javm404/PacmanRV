@@ -26,7 +26,6 @@ public class deathBehaviour : MonoBehaviour
         if(respawning){
             rb.AddForce(Vector3.down * 400f, ForceMode.Acceleration); // add gravity counter force
             active = false;
-            Debug.Log("RESPAWNING");
         }
     }
 
@@ -57,7 +56,8 @@ public class deathBehaviour : MonoBehaviour
                         // UI move 1 life UPWARDS
                         Rigidbody lifeRb = lifes[lives].GetComponent<Rigidbody>();
                         lifeRb.useGravity = true;
-                        lifeRb.AddForce(new Vector3(0.5f,1f,0.6f) * 450, ForceMode.Impulse); // Move life physics accurate
+			lifeRb.linearVelocity = Vector3.zero;
+			lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
                         // TODO Destroy that life's gameObject
                         UpdateLifeCounter(); // update counter
 

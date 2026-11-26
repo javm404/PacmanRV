@@ -293,7 +293,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3255035cdb723e645a615081b410df9d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -327,7 +327,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &90646755
 GameObject:
@@ -376,7 +376,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3255035cdb723e645a615081b410df9d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -410,7 +410,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &110365411
 GameObject:
@@ -5611,7 +5611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1767373750}
   m_Layer: 0
-  m_Name: pakman (1)
+  m_Name: pakman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

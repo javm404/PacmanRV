@@ -134,10 +134,14 @@ public class Ghost : GhostBase
         // green ghost logic
         if(trgtPoint == null && name == "GREENghost"){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-            mission = findNearestNode(trgtPoint.position).transform.position;
+            if(trgtPoint != null){	
+	    	mission = findNearestNode(trgtPoint.position).transform.position;
+	    }
         }else if(name == "GREENghost" && Vector3.Distance(transform.position, mission) < 10f){
             trgtPoint = pointSystem.points[Random.Range(0, pointSystem.points.Count)];
-            mission = findNearestNode(trgtPoint.position).transform.position;
+            if(trgtPoint != null){	
+            	mission = findNearestNode(trgtPoint.position).transform.position;
+	    }
         }
 	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)

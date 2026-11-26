@@ -158,7 +158,7 @@ public class pinkGhost : GhostBase
             false
             );
 	// check if airbone
-	if(transform.position.y < 35.0f){
+	if(transform.position.y < 45.0f){
 		airbone = false;
 	} else {
 		airbone = true;
@@ -236,14 +236,13 @@ public class pinkGhost : GhostBase
         rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
         state = ghostState.tackling;
     }
-    if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f && gameController.win == false){
+    if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f && gameController.win == false && deathBehaviour.respawning == false){
         if(tackleCount > 0){
             direction = Vector3.zero;
             tackleCount -= Time.deltaTime;
         } else {
             direction = PacmanMove.centerAxis - transform.position;
-            rb.AddForce(direction * 0.45f, ForceMode.Impulse); // move ghost
-            rb.AddForce(Vector3.down * gravityStrength * 10f, ForceMode.Acceleration);
+            rb.AddForce(direction * 0.40f, ForceMode.Impulse); // move ghost
         }
     } else if(state == ghostState.tackling) {
         currentNode = findNearestNode(transform.position);
