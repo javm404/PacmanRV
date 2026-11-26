@@ -31,8 +31,6 @@ public class orangeGhost : GhostBase
     public Node targetNode;
     float closestDistance = Mathf.Infinity;
     Node node;
-    float debugCounter = 1.0f;
-    float debugCount = 0.0f;
     public LayerMask wallLayer;
     public GameObject orangeSpots;
     public Node[] cornerNodes;
@@ -138,14 +136,6 @@ public class orangeGhost : GhostBase
         }
 	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
-        if(state == ghostState.deciding) // go through next step logic
-        {
-            Node target = findNearestNode(mission); // get closest node to mission(current Target position)
-            //Debug.Log(findNearestNode(mission).name);
-            targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
-            Debug.Log(currentNode.name + " vs " + findNearestNode(mission).name);
-            state = ghostState.moving;
-        }
         // & direction
         // check if node is a warp or not
         if(targetNode == null)
@@ -310,7 +300,6 @@ public class orangeGhost : GhostBase
 		float minDist = Mathf.Infinity;
 		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 68f)
 		{
-			Debug.Log("oh no! invading personal space!");
 			// evaluate closest border spot
             		if(closestSpot){
                 	mission = closestSpot.position;

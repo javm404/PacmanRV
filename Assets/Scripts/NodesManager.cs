@@ -5,7 +5,7 @@ public class NodesManager : MonoBehaviour
 {
 	Transform[] children;
 	static public Node[] allNodes;
-	int i = 0;
+	//int i = 0;
 	void Start()
 	{
 		children = GetComponentsInChildren<Transform>();

@@ -31,8 +31,6 @@ public class Ghost : GhostBase
     public Node targetNode;
     float closestDistance = Mathf.Infinity;
     Node node;
-    float debugCounter = 1.0f;
-    float debugCount = 0.0f;
     public LayerMask wallLayer;
     public GameObject orangeSpots;
     public Node[] cornerNodes;
@@ -143,7 +141,6 @@ public class Ghost : GhostBase
             Node target = findNearestNode(mission); // get closest node to mission(current Target position)
             //Debug.Log(findNearestNode(mission).name);
             targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
-            Debug.Log(currentNode.name + " vs " + findNearestNode(mission).name);
             state = ghostState.moving;
         }
         // & direction

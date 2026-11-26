@@ -31,8 +31,6 @@ public class pinkGhost : GhostBase
     public Node targetNode;
     float closestDistance = Mathf.Infinity;
     Node node;
-    float debugCounter = 1.0f;
-    float debugCount = 0.0f;
     public LayerMask wallLayer;
     public GameObject orangeSpots;
     public Node[] cornerNodes;
@@ -125,14 +123,13 @@ public class pinkGhost : GhostBase
             Vector3 awayDirection = (transform.position - pacman.position).normalized;
             mission = transform.position + awayDirection * 50f;
         }
-	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
+	    Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
         if(state == ghostState.deciding) // go through next step logic
         {
             Node target = findNearestNode(mission); // get closest node to mission(current Target position)
             //Debug.Log(findNearestNode(mission).name);
             targetNode = chooseNextNode(currentNode, target); // choose next node to go towards
-            Debug.Log(currentNode.name + " vs " + findNearestNode(mission).name);
             state = ghostState.moving;
         }
         // & direction
@@ -217,25 +214,14 @@ public class pinkGhost : GhostBase
             countdown = false;
             tagged = false;
         }
-
-	if(tagged){
-		Debug.Log("targetNode "+targetNode);
-		Debug.Log("state "+state);
-		Debug.Log("currentNode "+currentNode);
-	}
-	if(outOfSpawn && state == ghostState.deciding){
-		Debug.Log("currentNode updated!");
-	    	currentNode = findNearestNode(transform.position);
-
-	}
 	// Fallback for if targetNode is behind a wall
 	if(targetNode){
 		RaycastHit hit2;
 		if(state == ghostState.moving && Physics.Linecast(transform.position, targetNode.transform.position, out hit2, wallLayer)){
 			//Debug.Log("target node is behind a wall");	
-	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
 		} else if(Vector3.Distance(transform.position, targetNode.transform.position) > 45.0f){
-	            	rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+            rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
 		}
 	}
 
@@ -252,7 +238,6 @@ public class pinkGhost : GhostBase
         } else {
             direction = PacmanMove.centerAxis - transform.position;
             rb.AddForce(direction * 0.45f, ForceMode.Impulse); // move ghost
-            Debug.Log("TACKLE");
             rb.AddForce(Vector3.down * gravityStrength * 10f, ForceMode.Acceleration);
         }
     } else if(state == ghostState.tackling) {

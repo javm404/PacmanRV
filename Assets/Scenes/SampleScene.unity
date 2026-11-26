@@ -362,14 +362,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76414848}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.43702832, y: -0.649045, z: 0.25821108, w: 0.56663376}
-  m_LocalPosition: {x: -163.07875, y: 357.9467, z: 19.339478}
+  m_LocalRotation: {x: -0.024025653, y: -0.5477845, z: 0.7140375, w: -0.43532217}
+  m_LocalPosition: {x: -164.45897, y: 359.3981, z: 16.978622}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 341487301}
   m_Father: {fileID: 5423483340355973181}
-  m_LocalEulerAnglesHint: {x: -9.212, y: -103.146, z: 60.594}
+  m_LocalEulerAnglesHint: {x: 53.436, y: 47.987, z: 267.99402}
 --- !u!95 &76414850
 Animator:
   serializedVersion: 7
@@ -932,9 +932,9 @@ GameObject:
   - component: {fileID: 259051100}
   - component: {fileID: 259051102}
   - component: {fileID: 259051101}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: aura
-  m_TagString: PowerUP
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18667,7 +18667,7 @@ GameObject:
   - component: {fileID: 8167195406779740847}
   m_Layer: 0
   m_Name: BOARD
-  m_TagString: Untagged
+  m_TagString: Bounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20047,7 +20047,7 @@ GameObject:
   - component: {fileID: 542703449908385064}
   m_Layer: 3
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25171,6 +25171,7 @@ MonoBehaviour:
   bumpStrength: 200
   gravityStrength: 400
   pushForce: 160
+  deathScript: {fileID: 8784681465746812233}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -29374,7 +29375,7 @@ MonoBehaviour:
   speed: 400
   gravityStrength: 40
   maxSpeed: 200
-  reviveTime: 4
+  reviveTime: 10
   timeLeft: 0
   normalMaterial: {fileID: 2100000, guid: 963843f9e3d7bba4ab3dadc93b261f82, type: 2}
   deadGhostMaterial: {fileID: 2100000, guid: 3fc8438fbef5ede48b80efaec2e5d916, type: 2}
@@ -33644,6 +33645,7 @@ MonoBehaviour:
   lifeCounterText: {fileID: 1490486910}
   moveScript: {fileID: 6014228770861191217}
   rb: {fileID: 2647601287916104691}
+  boardBounds: {fileID: 2446462679919164406}
   scoreCount: {fileID: 1103736361}
 --- !u!136 &8808005236468994959
 CapsuleCollider:

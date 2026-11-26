@@ -11,12 +11,28 @@ public class deathBehaviour : MonoBehaviour
     public GameObject[] lifes;
     public TextMeshPro lifeCounterText;
     public PacmanMove moveScript;
+    public static bool respawning;
     public Rigidbody rb;
+    public GameObject boardBounds;
     public scoreCount scoreCount; // to fetch scoreCount UpdateScoreCounter() method
     void Start()
     {
         UpdateLifeCounter();
+        respawning = false;
     }
+
+    void Update()
+    {
+        if(respawning){
+            rb.AddForce(Vector3.down * 100f, ForceMode.Acceleration); // add gravity counter force
+            Vector3 vel = Vector3.zero;
+            vel.y = rb.linearVelocity.y;
+            rb.linearVelocity = vel;
+            active = false;
+            Debug.Log("RESPAWNING");
+        }
+    }
+
     void OnCollisionEnter(Collision collision) // trigger on collision
     { 
         if (active && collision.gameObject.CompareTag("Ghost"))
@@ -34,18 +50,17 @@ public class deathBehaviour : MonoBehaviour
                         // restart scene
                         SceneManager.LoadScene(0); 
                     } else {
+
                         //remove life counter
                         lives -= 1;
-                        // teleport pacman
-                        rb.position = new Vector3(14.0f , 2000.0f, 0.0f);
-                        Vector3 vel = Vector3.zero;
-                        vel.x = 0;
-                        vel.z = 0;        
-                        rb.linearVelocity = vel;
+
+                        // tp player
+                        StartCoroutine("Teleport");
+                        
                         // UI move 1 life UPWARDS
                         Rigidbody lifeRb = lifes[lives].GetComponent<Rigidbody>();
                         lifeRb.useGravity = true;
-                        lifeRb.AddForce(new Vector3(0.5f,1f,0.5f) * 400, ForceMode.Impulse); // Move pacman physics accurate
+                        lifeRb.AddForce(new Vector3(0.5f,1f,0.6f) * 450, ForceMode.Impulse); // Move life physics accurate
                         // TODO Destroy that life's gameObject
                         UpdateLifeCounter(); // update counter
 
@@ -59,6 +74,7 @@ public class deathBehaviour : MonoBehaviour
                     ghost.tagged = true;
                 }
             }
+            
         }
     }
     void UpdateLifeCounter()
@@ -67,6 +83,21 @@ public class deathBehaviour : MonoBehaviour
         {
             lifeCounterText.text = "X" + lives;
         }
+    }
+    IEnumerator Teleport(){
+        //disable movment
+        moveScript.enabled = false;
+        active = false; // disable death
+        boardBounds.SetActive(false); // disable board bounds
+        yield return new WaitForSeconds(0.5f);
+        respawning = true;
+        // teleport pacman
+        rb.position = new Vector3(0.0f , 1400.0f, 0.0f);
+        Vector3 vel = Vector3.zero;
+        rb.linearVelocity = vel;
+        yield return new WaitForSeconds(0.5f);
+        // re-enable movement
+        moveScript.enabled = true;
     }
 }
 

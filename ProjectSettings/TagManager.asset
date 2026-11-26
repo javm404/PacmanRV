@@ -13,6 +13,7 @@ TagManager:
   - Spawn
   - OrangeSpot
   - life
+  - Bounds
   layers:
   - Default
   - TransparentFX

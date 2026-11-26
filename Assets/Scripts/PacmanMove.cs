@@ -22,6 +22,7 @@ public class PacmanMove : MonoBehaviour
     float inputVr;
     float inputH;
     float inputV;
+    public deathBehaviour deathScript;
     // raycast for groundcheck
     public LayerMask groundLayer;
     public float groundCheckDistance = 7.0f; // tune to Pacman's collider size
@@ -56,16 +57,17 @@ public class PacmanMove : MonoBehaviour
     {
 
         // Gravity
-        if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up
-            Debug.Log("going up!");
-            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
-        } else if(!grounded()){ // going down
-            Debug.Log("going down");
-            rb.AddForce(Vector3.down * gravityStrength * 2f, ForceMode.Acceleration);
-        } else {
-            rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+        if(deathBehaviour.respawning == false){
+            if(rb.linearVelocity.y > 0.3f && !grounded()){ // going up
+                //Debug.Log("going up!");
+                rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+            } else if(!grounded()){ // going down
+                //Debug.Log("going down");
+                rb.AddForce(Vector3.down * gravityStrength * 2f, ForceMode.Acceleration);
+            } else {
+                rb.AddForce(Vector3.down * gravityStrength * 1f, ForceMode.Acceleration);
+            }
         }
-
 
         // Movement
         if(grounded()){ // make it tight
@@ -100,6 +102,13 @@ public class PacmanMove : MonoBehaviour
             rb.linearDamping = 1f; // reduce "atrito"
             rb.AddForce(direction * speed, ForceMode.Force); // Move pacman physics accurate
         }	
+
+        if(deathBehaviour.respawning == true && rb.transform.position.y < 200f){
+            deathBehaviour.respawning = false;
+            deathScript.active = true;
+            deathScript.boardBounds.SetActive(true); // re enable board bounds
+            Debug.Log("RESET RESPAWN");
+        }
 	//Debug.Log("Y: " + transform.position.y + " | Grounded: " + grounded());
 	//rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
     }
