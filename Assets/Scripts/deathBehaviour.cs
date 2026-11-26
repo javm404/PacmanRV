@@ -24,7 +24,7 @@ public class deathBehaviour : MonoBehaviour
     void Update()
     {
         if(respawning){
-            rb.AddForce(Vector3.down * 100f, ForceMode.Acceleration); // add gravity counter force
+            rb.AddForce(Vector3.down * 240f, ForceMode.Acceleration); // add gravity counter force
             Vector3 vel = Vector3.zero;
             vel.y = rb.linearVelocity.y;
             rb.linearVelocity = vel;
@@ -89,7 +89,7 @@ public class deathBehaviour : MonoBehaviour
         moveScript.enabled = false;
         active = false; // disable death
         boardBounds.SetActive(false); // disable board bounds
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
         respawning = true;
         // teleport pacman
         rb.position = new Vector3(0.0f , 1400.0f, 0.0f);

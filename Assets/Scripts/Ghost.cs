@@ -203,12 +203,12 @@ public class Ghost : GhostBase
             }
         }
 	// Attack behaviour
-	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 34.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
+	if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 38.0f && !tagged && name == "REDghost" && !powerUp.poweredUP)
 	{
 		// Red attack! (he is more agressive)
 		state = ghostState.attacking;
 		direction = PacmanMove.centerAxis - transform.position;
-        rb.AddForce(direction * 12f, ForceMode.Force); // move ghost
+        rb.AddForce(direction * 17f, ForceMode.Force); // move ghost
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed); // clamp speed
 	} else if(Vector3.Distance(PacmanMove.centerAxis, transform.position) < 20.0f && !tagged && !powerUp.poweredUP && state != ghostState.tackling && !retreating){
 		// all the other ghosts
@@ -257,14 +257,14 @@ public class Ghost : GhostBase
             if(name == "GREENghost"){
                 rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
             } else {
-                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+                rb.AddForce(Vector3.up * 300, ForceMode.Force); // move ghost
             }
 		} 
         else if(Vector3.Distance(myPosXZ, trgtPosXZ) > 45.0f){
             if(name == "GREENghost"){
                 rb.AddForce(Vector3.up * 10, ForceMode.Force); // move GREENghost
             } else {
-                rb.AddForce(Vector3.up * 200, ForceMode.Force); // move ghost
+                rb.AddForce(Vector3.up * 300, ForceMode.Force); // move ghost
             }
         }
 	}
@@ -275,7 +275,7 @@ public class Ghost : GhostBase
 		if(state == ghostState.attacking){
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
-                rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
+                rb.AddForce(Vector3.up * 750, ForceMode.Force); // move ghost
 			}
 		}
 	} 
