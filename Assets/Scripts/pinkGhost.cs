@@ -32,13 +32,7 @@ public class pinkGhost : GhostBase
     float closestDistance = Mathf.Infinity;
     Node node;
     public LayerMask wallLayer;
-    public GameObject orangeSpots;
-    public Node[] cornerNodes;
     Transform closestSpot;
-    public float retreatCount = 0f;
-    public float retreatAmnt = 3.0f;
-    public bool inRetreat = false;
-    public bool retreating = false;
     public Transform trgtPoint;
     public bool reachedPoint;
     public Transform personalCorner;
@@ -95,12 +89,12 @@ public class pinkGhost : GhostBase
     void Start()
     {
 	    int i = 7;
-            node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
+        node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
 	    tackleCount = tackleDelay; 
+        timeLeft = reviveTime;
     }
     void Update()
     {
-        //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
         if(deathBehaviour.respawning)
         {
@@ -110,7 +104,7 @@ public class pinkGhost : GhostBase
         {
             mission = spawn.position;
         } 
-        else if(!powerUp.poweredUP && !tagged && !retreating) // feeling good, lets chase pacman
+        else if(!powerUp.poweredUP && !tagged) // feeling good, lets chase pacman
         {
             mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 35).transform.position;
             if(Vector3.Distance(transform.position, PacmanMove.centerAxis) <= 50.0f){ // very close, go spot on
@@ -118,10 +112,6 @@ public class pinkGhost : GhostBase
             } else if(Vector3.Distance(transform.position, PacmanMove.centerAxis) >= 200.0f){ // very far, predict further
                 mission = findNearestNode(PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity.normalized * 200).transform.position;
             }
-        }
-        else if(retreating)
-        {
-            mission = closestSpot.position;
         }
         else // feeling sick, pacman is powered up
         {
@@ -171,7 +161,7 @@ public class pinkGhost : GhostBase
 	if(airbone == true && name != "PINKghost" && name != "GREENghost"){
         	rb.AddForce(Vector3.down * gravityStrength * 2.5f, ForceMode.Acceleration);
 	} else if(powerUp.poweredUP && airbone) { // force ghost grounded when sick
-        	rb.AddForce(Vector3.down * gravityStrength * 30f, ForceMode.Acceleration);
+        	rb.AddForce(Vector3.down * gravityStrength * 80f, ForceMode.Acceleration);
 	} else {
         	rb.AddForce(Vector3.down * gravityStrength, ForceMode.Acceleration);
 	}
@@ -211,7 +201,7 @@ public class pinkGhost : GhostBase
             	GetComponentInChildren<Renderer>().material = normalMaterial;
         }
 
-       	// respawn logic 
+       	// respawn logic FixedUpdate
         if(countdown && tagged && timeLeft > 0.0f){
             timeLeft -= Time.deltaTime;
         } else if(tagged && countdown){
@@ -219,6 +209,11 @@ public class pinkGhost : GhostBase
             countdown = false;
             tagged = false;
         }
+        // spot where u are if out of spawn
+        if(outOfSpawn && state == ghostState.deciding){
+            currentNode = findNearestNode(transform.position);
+        }
+
 	// Fallback for if targetNode is behind a wall
 	if(targetNode){
 		RaycastHit hit2;
@@ -274,16 +269,13 @@ public class pinkGhost : GhostBase
     { // is inside spawn
         if(tagged && other.CompareTag("Spawn")){
             countdown = true;
-	    outOfSpawn = false;
+	        outOfSpawn = false;
         }
-	if(other.CompareTag("OrangeSpot") && retreating){
-        retreatCount = 0;
-        inRetreat = true;
-	}
     }
     void OnTriggerExit(Collider other)
     { // exited spawn
         if(tagged && other.CompareTag("Spawn")){
+            Debug.Log("Respawn canceled");
             countdown = false;
             timeLeft = reviveTime;
             state = ghostState.deciding;

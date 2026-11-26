@@ -56,7 +56,13 @@ public class powerUp : MonoBehaviour
            // }
         } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
             // tag ghost as killed
-            collision.gameObject.GetComponent<Ghost>().tagged = true; // Destroy causes error and its not that fun, added just for testing
+            if(collision.gameObject.GetComponent<Ghost>()){
+                collision.gameObject.GetComponent<Ghost>().tagged = true;
+            }
+            
+            if(collision.gameObject.GetComponent<pinkGhost>()){
+                collision.gameObject.GetComponent<pinkGhost>().tagged = true;
+            }
             // multiply score
             scoreCount.score *= multiplier;
             scoreCount.UpdateScoreCounter();

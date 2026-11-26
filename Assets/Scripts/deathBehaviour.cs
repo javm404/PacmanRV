@@ -19,12 +19,15 @@ public class deathBehaviour : MonoBehaviour
     {
         UpdateLifeCounter();
         respawning = false;
+        lifes[0].transform.SetParent(null, true); // unparent it first, so pacman's movement doesnt affect it
+        lifes[1].transform.SetParent(null, true); // unparent it first, so pacman's movement doesnt affect it
     }
 
     void FixedUpdate()
     {
         if(respawning){
             rb.AddForce(Vector3.down * 400f, ForceMode.Acceleration); // add gravity counter force
+            rb.AddForce(Vector3.up * 20f, ForceMode.Acceleration); // add a slight counter force, to ease landing
             active = false;
         }
     }
@@ -46,7 +49,6 @@ public class deathBehaviour : MonoBehaviour
                         // restart scene
                         SceneManager.LoadScene(0); 
                     } else {
-
                         //remove life counter
                         lives -= 1;
 
@@ -56,8 +58,8 @@ public class deathBehaviour : MonoBehaviour
                         // UI move 1 life UPWARDS
                         Rigidbody lifeRb = lifes[lives].GetComponent<Rigidbody>();
                         lifeRb.useGravity = true;
-			lifeRb.linearVelocity = Vector3.zero;
-			lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
+                        lifeRb.linearVelocity = Vector3.zero;
+                        lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
                         // TODO Destroy that life's gameObject
                         UpdateLifeCounter(); // update counter
 

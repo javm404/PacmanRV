@@ -29370,12 +29370,6 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  orangeSpots: {fileID: 0}
-  cornerNodes: []
-  retreatCount: 0
-  retreatAmnt: 3
-  inRetreat: 0
-  retreating: 0
   trgtPoint: {fileID: 0}
   reachedPoint: 0
   personalCorner: {fileID: 1375655212}
@@ -33584,12 +33578,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ae8ec8527036b40b01d220bb3e1e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::powerUp
-  time: 5
+  time: 7
   timer: 0
   powerUpMaterial: {fileID: 2100000, guid: 7598dfcc2aadea847bb93bab8ebbc92f, type: 2}
   powerUpAura: {fileID: 259051102}
   sickGhostMaterial: {fileID: 2100000, guid: af6d56476c887e34e92f769450c43f4a, type: 2}
-  scoreCount: {fileID: 0}
+  scoreCount: {fileID: 1103736361}
   multiplier: 2
 --- !u!114 &8784681465746812233
 MonoBehaviour:
