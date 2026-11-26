@@ -99,7 +99,7 @@
                 {
                     "name": "RotateBoard",
                     "type": "Value",
-                    "id": "646626b5-746e-4532-92c6-231372d4f1d6",
+                    "id": "f04cb3d4-248f-42bb-b888-1c48ac717442",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -495,11 +495,11 @@
                 },
                 {
                     "name": "",
-                    "id": "655c2782-ec50-43be-a744-ff9830ee286a",
+                    "id": "12875735-c415-4ac6-871b-3af304679c8e",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Joystick;Gamepad",
+                    "groups": "",
                     "action": "RotateBoard",
                     "isComposite": false,
                     "isPartOfComposite": false
