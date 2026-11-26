@@ -41,6 +41,7 @@ public class pinkGhost : GhostBase
     public bool retreating = false;
     public Transform trgtPoint;
     public bool reachedPoint;
+    public Transform personalCorner;
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
@@ -101,7 +102,11 @@ public class pinkGhost : GhostBase
     {
         //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
-        if(tagged) // died, back to spawn
+        if(deathBehaviour.respawning)
+        {
+            mission = personalCorner.position;
+        }
+        else if(tagged) // died, back to spawn
         {
             mission = spawn.position;
         } 

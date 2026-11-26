@@ -41,6 +41,7 @@ public class Ghost : GhostBase
     public bool retreating = false;
     public Transform trgtPoint;
     public bool reachedPoint;
+    public Transform personalCorner;
     // Define the ghost's next step with Breadth First Search
     Node chooseNextNode(Node current, Node target) // returns next viable node towards target
     {
@@ -101,7 +102,11 @@ public class Ghost : GhostBase
     {
         //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
-        if(tagged) // died, back to spawn
+        if(deathBehaviour.respawning)
+        {
+            mission = personalCorner.position;
+        }
+        else if(tagged) // died, back to spawn
         {
             mission = spawn.position;
         } 
@@ -270,7 +275,6 @@ public class Ghost : GhostBase
 		if(state == ghostState.attacking){
 			RaycastHit hit;
 			if(Physics.Linecast(transform.position, PacmanMove.centerAxis, out hit, wallLayer)){//raycast check
-				Debug.Log("Mission is behing a wall!");	
                 rb.AddForce(Vector3.up * 600, ForceMode.Force); // move ghost
 			}
 		}
@@ -307,7 +311,6 @@ public class Ghost : GhostBase
 		float minDist = Mathf.Infinity;
 		if(Vector3.Distance(transform.position, PacmanMove.centerAxis) < 68f)
 		{
-			Debug.Log("oh no! invading personal space!");
 			// evaluate closest border spot
             		if(closestSpot){
                 	mission = closestSpot.position;
