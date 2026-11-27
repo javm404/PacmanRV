@@ -88,9 +88,9 @@ public class pinkGhost : GhostBase
     }
     void Start()
     {
-	    int i = 7;
+	int i = 7;
         node = GameObject.Find("MapNode ("+i+")").GetComponent<Node>();
-	    tackleCount = tackleDelay; 
+	tackleCount = tackleDelay; 
         timeLeft = reviveTime;
     }
     void Update()
@@ -148,7 +148,7 @@ public class pinkGhost : GhostBase
         );
         Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.pink, 0.1f, false);
         // check if airbone
-        if(transform.position.y < 45.0f){
+        if(transform.position.y < 35.0f){
             airbone = false;
         } else {
             airbone = true;
@@ -225,11 +225,11 @@ public class pinkGhost : GhostBase
 
         // Individuality
 
-        if(airbone == true){
-            rb.AddForce(Vector3.down * gravityStrength * -10f, ForceMode.Acceleration);
+        if(airbone == true && !tagged && gameController.win == false && deathBehaviour.respawning == false){
+            rb.AddForce(Vector3.down * gravityStrength * -20f, ForceMode.Acceleration);
             state = ghostState.tackling;
         }
-        if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 10f && gameController.win == false && deathBehaviour.respawning == false){
+        if(state == ghostState.tackling && airbone == true && Vector3.Distance(transform.position, PacmanMove.centerAxis) > 20f && gameController.win == false && deathBehaviour.respawning == false && !tagged){
             if(tackleCount > 0){
                 direction = Vector3.zero;
                 tackleCount -= Time.deltaTime;
