@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class gameController : MonoBehaviour
 {
@@ -30,6 +31,23 @@ public class gameController : MonoBehaviour
         trans = 0f;
         winText.SetActive(false);
         tyText.SetActive(false);
+    }
+    void Update()
+    {
+    	// close game:
+	if(Input.GetKeyDown(KeyCode.Escape)){
+		Application.Quit();
+	}
+	// restart game:
+	if(Input.GetKeyDown(KeyCode.R)){
+		SceneManager.LoadScene(0);
+	}
+	// pause game:
+	if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 0f){
+		Time.timeScale = 1f;
+	} else if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f){
+		Time.timeScale = 0f;
+	}
     }
     void FixedUpdate()
     {

@@ -13,14 +13,13 @@ public class deathBehaviour : MonoBehaviour
     public PacmanMove moveScript;
     public static bool respawning;
     public Rigidbody rb;
+    public bool deadOnStart = true;
     public GameObject boardBounds;
     public scoreCount scoreCount; // to fetch scoreCount UpdateScoreCounter() method
     void Start()
     {
         UpdateLifeCounter();
         respawning = false;
-        lifes[0].transform.SetParent(null, true); // unparent it first, so pacman's movement doesnt affect it
-        lifes[1].transform.SetParent(null, true); // unparent it first, so pacman's movement doesnt affect it
     }
 
     void FixedUpdate()
@@ -30,6 +29,20 @@ public class deathBehaviour : MonoBehaviour
             rb.AddForce(Vector3.up * 20f, ForceMode.Acceleration); // add a slight counter force, to ease landing
             active = false;
         }
+	if(deadOnStart){
+		//remove life counter
+                lives -= 1;
+                // tp player
+                StartCoroutine("Teleport");
+		deadOnStart = false;
+                // UI move 1 life UPWARDS
+                Rigidbody lifeRb = lifes[lives].GetComponentInChildren<Rigidbody>();
+                lifeRb.useGravity = true;
+                lifeRb.linearVelocity = Vector3.zero;
+                lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
+                // TODO Destroy that life's gameObject
+                UpdateLifeCounter(); // update counter
+	}
     }
 
     void OnCollisionEnter(Collision collision) // trigger on collision
@@ -51,12 +64,11 @@ public class deathBehaviour : MonoBehaviour
                     } else {
                         //remove life counter
                         lives -= 1;
-
+				
                         // tp player
                         StartCoroutine("Teleport");
-                        
                         // UI move 1 life UPWARDS
-                        Rigidbody lifeRb = lifes[lives].GetComponent<Rigidbody>();
+                        Rigidbody lifeRb = lifes[lives].GetComponentInChildren<Rigidbody>();
                         lifeRb.useGravity = true;
                         lifeRb.linearVelocity = Vector3.zero;
                         lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
@@ -91,7 +103,7 @@ public class deathBehaviour : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         respawning = true;
         // teleport pacman
-        rb.position = new Vector3(0.0f , 1400.0f, 0.0f);
+        rb.position = new Vector3(14.0f , 1400.0f, 0.0f);
         Vector3 vel = Vector3.zero;
         rb.linearVelocity = vel;
         yield return new WaitForSeconds(0.5f);

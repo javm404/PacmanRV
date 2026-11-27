@@ -102,7 +102,7 @@ public class PacmanMove : MonoBehaviour
             rb.AddForce(direction * speed, ForceMode.Force); // Move pacman physics accurate
         }	
 
-        if(deathBehaviour.respawning == true && rb.transform.position.y < 400f){
+        if(deathBehaviour.respawning == true && rb.transform.position.y < 20f){
             deathBehaviour.respawning = false;
             deathScript.active = true;
             deathScript.boardBounds.SetActive(true); // re enable board bounds

@@ -57,16 +57,24 @@ public class powerUp : MonoBehaviour
         } else if(collision.gameObject.CompareTag("Ghost") && poweredUP){
             // tag ghost as killed
             if(collision.gameObject.GetComponent<Ghost>()){
+		if(!collision.gameObject.GetComponent<Ghost>().tagged){
+			// multiply score
+        	        scoreCount.score *= multiplier;
+        	    	scoreCount.UpdateScoreCounter();
+        	    	multiplier += 1;
+		}
                 collision.gameObject.GetComponent<Ghost>().tagged = true;
-            }
+  	    }
             
             if(collision.gameObject.GetComponent<pinkGhost>()){
+		if(!collision.gameObject.GetComponent<pinkGhost>().tagged){
+			// multiply score
+        	        scoreCount.score *= multiplier;
+        	    	scoreCount.UpdateScoreCounter();
+        	    	multiplier += 1;
+		}
                 collision.gameObject.GetComponent<pinkGhost>().tagged = true;
-            }
-            // multiply score
-            scoreCount.score *= multiplier;
-            scoreCount.UpdateScoreCounter();
-            multiplier += 1; // add multiply amount for next ghost
+ 	    }
         }
     }
     void FixedUpdate()
