@@ -29,20 +29,20 @@ public class deathBehaviour : MonoBehaviour
             rb.AddForce(Vector3.up * 20f, ForceMode.Acceleration); // add a slight counter force, to ease landing
             active = false;
         }
-	if(deadOnStart){
-		//remove life counter
-                lives -= 1;
-                // tp player
-                StartCoroutine("Teleport");
-		deadOnStart = false;
-                // UI move 1 life UPWARDS
-                Rigidbody lifeRb = lifes[lives].GetComponentInChildren<Rigidbody>();
-                lifeRb.useGravity = true;
-                lifeRb.linearVelocity = Vector3.zero;
-                lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
-                // TODO Destroy that life's gameObject
-                UpdateLifeCounter(); // update counter
-	}
+        if(deadOnStart){
+            //remove life counter
+            lives -= 1;
+            // tp player
+            StartCoroutine("Teleport");
+            deadOnStart = false;
+            // UI move 1 life UPWARDS
+            Rigidbody lifeRb = lifes[lives].GetComponentInChildren<Rigidbody>();
+            lifeRb.useGravity = true;
+            lifeRb.linearVelocity = Vector3.zero;
+            lifeRb.AddForce(Vector3.up * 700, ForceMode.Impulse); // Move life physics accurate
+            // TODO Destroy that life's gameObject
+            UpdateLifeCounter(); // update counter
+        }
     }
 
     void OnCollisionEnter(Collision collision) // trigger on collision
@@ -52,7 +52,7 @@ public class deathBehaviour : MonoBehaviour
             GhostBase ghost = collision.gameObject.GetComponent<GhostBase>();
             if (ghost != null && !ghost.tagged)
             {
-                if(!powerUp.poweredUP)
+                if(!powerUp.poweredUP && active)
                 {
                     if(lives <=0){
                         Debug.Log("Game over!");
@@ -64,7 +64,6 @@ public class deathBehaviour : MonoBehaviour
                     } else {
                         //remove life counter
                         lives -= 1;
-				
                         // tp player
                         StartCoroutine("Teleport");
                         // UI move 1 life UPWARDS

@@ -9165,7 +9165,7 @@ Transform:
   m_GameObject: {fileID: 2446462679919164406}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.090674, y: 0, z: -0.088799}
+  m_LocalPosition: {x: 9.5, y: 0, z: -4.6}
   m_LocalScale: {x: 0.34673747, y: 0.7906657, z: 0.67581415}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11695,8 +11695,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 375.9, y: 910.1, z: 188.5}
-  m_Center: {x: 27.8, y: 0, z: -6.26}
+  m_Size: {x: 365.4, y: 910.1, z: 187}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1357625212958371354
 GameObject:
   m_ObjectHideFlags: 0
@@ -17907,7 +17907,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.057249, y: 4.1468234, z: -9}
-  m_LocalScale: {x: 6.14264, y: 6.14264, z: 6.14264}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5232376172238275997}
@@ -34042,7 +34042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a1959db8149f84d95c3346be84671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::deathBehaviour
-  active: 1
+  active: 0
   lives: 3
   lifes:
   - {fileID: 90646755}
