@@ -72,7 +72,7 @@ public class gameController : MonoBehaviour
                 blend.Lerp(floorNormal, floorWin, trans);
                 rend.material = blend; // apply the fade
             }
-            if(ghosts.position.y < 1000){
+            if(ghosts.position.y < 18000){
                 mod2 += Time.deltaTime;
                 y2 = y2 + mod2;
                 // change ghosts

@@ -14,10 +14,6 @@ public class BottomBounds : MonoBehaviour
     private Vector3 pastLocalPosition_pacman;
     private bool teleportLocked_pacman = false;
 
-    // Ghosts' position and tpLock vars (one slot per ghost)
-    private Vector3[] pastLocalPosition_ghosts;
-    private bool[] teleportLocked_ghosts;
-
     private Rigidbody rb;
     private Vector3 worldTarget;
     void Start()
@@ -49,11 +45,14 @@ public class BottomBounds : MonoBehaviour
 
     void CheckAndTeleport(Vector3 worldPos, Rigidbody rb, Vector3 halfExt, float margin, ref Vector3 pastLocal, ref bool locked)
     {
-        Vector3 localPos = bounds.InverseTransformPoint(worldPos) - boundsCollider.center;
-
+        Vector3 localPos = bounds.InverseTransformPoint(worldPos) - boundsCollider.center; // define pacman's position relative to the board's center axis
         bool insideX = Mathf.Abs(localPos.x) < halfExt.x;
         bool insideZ = Mathf.Abs(localPos.z) < halfExt.z;
         bool insideY = localPos.y > -radius;
+
+        // BTW, JUST SO YK:
+        // TransformPoint: takes a local coord, outputs the equivalent world coord.
+        // InverseTransformPoint: takes a world coord, outputs the equivalent local coord.
 
         Vector3 worldTarget = worldPos; // default: if nothing teleports, draw line to current pos
         float x = Mathf.Abs(localPos.x);
@@ -66,10 +65,10 @@ public class BottomBounds : MonoBehaviour
         else //if (!locked) // teleport
         {
             //Debug.Log("Not safe");
-            Vector3 mirrored = pastLocal;
-            float maxX = halfExt.x - radius;
-            float maxY = halfExt.y - radius;
-            float maxZ = halfExt.z - radius;
+            Vector3 mirrored = pastLocal; margin = 6f;
+            float maxX = halfExt.x - radius - margin;
+            float maxY = halfExt.y - radius - margin;
+            float maxZ = halfExt.z - radius - margin;
             mirrored.x = Mathf.Clamp(mirrored.x, -maxX, maxX);
             mirrored.y = Mathf.Clamp(mirrored.y, -maxY, maxY);
             mirrored.z = Mathf.Clamp(mirrored.z, -maxZ, maxZ);
@@ -77,6 +76,8 @@ public class BottomBounds : MonoBehaviour
             if (!insideX) mirrored.x *= -1;
             if (!insideZ) mirrored.z *= -1;
             if (!insideY) mirrored.y *= -1;
+            // CLAUDE: replace the line above with this, to always recover above the board instead of mirroring Y
+            if (!insideY) mirrored.y = maxY;
 
             worldTarget = bounds.TransformPoint(mirrored + boundsCollider.center); // define location
             rb.position = worldTarget; // do the teleport
