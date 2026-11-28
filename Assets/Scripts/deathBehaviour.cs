@@ -60,7 +60,7 @@ public class deathBehaviour : MonoBehaviour
                         scoreCount.score = 0;
                         scoreCount.UpdateScoreCounter();
                         // restart scene
-                        SceneManager.LoadScene(0); 
+                        SceneManager.LoadScene(1);
                     } else {
                         //remove life counter
                         lives -= 1;

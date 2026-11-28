@@ -123,9 +123,10 @@ public class PacmanMove : MonoBehaviour
         if(collision.gameObject.CompareTag("Wall")){
             Vector3 bumpDirection = collision.contacts[0].normal;
             rb.AddForce(bumpDirection * bumpStrength, ForceMode.Force);
-        }
+        } else
       	if(collision.gameObject.CompareTag("Ghost")){
             collision.gameObject.GetComponent<Rigidbody>().AddForce(direction * pushForce, ForceMode.Impulse);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce/2.5f, ForceMode.Impulse);
       	}
     }
     // DEBUG

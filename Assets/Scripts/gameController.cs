@@ -34,20 +34,20 @@ public class gameController : MonoBehaviour
     }
     void Update()
     {
-    	// close game:
-	if(Input.GetKeyDown(KeyCode.Escape)){
-		Application.Quit();
-	}
-	// restart game:
-	if(Input.GetKeyDown(KeyCode.R)){
-		SceneManager.LoadScene(0);
-	}
-	// pause game:
-	if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 0f){
-		Time.timeScale = 1f;
-	} else if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f){
-		Time.timeScale = 0f;
-	}
+        // close game:
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            Application.Quit();
+        }
+        // restart game:
+        if(Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadScene(1);
+        }
+        // pause game:
+        if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 0f){
+            Time.timeScale = 1f;
+        } else if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f){
+            Time.timeScale = 0f;
+        }
     }
     void FixedUpdate()
     {
@@ -65,7 +65,6 @@ public class gameController : MonoBehaviour
                 position.y = y;
                 walls.position = position;
             } 
-
             if(delay > 0){
                 delay -= Time.deltaTime;
             } else if(trans < 1){

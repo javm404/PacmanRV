@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "oi.slnx",
+    "dotnet.defaultSolution": "PacmanRV.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }

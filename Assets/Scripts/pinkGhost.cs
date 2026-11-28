@@ -73,7 +73,6 @@ public class pinkGhost : GhostBase
     {
         Node nearest = null;
         closestDistance = Mathf.Infinity;
-
         foreach (Node node in NodesManager.allNodes)
         {
             float distance = Vector3.Distance(node.transform.position, missionPosition);
@@ -83,7 +82,6 @@ public class pinkGhost : GhostBase
                 nearest = node;
             }
         }
-
         return nearest;
     }
     void Start()

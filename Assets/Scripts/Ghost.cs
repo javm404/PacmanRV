@@ -100,6 +100,7 @@ public class Ghost : GhostBase
     }
     void Update()
     {
+        Debug.Log("State: "+state);
         //Debug.Log(name+" pos:"+transform.position+" retreating:"+retreating+" state:"+state+" dist:"+Vector3.Distance(transform.position, PacmanMove.centerAxis));
         // define mission logic
         if(deathBehaviour.respawning && !tagged)
@@ -143,7 +144,7 @@ public class Ghost : GhostBase
             	mission = findNearestNode(trgtPoint.position).transform.position;
 	        }
         }
-	Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
+	    Debug.DrawLine(PacmanMove.centerAxis, PacmanMove.centerAxis+PacmanMove.pacmanRb.linearVelocity, Color.orange, 0.1f, false);
         // Define target (next place to go, either node or smth else if airbone)
         if(state == ghostState.deciding) // go through next step logic
         {
@@ -272,6 +273,13 @@ public class Ghost : GhostBase
                 }
             }
 	    }
+        // Fallback for if currentNode is behind a wall
+        if(state == ghostState.moving && Physics.Linecast(transform.position, currentNode.transform.position, wallLayer)){
+            Debug.Log("current node is behind a wall, changing reference");	
+            currentNode = findNearestNode(transform.position);
+            state = ghostState.deciding;
+        } 
+
 
         // Individuality
         if(name == "REDghost")
@@ -351,8 +359,8 @@ public class Ghost : GhostBase
             false
         );
        	if(targetNode != null){
-		Debug.DrawLine(
-        	    transform.position,
+            Debug.DrawLine(
+        	    currentNode.transform.position,
         	    targetNode.transform.position,
         	    Color.blue,
         	    0.1f,

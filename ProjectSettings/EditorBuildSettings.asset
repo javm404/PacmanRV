@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/PACMAN.unity
     guid: 9888952d63b0b3448bb5d998f6248310
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9ff02415f73461145a7171b61a545219
-  - enabled: 1
     path: Assets/Scenes/mainMENU.unity
     guid: 01008b014994c2a46a4a8a9f44a0fec6
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9ff02415f73461145a7171b61a545219
   - enabled: 1
     path: Assets/Scenes/Options.unity
     guid: c24e5469914a4c1439b8e2cae9bbc0b6
